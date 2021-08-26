@@ -1,0 +1,9 @@
+C:\Users\krist\Desktop\Travelo\Travelo\Travelo.Model\bin\Debug\netstandard2.0\Travelo.Model.deps.json
+C:\Users\krist\Desktop\Travelo\Travelo\Travelo.Model\bin\Debug\netstandard2.0\Travelo.Model.dll
+C:\Users\krist\Desktop\Travelo\Travelo\Travelo.Model\bin\Debug\netstandard2.0\Travelo.Model.pdb
+C:\Users\krist\Desktop\Travelo\Travelo\Travelo.Model\obj\Debug\netstandard2.0\Travelo.Model.csprojAssemblyReference.cache
+C:\Users\krist\Desktop\Travelo\Travelo\Travelo.Model\obj\Debug\netstandard2.0\Travelo.Model.AssemblyInfoInputs.cache
+C:\Users\krist\Desktop\Travelo\Travelo\Travelo.Model\obj\Debug\netstandard2.0\Travelo.Model.AssemblyInfo.cs
+C:\Users\krist\Desktop\Travelo\Travelo\Travelo.Model\obj\Debug\netstandard2.0\Travelo.Model.csproj.CoreCompileInputs.cache
+C:\Users\krist\Desktop\Travelo\Travelo\Travelo.Model\obj\Debug\netstandard2.0\Travelo.Model.dll
+C:\Users\krist\Desktop\Travelo\Travelo\Travelo.Model\obj\Debug\netstandard2.0\Travelo.Model.pdb
