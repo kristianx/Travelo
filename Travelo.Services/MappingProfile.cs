@@ -35,6 +35,11 @@ namespace Travelo.Services
 
             CreateMap<Database.Country, Model.Country>().ReverseMap();
             CreateMap<CountryCreateUpdateRequest, Database.Country>();
+
+
+            //Get facilities and populate
+            CreateMap<Database.Accommodation, Model.Accomodation>().ReverseMap();
+            CreateMap<AccomodationCreateUpdateRequest, Database.Accommodation>();
         }    
     }
 }

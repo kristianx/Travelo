@@ -18,7 +18,7 @@ namespace Travelo.Services
         }
         public override IQueryable<City> AddInclude(IQueryable<City> query, CitySearchObject search = null)
         {
-            query.Include("Country");
+            query = query.Include("Country");
             return base.AddInclude(query, search);
         }
     }
