@@ -20,7 +20,6 @@ namespace Travelo.Model.Requests
 
         [StringLength(50, MinimumLength = 4)]
         [DataType(DataType.Password)]
-        [Required]
         //[RegularExpression(@"^[^\s\,]+$", ErrorMessage = "Username Cannot Have Spaces")]
         public string ConfirmPassword { get; set; }
 

@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:travelo_mobile/pages/login.dart';
 import 'package:travelo_mobile/widgets/InputField.dart';
 import 'package:travelo_mobile/widgets/SimpleButton.dart';
+
+import '../providers/user_provider.dart';
+import 'navpages/home_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -14,9 +18,16 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _userNameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  late UserProvider _userProvider;
   @override
-  var _value = "-1";
+  var CityId = "-1";
   Widget build(BuildContext context) {
+    _userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
         body: Container(
       padding: EdgeInsets.fromLTRB(0, 120, 0, 80),
@@ -63,14 +74,27 @@ class _RegisterPageState extends State<RegisterPage> {
             flex: 1,
             child: Column(children: [
               InputField(
-                hintText: 'Full name',
+                controller: _firstNameController,
+                hintText: 'First name',
                 iconPath: 'assets/icons/User.svg',
               ),
               InputField(
+                controller: _lastNameController,
+                hintText: 'Lase name',
+                iconPath: 'assets/icons/User.svg',
+              ),
+              InputField(
+                controller: _emailController,
                 hintText: 'Email',
                 iconPath: 'assets/icons/Email.svg',
               ),
               InputField(
+                controller: _userNameController,
+                hintText: 'Username',
+                iconPath: 'assets/icons/User.svg',
+              ),
+              InputField(
+                controller: _passwordController,
                 hintText: 'Password',
                 iconPath: 'assets/icons/Password.svg',
                 obscure: true,
@@ -86,15 +110,17 @@ class _RegisterPageState extends State<RegisterPage> {
                       borderRadius:
                           const BorderRadius.all(const Radius.circular(15)),
                       child: DropdownButtonFormField(
-                        value: _value,
+                        value: CityId,
                         items: [
                           DropdownMenuItem(child: Text("Text"), value: "-1"),
                           DropdownMenuItem(
-                              child: Text("Something"), value: "1"),
-                          DropdownMenuItem(child: Text("Else"), value: "2"),
-                          DropdownMenuItem(child: Text("naa"), value: "3"),
+                              child: Text("Bosnia and Herzegovina"),
+                              value: "1"),
+                          DropdownMenuItem(child: Text("Croatia"), value: "2"),
                         ],
-                        onChanged: (v) {},
+                        onChanged: (v) {
+                          CityId = v.toString();
+                        },
                         decoration: InputDecoration(
                           fillColor: Colors.white,
                           filled: true,
@@ -118,11 +144,36 @@ class _RegisterPageState extends State<RegisterPage> {
             ]),
           ),
           SimpleButton(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginPage()),
-              );
+            onTap: () async {
+              try {
+                var registerFlag = await _userProvider.registerUser(
+                    _firstNameController.text,
+                    _lastNameController.text,
+                    _emailController.text,
+                    _passwordController.text,
+                    _userNameController.text,
+                    CityId);
+
+                if (registerFlag) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
+                }
+              } catch (e) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                          title: Text("Error"),
+                          content: Text(e.toString()),
+                          actions: [
+                            TextButton(
+                              child: Text("Ok"),
+                              onPressed: () => Navigator.pop(context),
+                            )
+                          ],
+                        ));
+              }
             },
             bgColor: Color(0xffEAAD5F),
             textColor: Colors.white,

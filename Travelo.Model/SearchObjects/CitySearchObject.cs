@@ -7,5 +7,6 @@ namespace Travelo.Model.SearchObjects
     public class CitySearchObject : BaseSearchObject
     {
         public string Name { get; set; }
+        public string Tag { get; set; }
     }
 }

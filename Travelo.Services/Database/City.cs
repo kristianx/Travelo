@@ -16,5 +16,7 @@ namespace Travelo.Services.Database
         public int CountryId { get; set; }
         public virtual Country Country { get; set; }
 
+        public List<Tag> Tags { get; set; }
+
     }
 }

@@ -18,7 +18,7 @@ namespace Travelo.Model.Requests
         public byte[] Image { get; set; }
         [MinLength(5)]
         public string Address { get; set; }
-        [Required]
+   
         [DataType(DataType.PostalCode)]
         public string PostalCode { get; set; }
 

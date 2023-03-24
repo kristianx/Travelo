@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:travelo_mobile/main.dart';
+import 'package:travelo_mobile/pages/navpages/home_page.dart';
+import 'package:travelo_mobile/pages/navpages/main_page.dart';
 import 'package:travelo_mobile/pages/register.dart';
 
+import '../providers/user_provider.dart';
+import '../utils/util.dart';
 import '../widgets/InputField.dart';
 import '../widgets/SimpleButton.dart';
 
@@ -15,8 +21,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  late UserProvider _userProvider;
+
   @override
   Widget build(BuildContext context) {
+    _userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
         body: Container(
       padding: EdgeInsets.fromLTRB(0, 120, 0, 80),
@@ -63,10 +74,12 @@ class _LoginPageState extends State<LoginPage> {
             flex: 1,
             child: Column(children: [
               InputField(
+                controller: _usernameController,
                 hintText: 'Email',
                 iconPath: 'assets/icons/Email.svg',
               ),
               InputField(
+                controller: _passwordController,
                 hintText: 'Password',
                 iconPath: 'assets/icons/Password.svg',
                 obscure: true,
@@ -74,11 +87,30 @@ class _LoginPageState extends State<LoginPage> {
             ]),
           ),
           SimpleButton(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const RegisterPage()),
-              );
+            onTap: () async {
+              try {
+                var loginFlag = await _userProvider.loginUser(
+                    _usernameController.text, _passwordController.text);
+                if (loginFlag) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MainPage()),
+                  );
+                }
+              } catch (e) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                          title: Text("Error"),
+                          content: Text(e.toString()),
+                          actions: [
+                            TextButton(
+                              child: Text("Ok"),
+                              onPressed: () => Navigator.pop(context),
+                            )
+                          ],
+                        ));
+              }
             },
             bgColor: Color(0xffEAAD5F),
             textColor: Colors.white,

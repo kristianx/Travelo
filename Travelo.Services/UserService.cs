@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
 using Azure.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,9 +22,13 @@ namespace Travelo.Services
     public class UserService : BaseCRUDService<Model.User, Database.User, UserSearchObject, UserCreateRequest, UserUpdateRequest>, IUserService
     {
         private readonly IAccountService _accountService;
-        public UserService(TraveloContext context, IMapper mapper, IAccountService accountService) : base(context, mapper)
+        private readonly IConfiguration _configuration;
+
+        public UserService(TraveloContext context, IMapper mapper, IAccountService accountService, IConfiguration configuration
+            ) : base(context, mapper)
         {
             _accountService = accountService;
+            _configuration = configuration;
         }
         public override Model.User Create(UserCreateRequest create)
         {
@@ -61,7 +69,47 @@ namespace Travelo.Services
             return base.AddInclude(query, search);
         }
 
+        public string Login(UserLogin userLogin)
+        {
+            Model.Account acc = _accountService.Login(userLogin.Email, userLogin.Password, Role.Traveler);
 
+            if(acc != null)
+            {
+                return CreateToken(acc);
+            }
+            return "";
+
+        }
+        private string CreateToken(Model.Account user)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
+       
+            };
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(10),
+                signingCredentials: credentials
+                );
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            return jwt;
+        }
+
+        public void UploadImage(int userId, string image)
+        {
+            var user = Context.User.FirstOrDefault(u => u.Id == userId);
+            if(user != null)
+            {
+                //user.Image = image;
+                //Context.SaveChanges();
+            }
+        }
 
 
 

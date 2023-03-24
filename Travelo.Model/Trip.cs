@@ -13,5 +13,7 @@ namespace Travelo.Model
         public string AccomodationDescription { get; set; }
         public int LowestPrice { get; set; }
         public int AgencyId { get; set; }
+        //image
     }
+
 }

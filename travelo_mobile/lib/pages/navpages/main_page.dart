@@ -69,7 +69,23 @@ class _MainPageState extends State<MainPage> {
                     color: currentIndex == 3
                         ? Color(0xffEAAD5F)
                         : Color(0xffBBBBBB))),
-            BottomNavigationBarItem(label: "Profile", icon: Icon(Icons.apps)),
+            BottomNavigationBarItem(
+              label: "Profile",
+              icon: Container(
+                height: 30,
+                width: 30,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/userimage.png"),
+                      fit: BoxFit.cover),
+                  border: Border.all(
+                      width: currentIndex == 4 ? 3 : 0,
+                      color: Color(0xffFFD69D),
+                      strokeAlign: BorderSide.strokeAlignCenter),
+                ),
+              ),
+            ),
           ]),
     );
   }

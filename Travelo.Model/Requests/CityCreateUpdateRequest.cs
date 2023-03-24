@@ -12,5 +12,7 @@ namespace Travelo.Model.Requests
 
         [Required]
         public string CountryId { get; set; }
+
+        public List<string> Tags { get; set; }
     }
 }

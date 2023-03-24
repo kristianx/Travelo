@@ -8,6 +8,7 @@ import 'package:travelo_mobile/widgets/SimpleButton.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
+  void initState() {}
   @override
   State<WelcomePage> createState() => _WelcomePageState();
 }
