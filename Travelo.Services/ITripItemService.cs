@@ -8,8 +8,7 @@ using Travelo.Model.SearchObjects;
 
 namespace Travelo.Services
 {
-    public interface ICityService : ICRUDService<Model.City, CitySearchObject, CityCreateUpdateRequest, CityCreateUpdateRequest>
+    public interface ITripItemService : ICRUDService<Model.TripItem, TripItemSearchObject, TripItemCreateUpdateRequest, TripItemCreateUpdateRequest>
     {
-        //List<string> GetTags(int cityId);
     }
 }

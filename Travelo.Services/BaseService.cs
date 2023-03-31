@@ -48,7 +48,7 @@ namespace Travelo.Services
             return query;
         }
 
-        public T GetById(int id)
+        public virtual T GetById(int id)
         {
             var set = Context.Set<TDb>();
 

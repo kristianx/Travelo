@@ -44,18 +44,49 @@ namespace Travelo.Services
         public override IQueryable<Trip> AddInclude(IQueryable<Trip> query, TripSearchObject search = null)
         {
             query = query.Include("Accommodation");
+            //query = query.Include("TripItem");
+            query = query.Include("Agency");
             return base.AddInclude(query, search);
         }
-        //public IEnumerable<Model.Trip> GetByTagName(string tagName)
-        //{
-        //    //Dohvati mi tripove koji u svojim tagovima sadrze ovaj tagname
-            
+     
+        public override IEnumerable<Model.Trip> Get(TripSearchObject search = null)
+        {
+            var trips = Context.Trip.Where(t => t.TripItems.Count > 0).AsQueryable();
 
-        //    IEnumerable<Database.Trip> trips = Context.Trip.Where(t => t.Tags.Any(x => x.Name == tagName)).ToList();
+            trips = AddFilter(trips, search);
 
-        //    return Mapper.Map<IEnumerable<Model.Trip>>(trips);
+            trips = AddInclude(trips, search);
 
-        //}
+            trips.Include(x => x.TripItems);
+
+            if (search?.Page.HasValue == true && search?.PageSize.HasValue == true)
+            {
+                trips = trips.Take(search.PageSize.Value).Skip(search.Page.Value * search.PageSize.Value);
+            }
+           
+            var list = trips.ToList();
+
+
+            foreach (var trip in list)
+            {
+                trip.TripItems = Context.TripItem.Where(t => t.TripId == trip.Id).ToList();
+            }
+
+            return Mapper.Map<IEnumerable<Model.Trip>>(list);
+        }
+        public override Model.Trip GetById(int id)
+        {
+            Database.Trip trip = Context.Trip
+               .Include(x => x.TripItems)
+               .Include(x => x.Accommodation)
+               .Include(x => x.Agency)
+               .Include(x => x.Accommodation.Facilities)
+               .FirstOrDefault(t => t.Id == id);
+
+
+
+            return Mapper.Map<Model.Trip>(trip);
+        }
 
     }
 }

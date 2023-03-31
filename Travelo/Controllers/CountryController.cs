@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using Travelo.Model;
 using Travelo.Model.Requests;
 using Travelo.Model.SearchObjects;
@@ -14,5 +15,6 @@ namespace Travelo.Controllers
         public CountryController(ICountryService service) : base(service)
         {
         }
+
     }
 }

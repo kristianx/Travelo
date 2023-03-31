@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Travelo.Services.Database;
 
@@ -11,9 +12,11 @@ using Travelo.Services.Database;
 namespace Travelo.Services.Migrations
 {
     [DbContext(typeof(TraveloContext))]
-    partial class TraveloContextModelSnapshot : ModelSnapshot
+    [Migration("20230324211539_ChangeTrip")]
+    partial class ChangeTrip
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,36 +24,6 @@ namespace Travelo.Services.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CityTag", b =>
-                {
-                    b.Property<int>("TagsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("citiesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TagsId", "citiesId");
-
-                    b.HasIndex("citiesId");
-
-                    b.ToTable("CityTag");
-                });
-
-            modelBuilder.Entity("TagTrip", b =>
-                {
-                    b.Property<int>("TagsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("tripsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TagsId", "tripsId");
-
-                    b.HasIndex("tripsId");
-
-                    b.ToTable("TagTrip");
-                });
 
             modelBuilder.Entity("Travelo.Services.Database.Accommodation", b =>
                 {
@@ -214,9 +187,6 @@ namespace Travelo.Services.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -320,11 +290,21 @@ namespace Travelo.Services.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TripId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("TripId");
 
                     b.ToTable("Tag");
                 });
@@ -451,36 +431,6 @@ namespace Travelo.Services.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("CityTag", b =>
-                {
-                    b.HasOne("Travelo.Services.Database.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Travelo.Services.Database.City", null)
-                        .WithMany()
-                        .HasForeignKey("citiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TagTrip", b =>
-                {
-                    b.HasOne("Travelo.Services.Database.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Travelo.Services.Database.Trip", null)
-                        .WithMany()
-                        .HasForeignKey("tripsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Travelo.Services.Database.Accommodation", b =>
                 {
                     b.HasOne("Travelo.Services.Database.City", "City")
@@ -579,6 +529,17 @@ namespace Travelo.Services.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Travelo.Services.Database.Tag", b =>
+                {
+                    b.HasOne("Travelo.Services.Database.City", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("CityId");
+
+                    b.HasOne("Travelo.Services.Database.Trip", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("TripId");
+                });
+
             modelBuilder.Entity("Travelo.Services.Database.Trip", b =>
                 {
                     b.HasOne("Travelo.Services.Database.Accommodation", "Accommodation")
@@ -600,13 +561,11 @@ namespace Travelo.Services.Migrations
 
             modelBuilder.Entity("Travelo.Services.Database.TripItem", b =>
                 {
-                    b.HasOne("Travelo.Services.Database.Trip", "Trip")
+                    b.HasOne("Travelo.Services.Database.Trip", null)
                         .WithMany("TripItems")
                         .HasForeignKey("TripId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Trip");
                 });
 
             modelBuilder.Entity("Travelo.Services.Database.User", b =>
@@ -640,8 +599,15 @@ namespace Travelo.Services.Migrations
                     b.Navigation("Trips");
                 });
 
+            modelBuilder.Entity("Travelo.Services.Database.City", b =>
+                {
+                    b.Navigation("Tags");
+                });
+
             modelBuilder.Entity("Travelo.Services.Database.Trip", b =>
                 {
+                    b.Navigation("Tags");
+
                     b.Navigation("TripItems");
                 });
 #pragma warning restore 612, 618

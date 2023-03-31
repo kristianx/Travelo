@@ -27,15 +27,28 @@ namespace Travelo.Services
 
             CreateMap<Database.Trip, Model.Trip>()
                 .ForMember(d => d.AccomodationName, s => s.MapFrom(_ => _.Accommodation.Name))
-                .ForMember(d => d.Address, s => s.MapFrom(_ => _.Accommodation.Address))
+                .ForMember(d => d.AccomodationImage, s => s.MapFrom(_ => _.Accommodation.Images))
                 .ForMember(d => d.AccomodationDescription, s => s.MapFrom(_ => _.Accommodation.Description))
-                //.ForMember(d => d.Tags, s => s.MapFrom(_ => _.Tags.Select(t => t.Name).ToList()))
+                .ForMember(d => d.Facilities, s => s.MapFrom(_ => _.Accommodation.Facilities.Select(f => f.Name).ToList()))
+                .ForMember(d => d.Location, s => s.MapFrom(_ => _.Accommodation.LocationMap))
+                .ForMember(d => d.AgencyId, s => s.MapFrom(_ => _.Agency.Id))
+                .ForMember(d => d.AgencyName, s => s.MapFrom(_ => _.Agency.Name))
+                .ForMember(d => d.AgencyImage, s => s.MapFrom(_ => _.Agency.Image))
+                .ForMember(d => d.LowestPrice, s => s.MapFrom(_ => _.TripItems.OrderBy(t => t.PricePerPerson).FirstOrDefault()!.PricePerPerson * _.TripItems.OrderBy(t => t.PricePerPerson).FirstOrDefault().NightsStay))
+                .ForMember(d => d.Dates, s => s.MapFrom(_ => _.TripItems.OrderBy(t => t.PricePerPerson).FirstOrDefault()!.Dates))
                 .ReverseMap();
             CreateMap<TripCreateRequest, Database.Trip>();
             CreateMap<TripUpdateRequest, Database.Trip> ();
 
 
-            CreateMap<Database.City, Model.City>().ForMember(d => d.CountryName, s => s.MapFrom(_ => _.Country.Name)).ReverseMap();
+            CreateMap<Database.TripItem, Model.TripItem>().ReverseMap();
+            CreateMap<TripItemCreateUpdateRequest, Database.TripItem>();
+
+
+            CreateMap<Database.City, Model.City>()
+                .ForMember(d => d.CountryName, s => s.MapFrom(_ => _.Country.Name))
+                .ForMember(d => d.Tags, s => s.MapFrom(_ => _.Tags.Select(x => x.Name).ToList()))
+                .ReverseMap();
             CreateMap<CityCreateUpdateRequest, Database.Trip>();
 
 

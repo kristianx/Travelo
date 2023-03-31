@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Travelo.Services.Database;
 
@@ -11,9 +12,11 @@ using Travelo.Services.Database;
 namespace Travelo.Services.Migrations
 {
     [DbContext(typeof(TraveloContext))]
-    partial class TraveloContextModelSnapshot : ModelSnapshot
+    [Migration("20230325095309_TagsChange")]
+    partial class TagsChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,9 +216,6 @@ namespace Travelo.Services.Migrations
 
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
-
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -600,13 +600,11 @@ namespace Travelo.Services.Migrations
 
             modelBuilder.Entity("Travelo.Services.Database.TripItem", b =>
                 {
-                    b.HasOne("Travelo.Services.Database.Trip", "Trip")
+                    b.HasOne("Travelo.Services.Database.Trip", null)
                         .WithMany("TripItems")
                         .HasForeignKey("TripId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Trip");
                 });
 
             modelBuilder.Entity("Travelo.Services.Database.User", b =>

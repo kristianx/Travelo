@@ -9,6 +9,11 @@ namespace Travelo.Services.Database
 {
     public class City
     {
+        public City() {
+
+            this.Tags = new HashSet<Tag>();
+        }
+
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
@@ -16,7 +21,9 @@ namespace Travelo.Services.Database
         public int CountryId { get; set; }
         public virtual Country Country { get; set; }
 
-        public List<Tag> Tags { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
+
+        public byte[]? Image { get; set; }
 
     }
 }

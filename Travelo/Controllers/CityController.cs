@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using Travelo.Model;
 using Travelo.Model.Requests;
 using Travelo.Model.SearchObjects;
 using Travelo.Services;
+using Travelo.Services.Database;
 
 namespace Travelo.Controllers
 {
@@ -12,15 +14,24 @@ namespace Travelo.Controllers
     [Route("[controller]")]
     public class CityController : BaseCRUDController<Model.City, CitySearchObject, CityCreateUpdateRequest, CityCreateUpdateRequest>
     {
+        ICityService _service;
         public CityController(ICityService service) : base(service)
         {
+            _service = service; 
         }
-        [HttpGet]
-        [AllowAnonymous]
-        public override IEnumerable<City> Get([FromQuery] CitySearchObject search = null)
-        {
-            return base.Get(search);
-        }
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public override IEnumerable<Model.City> Get([FromQuery] CitySearchObject search = null)
+        //{
+        //    IEnumerable <Model.City> cities = base.Get(search);
+    
+        //    foreach (var city in cities)
+        //    {
+        //        city.Tags = _service.GetTags(city.Id);
+        //    }
+      
+        //    return cities;
+        //}
 
     }
 }

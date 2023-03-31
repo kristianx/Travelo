@@ -10,5 +10,7 @@ namespace Travelo.Model
         public string Name { get; set; }
         public string CountryName { get; set; }
         public List<string> Tags { get; set; }
+        public byte[] Image { get; set; }
+
     }
 }

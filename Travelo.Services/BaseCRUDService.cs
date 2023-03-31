@@ -31,7 +31,6 @@ namespace Travelo.Services
         }
         public virtual void BeforeCreate(TCreate create, TDb entity)
         {
-
         }
 
         public virtual T Update(int id, TUpdate update)

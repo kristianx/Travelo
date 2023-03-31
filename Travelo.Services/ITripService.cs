@@ -12,6 +12,7 @@ namespace Travelo.Services
     public interface ITripService : ICRUDService<Model.Trip, TripSearchObject, TripCreateRequest, TripUpdateRequest>
     {
         //IEnumerable<Model.Trip> GetByTagName(string tagName);
+        //List<string> GetTags(int tripId);
     }
 }
     

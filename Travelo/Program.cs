@@ -46,6 +46,7 @@ builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<ICityService, CityService>();
 builder.Services.AddTransient<ICountryService, CountryService>();
 builder.Services.AddTransient<IAccomodationService, AccomodationService>();
+builder.Services.AddTransient<ITripItemService, TripItemService>();
 
 
 builder.Services.AddAutoMapper(typeof(IAgencyService));
@@ -53,7 +54,7 @@ builder.Services.AddAutoMapper(typeof(IAgencyService));
 
 builder.Services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-var connectionString = builder.Configuration.GetConnectionString("MacLocal");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<TraveloContext>(options =>
     options.UseSqlServer(connectionString));
 
