@@ -1,11 +1,13 @@
 using eProdaja.WebAPI.Filters;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Travelo.Services;
 using Travelo.Services.Database;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 
@@ -39,6 +41,7 @@ builder.Services.AddSwaggerGen(c => {
     });
 });
 
+
 builder.Services.AddTransient<ITripService, TripService>();
 builder.Services.AddTransient<IAgencyService, AgencyService>();
 builder.Services.AddTransient<IUserService, UserService>();
@@ -54,9 +57,10 @@ builder.Services.AddAutoMapper(typeof(IAgencyService));
 
 builder.Services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("MacLocal");
 builder.Services.AddDbContext<TraveloContext>(options =>
     options.UseSqlServer(connectionString));
+
 
 
 var app = builder.Build();

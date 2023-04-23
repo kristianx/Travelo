@@ -89,10 +89,10 @@ namespace Travelo.Services
             {
                 return null;
             }
-            if(entity.Role != role)
-            {
-                return null;
-            }
+            //if(entity.Role != role)
+            //{
+            //    return null;
+            //}
             var hash = GenerateHash(entity.PasswordSalt, password);
             if (hash != entity.PasswordHash)
             {

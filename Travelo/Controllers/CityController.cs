@@ -19,19 +19,11 @@ namespace Travelo.Controllers
         {
             _service = service; 
         }
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public override IEnumerable<Model.City> Get([FromQuery] CitySearchObject search = null)
-        //{
-        //    IEnumerable <Model.City> cities = base.Get(search);
-    
-        //    foreach (var city in cities)
-        //    {
-        //        city.Tags = _service.GetTags(city.Id);
-        //    }
-      
-        //    return cities;
-        //}
 
+        [HttpGet("~/GetDestinations")]
+        public IEnumerable<Model.City> GetDestinations([FromQuery] CitySearchObject search = null)
+        {
+            return _service.GetDestinations(search);
+        }
     }
 }

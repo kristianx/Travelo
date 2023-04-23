@@ -24,10 +24,10 @@ class MyTripCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const Trip()),
-        )
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => const Trip()),
+        // )
       },
       child: Padding(
         // padding: const EdgeInsets.only(left: 15),

@@ -2,14 +2,25 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/pages/login.dart';
+import 'package:travelo_mobile/pages/navpages/bookmarks_page.dart';
 import 'package:travelo_mobile/pages/navpages/home_page.dart';
 import 'package:travelo_mobile/pages/navpages/main_page.dart';
+import 'package:travelo_mobile/pages/navpages/notification_page.dart';
+import 'package:travelo_mobile/pages/navpages/profile_page.dart';
+import 'package:travelo_mobile/pages/navpages/trips_page.dart';
+import 'package:travelo_mobile/pages/register.dart';
 import 'package:travelo_mobile/pages/register_step2.dart';
+import 'package:travelo_mobile/pages/settings.dart';
 import 'package:travelo_mobile/pages/welcome.dart';
+import 'package:travelo_mobile/providers/destination_provider.dart';
+import 'package:travelo_mobile/providers/trip_provider.dart';
+import 'package:travelo_mobile/providers/tripitem_provider.dart';
 import 'package:travelo_mobile/providers/user_provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:localstorage/localstorage.dart';
 
 final storage = const FlutterSecureStorage();
+final LocalStorage localStorage = new LocalStorage('localstorage');
 void main() {
   runApp(const MyApp());
 }
@@ -21,7 +32,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => DestinationProvider()),
+        ChangeNotifierProvider(create: (_) => TripProvider()),
+        ChangeNotifierProvider(create: (_) => TripItemProvider())
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -36,7 +52,19 @@ class MyApp extends StatelessWidget {
             // is not restarted.
             primarySwatch: Colors.blue,
             scaffoldBackgroundColor: const Color(0xFFffffff)),
-        home: WelcomePage(),
+        initialRoute: "/welcome",
+        routes: {
+          "/": (context) => MainPage(),
+          "/welcome": (context) => WelcomePage(),
+          "/login": (context) => LoginPage(),
+          "/register": (context) => RegisterPage(),
+          "/register2": (context) => RegisterPageStep2(),
+          "/trips": (context) => TripsPage(),
+          "/bookmarks": (context) => BookmarksPage(),
+          "/notifications": (context) => NotificationsPage(),
+          "/settings": (context) => Settings(),
+          "/profile": (context) => ProfilePage(),
+        },
       ),
     );
   }

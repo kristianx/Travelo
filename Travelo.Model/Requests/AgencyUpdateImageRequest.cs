@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Travelo.Model.Requests
 {
-    public class TripUpdateRequest
-    {
+	public class AgencyUpdateImageRequest
+	{
+		public int AgencyId { get; set; }
         public byte[] Image { get; set; }
     }
 }
+

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Travelo.Model.Requests
 {
-	public class AccomodationCreateUpdateRequest
+	public class AccomodationCreateRequest
 	{
         [Required(AllowEmptyStrings = false)]
         [MinLength(5)]

@@ -11,6 +11,7 @@ namespace Travelo.Services.Database
     {
         public TraveloContext(DbContextOptions<TraveloContext> options) : base(options) { 
         }
+        
 
         public virtual DbSet<Accommodation> Accommodations { get; set; } = null!;
         public virtual DbSet<Address> Address { get; set; } = null!;

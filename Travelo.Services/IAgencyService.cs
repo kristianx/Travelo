@@ -11,5 +11,6 @@ namespace Travelo.Services
 {
     public interface IAgencyService : ICRUDService<Model.Agency,AgencySearchObject, AgencyCreateUpdateRequest, AgencyCreateUpdateRequest>
     {
+        public bool UpdateImage(AgencyUpdateImageRequest update);
     }
 }

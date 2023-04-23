@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:provider/provider.dart';
+import 'package:travelo_mobile/providers/user_provider.dart';
 
 import '../widgets/PageHeader.dart';
 
@@ -13,6 +13,14 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  late UserProvider _userProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _userProvider = context.read<UserProvider>();
+  }
+
   @override
   bool set1 = false;
   bool set2 = false;
@@ -168,20 +176,26 @@ class _SettingsState extends State<Settings> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 7, horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Log out from all devices",
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Color(0xff797979),
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        _userProvider.logOut();
+                        Navigator.pushNamed(context, "/welcome");
+                      },
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 7, horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Log out from all devices",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xff797979),
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

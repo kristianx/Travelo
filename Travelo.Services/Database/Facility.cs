@@ -10,5 +10,7 @@ namespace Travelo.Services.Database
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public ICollection<Accommodation> Accomodations { get; set; }
+
     }
 }

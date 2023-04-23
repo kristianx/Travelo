@@ -3,10 +3,10 @@ import 'dart:typed_data';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-class Authorization {
-  static String? username;
-  static String? password;
-}
+// class Authorization {
+//   static String? email;
+//   static String? password;
+// }
 
 Image imageFromBase64String(String base64String) {
   return Image.memory(base64Decode(base64String));
@@ -25,6 +25,5 @@ String formatNumber(dynamic) {
   if (dynamic == null) {
     return "";
   }
-
   return f.format(dynamic);
 }

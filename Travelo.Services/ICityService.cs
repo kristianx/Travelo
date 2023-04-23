@@ -11,5 +11,8 @@ namespace Travelo.Services
     public interface ICityService : ICRUDService<Model.City, CitySearchObject, CityCreateUpdateRequest, CityCreateUpdateRequest>
     {
         //List<string> GetTags(int cityId);
+        IEnumerable<Model.City> GetDestinations(CitySearchObject search);
+
+
     }
 }

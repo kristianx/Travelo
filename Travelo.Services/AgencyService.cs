@@ -60,10 +60,10 @@ namespace Travelo.Services
             return base.AddInclude(query, search);
         }
 
-        public Model.Agency Update(int id, AgencyCreateUpdateRequest update)
-        {
-            throw new NotImplementedException();
-        }
+        //public Model.Agency Update(int id, AgencyCreateUpdateRequest update)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public override IQueryable<Database.Agency> AddFilter(IQueryable<Database.Agency> query, AgencySearchObject search = null)
         {
@@ -75,6 +75,17 @@ namespace Travelo.Services
             }
 
             return filteredQuery;
+        }
+        public bool UpdateImage(AgencyUpdateImageRequest update)
+        {
+            Database.Agency agency = Context.Agency.FirstOrDefault(a => a.Id == update.AgencyId);
+            if(agency != null)
+            {
+                Context.Agency.FirstOrDefault(a => a.Id == update.AgencyId).Image = update.Image;
+                Context.SaveChanges();
+                return true;
+            }
+            return false;
         }
     }
 }

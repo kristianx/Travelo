@@ -12,7 +12,7 @@ namespace Travelo.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AccommodationController : BaseCRUDController<Model.Accomodation, AccomodationSearchObject, AccomodationCreateUpdateRequest, AccomodationCreateUpdateRequest>
+    public class AccommodationController : BaseCRUDController<Model.Accomodation, AccomodationSearchObject, AccomodationCreateRequest, AccomodationUpdateRequest>
     {
         public AccommodationController(IAccomodationService service) : base(service)
         {

@@ -13,8 +13,10 @@ namespace Travelo.Controllers
 
     public class AgencyController : BaseCRUDController<Model.Agency, AgencySearchObject, AgencyCreateUpdateRequest, AgencyCreateUpdateRequest>
     {
+        IAgencyService _service;
         public AgencyController(IAgencyService service) : base(service)
         {
+            _service = service;
         }
 
 
@@ -23,6 +25,19 @@ namespace Travelo.Controllers
         public override Model.Agency Create([FromBody] AgencyCreateUpdateRequest request)
         {
             return base.Create(request);
+        }
+
+
+        [HttpPost("~/UpdateImage")]
+        public ActionResult UpdateImage([FromBody] AgencyUpdateImageRequest update)
+        {
+            if(_service.UpdateImage(update))
+            {
+            return Ok();
+            }
+            return BadRequest();
+
+            
         }
     }
 }

@@ -36,6 +36,8 @@ namespace Travelo.Services
                 .ForMember(d => d.AgencyImage, s => s.MapFrom(_ => _.Agency.Image))
                 .ForMember(d => d.LowestPrice, s => s.MapFrom(_ => _.TripItems.OrderBy(t => t.PricePerPerson).FirstOrDefault()!.PricePerPerson * _.TripItems.OrderBy(t => t.PricePerPerson).FirstOrDefault().NightsStay))
                 .ForMember(d => d.Dates, s => s.MapFrom(_ => _.TripItems.OrderBy(t => t.PricePerPerson).FirstOrDefault()!.Dates))
+                .ForMember(d => d.CityName, s => s.MapFrom(_ => _.Accommodation.City.Name))
+                .ForMember(d => d.CountryName, s => s.MapFrom(_ => _.Accommodation.City.Country.Name))
                 .ReverseMap();
             CreateMap<TripCreateRequest, Database.Trip>();
             CreateMap<TripUpdateRequest, Database.Trip> ();
@@ -49,7 +51,11 @@ namespace Travelo.Services
                 .ForMember(d => d.CountryName, s => s.MapFrom(_ => _.Country.Name))
                 .ForMember(d => d.Tags, s => s.MapFrom(_ => _.Tags.Select(x => x.Name).ToList()))
                 .ReverseMap();
-            CreateMap<CityCreateUpdateRequest, Database.Trip>();
+            //CreateMap<CityCreateUpdateRequest, Database.City>()
+            //    .ForMember(d => d.CountryId, s => s.MapFrom(_ => _.CountryId))
+            //    .ForMember(d => d.Name, s => s.MapFrom(_ => _.Name))
+            //    .ForMember(d => d.Image, s => s.MapFrom(_ => _.Image))
+            //    .ReverseMap();
 
 
             CreateMap<Database.Country, Model.Country>().ReverseMap();
@@ -58,7 +64,8 @@ namespace Travelo.Services
 
             //Get facilities and populate
             CreateMap<Database.Accommodation, Model.Accomodation>().ReverseMap();
-            CreateMap<AccomodationCreateUpdateRequest, Database.Accommodation>();
+            CreateMap<AccomodationCreateRequest, Database.Accommodation>();
+            CreateMap<AccomodationUpdateRequest, Database.Accommodation>();
         }    
     }
 }

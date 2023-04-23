@@ -11,6 +11,7 @@ namespace Travelo.Model
         public string CountryName { get; set; }
         public List<string> Tags { get; set; }
         public byte[] Image { get; set; }
-
+        public int NumberOfTrips { get; set; }
+        public int LowestTripPrice { get; set; }
     }
 }

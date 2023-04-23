@@ -44,7 +44,7 @@ namespace Travelo.Services
         public override IQueryable<Trip> AddInclude(IQueryable<Trip> query, TripSearchObject search = null)
         {
             query = query.Include("Accommodation");
-            //query = query.Include("TripItem");
+            query = query.Include(x => x.Accommodation.City.Country);
             query = query.Include("Agency");
             return base.AddInclude(query, search);
         }
@@ -74,6 +74,7 @@ namespace Travelo.Services
 
             return Mapper.Map<IEnumerable<Model.Trip>>(list);
         }
+
         public override Model.Trip GetById(int id)
         {
             Database.Trip trip = Context.Trip
@@ -81,6 +82,7 @@ namespace Travelo.Services
                .Include(x => x.Accommodation)
                .Include(x => x.Agency)
                .Include(x => x.Accommodation.Facilities)
+               .Include(x => x.Accommodation.City.Country)
                .FirstOrDefault(t => t.Id == id);
 
 

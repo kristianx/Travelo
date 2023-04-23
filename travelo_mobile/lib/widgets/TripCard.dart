@@ -3,29 +3,37 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:travelo_mobile/widgets/ReviewStars.dart';
+import 'package:travelo_mobile/model/trip.dart' as trip_model;
 
 import '../pages/trip.dart';
+import '../utils/util.dart';
 
 class TripCard extends StatelessWidget {
-  final String resort;
-  final String destination;
-  final String datesString;
-  final int rating;
-  final String description;
-  final int price;
-  final String agency;
-  final bool bookmarked;
-
-  const TripCard(
-      {super.key,
-      required this.resort,
-      required this.destination,
-      required this.rating,
-      required this.description,
-      required this.price,
-      required this.agency,
-      required this.bookmarked,
-      required this.datesString});
+  // final String resort;
+  // final String destination;
+  // final String datesString;
+  // final int rating;
+  // final String description;
+  // final int price;
+  // final String agency;
+  // final bool bookmarked;
+  // final String image;
+  // final String agencyImage;
+  final trip_model.Trip trip;
+  const TripCard({
+    super.key,
+    required this.trip,
+    // required this.resort,
+    // required this.destination,
+    // required this.rating,
+    // required this.description,
+    // required this.price,
+    // required this.agency,
+    // required this.bookmarked,
+    // required this.datesString,
+    // required this.image,
+    // required this.agencyImage
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +41,15 @@ class TripCard extends StatelessWidget {
       onTap: () => {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const Trip()),
+          MaterialPageRoute(
+              builder: (context) => Trip(
+                    trip: trip,
+                  )),
         )
       },
       child: Padding(
         // padding: const EdgeInsets.only(left: 15),
-        padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
+        padding: const EdgeInsets.fromLTRB(15, 5, 15, 10),
         child: Container(
           height: 250,
           decoration: BoxDecoration(
@@ -49,7 +60,7 @@ class TripCard extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.2),
                   spreadRadius: 0,
                   blurRadius: 5,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ]),
           child: Row(children: [
@@ -57,9 +68,12 @@ class TripCard extends StatelessWidget {
               width: 150,
               alignment: Alignment.centerLeft,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
                   image: DecorationImage(
-                      image: AssetImage("assets/images/tulum.png"),
+                      image: trip.accomodationImage == ""
+                          ? const AssetImage("assets/images/imageHolder.png")
+                          : imageFromBase64String(trip.accomodationImage!)
+                              .image,
                       fit: BoxFit.cover)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -74,17 +88,21 @@ class TripCard extends StatelessWidget {
                             height: 25,
                             width: 25,
                             decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(200)),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(200)),
                                 image: DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/tulum.png"),
+                                    image: trip.agencyImage == ""
+                                        ? const AssetImage(
+                                            "assets/images/imageHolder.png")
+                                        : imageFromBase64String(
+                                                trip.agencyImage!)
+                                            .image,
                                     fit: BoxFit.cover))),
                         SizedBox(
                           width: 5,
                         ),
                         Text(
-                          agency,
+                          trip.agencyName ?? "",
                           style: TextStyle(
                               fontSize: 12,
                               color: Color(0xffffffff),
@@ -113,13 +131,13 @@ class TripCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(resort,
+                              Text(trip.accomodationName ?? "",
                                   style: TextStyle(
                                       fontSize: 17, color: Color(0xff292929)),
                                   softWrap: true,
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis),
-                              Text(destination,
+                              Text(trip.countryName ?? "",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xffA9A9A9)),
                                   softWrap: false,
@@ -129,16 +147,15 @@ class TripCard extends StatelessWidget {
                           ),
                           SvgPicture.asset(
                             "assets/icons/Bookmarks.svg",
-                            color: bookmarked
-                                ? Color(0xffEAAD5F)
-                                : Color(0xffD6D6D6),
+                            color:
+                                false ? Color(0xffEAAD5F) : Color(0xffD6D6D6),
                           )
                         ],
                       ),
                       SizedBox(height: 5),
-                      ReviewStars(rating: 1),
+                      ReviewStars(rating: trip.rating!),
                       SizedBox(height: 5),
-                      Text(datesString,
+                      Text(trip.dates ?? "",
                           style:
                               TextStyle(fontSize: 15, color: Color(0xffA9A9A9)),
                           softWrap: false,
@@ -149,7 +166,7 @@ class TripCard extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          description,
+                          trip.accomodationDescription ?? "",
                           style:
                               TextStyle(fontSize: 11, color: Color(0xff000000)),
                           softWrap: true,
@@ -160,7 +177,7 @@ class TripCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("\$" + price.toString(),
+                          Text("\$1000",
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Color(0xff747474),

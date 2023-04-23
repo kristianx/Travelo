@@ -10,10 +10,10 @@ class DestinationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const DestinationPage()),
-        )
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => const DestinationPage()),
+        // )
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),

@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:flutter/foundation.dart';
 
+import '../main.dart';
 import '../utils/util.dart';
 
 abstract class BaseProvider<T> with ChangeNotifier {
@@ -33,7 +34,7 @@ abstract class BaseProvider<T> with ChangeNotifier {
   Future<List<T>> getById(int id, [dynamic additionalData]) async {
     var url = Uri.parse("$_baseUrl$_endpoint/$id");
 
-    Map<String, String> headers = createHeaders();
+    Map<String, String> headers = await createHeaders();
 
     var response = await http!.get(url, headers: headers);
 
@@ -55,7 +56,7 @@ abstract class BaseProvider<T> with ChangeNotifier {
 
     var uri = Uri.parse(url);
 
-    Map<String, String> headers = createHeaders();
+    Map<String, String> headers = await createHeaders();
     print("get me");
     var response = await http!.get(uri, headers: headers);
     print("done $response");
@@ -73,7 +74,7 @@ abstract class BaseProvider<T> with ChangeNotifier {
     var url = "$_baseUrl$_endpoint";
     var uri = Uri.parse(url);
 
-    Map<String, String> headers = createHeaders();
+    Map<String, String> headers = await createHeaders();
     var jsonRequest = jsonEncode(request);
     var response = await http!.post(uri, headers: headers, body: jsonRequest);
 
@@ -89,7 +90,7 @@ abstract class BaseProvider<T> with ChangeNotifier {
     var url = "$_baseUrl$_endpoint/$id";
     var uri = Uri.parse(url);
 
-    Map<String, String> headers = createHeaders();
+    Map<String, String> headers = await createHeaders();
 
     var response =
         await http!.put(uri, headers: headers, body: jsonEncode(request));
@@ -102,16 +103,28 @@ abstract class BaseProvider<T> with ChangeNotifier {
     }
   }
 
-  Map<String, String> createHeaders() {
-    String? username = Authorization.username;
-    String? password = Authorization.password;
+  Future<Map<String, String>> createHeaders() async {
+    // String? jwt = await storage.read(key: "jwt");
 
-    String basicAuth =
-        "Basic ${base64Encode(utf8.encode('$username:$password'))}";
+    // String? username = Authorization.email;
+    // String? password = Authorization.password;
+
+    // String? username = await storage.read(key: 'username');
+    // String? password = await storage.read(key: 'password');
+
+    String? email = localStorage.getItem('email');
+    String? password = localStorage.getItem('password');
+    // String? username = await storage.read(key: 'username');
+    // String? password = await storage.read(key: 'password');
+
+    // print("Auth: " + username.toString() + " " + password.toString());
+
+    String basicAuth = "Basic ${base64Encode(utf8.encode('$email:$password'))}";
 
     var headers = {
       "Content-Type": "application/json",
       "Authorization": basicAuth
+      // "Authorization": "Bearer $jwt",
     };
     return headers;
   }

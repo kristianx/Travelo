@@ -1,14 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/pages/navpages/main_page.dart';
-import 'package:travelo_mobile/widgets/InputField.dart';
 import 'package:travelo_mobile/widgets/SimpleButton.dart';
 import 'package:image_picker/image_picker.dart';
 import '../providers/user_provider.dart';
-import 'navpages/home_page.dart';
 
 class RegisterPageStep2 extends StatefulWidget {
   const RegisterPageStep2({super.key});

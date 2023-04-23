@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:travelo_mobile/main.dart';
-import 'package:travelo_mobile/pages/navpages/home_page.dart';
 import 'package:travelo_mobile/pages/navpages/main_page.dart';
-import 'package:travelo_mobile/pages/register.dart';
 
 import '../providers/user_provider.dart';
-import '../utils/util.dart';
 import '../widgets/InputField.dart';
 import '../widgets/SimpleButton.dart';
 
@@ -25,9 +19,23 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passwordController = TextEditingController();
   late UserProvider _userProvider;
 
+  void initState() {
+    super.initState();
+    _userProvider = Provider.of<UserProvider>(context, listen: false);
+    if (_userProvider.checkLoginStatus()) {
+      Future.delayed(Duration.zero, () {
+        Navigator.pushNamed(context, "/");
+      });
+    }
+    //  else {
+    // Future.delayed(Duration.zero, () {
+    //   Navigator.pushNamed(context, "/login");
+    // });
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
-    _userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
         body: Container(
       padding: EdgeInsets.fromLTRB(0, 120, 0, 80),

@@ -11,8 +11,10 @@ namespace Travelo.Model.Requests
         public string Name{ get; set; }
 
         [Required]
-        public string CountryId { get; set; }
+        public int CountryId { get; set; }
 
         public List<string> Tags { get; set; }
+        
+        public byte[] Image { get; set; }
     }
 }
