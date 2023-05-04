@@ -54,7 +54,7 @@ builder.Services.AddAutoMapper(typeof(IAgencyService));
 
 builder.Services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-var connectionString = builder.Configuration.GetConnectionString("MacLocal");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<TraveloContext>(options =>
     options.UseSqlServer(connectionString));
 
