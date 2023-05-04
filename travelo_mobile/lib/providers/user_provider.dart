@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../main.dart';
 import '../model/user.dart';
@@ -11,15 +12,11 @@ class UserProvider extends BaseProvider<User> {
   @override
   User fromJson(data) {
     // TODO: implement fromJson
-    return User();
+
+    return User.fromJson(data);
   }
 
   Future<bool> loginUser(String email, String password) async {
-    if (checkLoginStatus()) {
-      print("Logged in");
-      return true;
-    }
-
     var response = await http?.post(
         Uri.parse("https://127.0.0.1:7100/User/Login"),
         body:
@@ -27,20 +24,33 @@ class UserProvider extends BaseProvider<User> {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         });
-    if (response?.statusCode == 200) {
-      // var loginArr = response!.body;
-      // print("Jwt:" + loginArr);
+    if (response?.statusCode == 200 && response != null) {
       print("Login success");
-      // await storage.write(key: 'jwt', value: response!.body);
-      // await storage.write(key: 'username', value: email);
-      // await storage.write(key: 'password', value: password);
       localStorage.setItem('email', email);
       localStorage.setItem('password', password);
-
+      localStorage.setItem('userId', int.parse(response.body));
       return true;
     } else {
       print("Login error here");
       return false;
+    }
+  }
+
+  Future<User> uploadImage(int userId, File file) async {
+    Map<String, String> headers = await createHeaders();
+
+    var response = await http?.post(
+        Uri.parse("https://127.0.0.1:7100/uploadImage"),
+        body: jsonEncode(<String, dynamic>{
+          "userId": userId,
+          "image": base64Encode(file.readAsBytesSync())
+        }),
+        headers: headers);
+
+    if (isValidResponseCode(response!)) {
+      return fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Exception... handle this gracefully");
     }
   }
 
@@ -77,15 +87,20 @@ class UserProvider extends BaseProvider<User> {
     }
   }
 
-  bool checkLoginStatus() {
-    String? email = localStorage.getItem('email');
-    String? password = localStorage.getItem('password');
-    print("email: " + email.toString());
-    print("password: " + password.toString());
-    if (email != null && email != "" && password != null && password != "") {
-      return true;
-    }
-    return false;
+  // bool checkLoginStatus() {
+  //   String? email = localStorage.getItem('email');
+  //   String? password = localStorage.getItem('password');
+  //   print("email: " + email.toString());
+  //   print("password: " + password.toString());
+  //   if (email != null && email != "" && password != null && password != "") {
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
+  void newAuth() {
+    localStorage.deleteItem("email");
+    localStorage.deleteItem("password");
   }
 
   void logOut() {

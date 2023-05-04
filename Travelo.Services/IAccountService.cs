@@ -12,5 +12,6 @@ namespace Travelo.Services
     public interface IAccountService : ICRUDService<Model.Account, AccountSearchObject, AccountCreateUpdateRequest, AccountCreateUpdateRequest>
     {
         Model.Account Login(string username, string password, Role role);
+         void updatePassword(int id, string newPassword);
     }
 }

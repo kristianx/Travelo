@@ -10,7 +10,6 @@ namespace Travelo.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [AllowAnonymous]
     public class UserController : BaseCRUDController<Model.User, UserSearchObject, UserCreateRequest, UserUpdateRequest>
     {
         public IUserService _userService;
@@ -23,19 +22,19 @@ namespace Travelo.Controllers
         [HttpPost("Login")]
         public ActionResult<string> Login([FromBody] UserLogin userLogin)
         {
-            string token = _userService.Login(userLogin);
-            if(token != "")
+            int? id = _userService.Login(userLogin);
+            if(id != null)
             {
-                return Ok(token);
+                return Ok(id);
             }
             return BadRequest("User not found");
 
         }
-
-        //public void UploadImage([FromBody] int userId, string image)
-        //{
-        //    //_userService.UploadImage(userId, image);
-        //}
+        [HttpPost("~/uploadImage")]
+        public Model.User UploadImage([FromBody] UserUploadImageRequest request)
+        {
+            return _userService.UploadImage(request);
+        }
 
         [AllowAnonymous]
         [HttpPost]
@@ -46,16 +45,16 @@ namespace Travelo.Controllers
 
         [AllowAnonymous]
         [HttpPost("Register")]
-        public String Register([FromBody] UserCreateRequest request)
+        public int? Register([FromBody] UserCreateRequest request)
         {
             var result = _userService.Create(request);
 
             UserLogin usr = new UserLogin();
             usr.Email = request.Email;
             usr.Password = request.Password;
-            var token = _userService.Login(usr);
+            var id = _userService.Login(usr);
 
-            return token;
+            return id;
         }
     }
 

@@ -1,12 +1,21 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 // class Authorization {
 //   static String? email;
 //   static String? password;
 // }
+Future<File?> pickImage() async {
+  final myfile = await ImagePicker().pickImage(source: ImageSource.gallery);
+  if (myfile != null) {
+    return File(myfile.path);
+  }
+  return null;
+}
 
 Image imageFromBase64String(String base64String) {
   return Image.memory(base64Decode(base64String));

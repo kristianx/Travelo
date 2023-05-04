@@ -8,5 +8,6 @@ namespace Travelo.Model.SearchObjects
     {
         public string Name { get; set; }
         public string Tag { get; set; }
+        public bool HasTrips { get; set; } = true;
     }
 }

@@ -6,6 +6,7 @@ import 'package:travelo_mobile/pages/navpages/main_page.dart';
 import 'package:travelo_mobile/widgets/SimpleButton.dart';
 import 'package:image_picker/image_picker.dart';
 import '../providers/user_provider.dart';
+import '../utils/util.dart';
 
 class RegisterPageStep2 extends StatefulWidget {
   const RegisterPageStep2({super.key});
@@ -15,15 +16,6 @@ class RegisterPageStep2 extends StatefulWidget {
 }
 
 File? _file;
-
-Future pickImage() async {
-  final myfile = await ImagePicker().pickImage(source: ImageSource.gallery);
-  if (myfile != null) {
-    setState() {
-      _file = File(myfile.path);
-    }
-  }
-}
 
 class _RegisterPageStep2State extends State<RegisterPageStep2> {
   late UserProvider _userProvider;

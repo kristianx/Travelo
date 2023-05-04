@@ -12,6 +12,7 @@ namespace Travelo.Services
 {
     public interface IUserService : ICRUDService<Model.User, UserSearchObject, UserCreateRequest, UserUpdateRequest>
     {
-        string Login(UserLogin userLogin);
+        int? Login(UserLogin userLogin);
+        Model.User UploadImage(UserUploadImageRequest request);
     }
 }

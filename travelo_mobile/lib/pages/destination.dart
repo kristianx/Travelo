@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:travelo_mobile/pages/SearchBarPageTemplate.dart';
 import 'package:travelo_mobile/providers/trip_provider.dart';
 import 'package:travelo_mobile/utils/util.dart';
 import 'package:travelo_mobile/widgets/TripCard.dart';
@@ -46,98 +47,100 @@ class _DestinationPageState extends State<DestinationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
-      children: [
-        Container(
-          height: 240,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: widget.cityImage == ""
-                      ? const AssetImage("assets/images/tulum-bg.png")
-                      : imageFromBase64String(widget.cityImage).image,
-                  fit: BoxFit.cover),
-              borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(30),
-                  bottomLeft: Radius.circular(30))),
-          child: SafeArea(
-            bottom: false,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InputField(
-                  hintText: 'Search trips',
-                  iconPath: 'assets/icons/Search.svg',
-                  controller: _dummyController,
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.city,
-                            style: const TextStyle(
-                                fontSize: 22,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          Text(widget.countryName,
+    return SearchBarPageTemplate(
+      child: Scaffold(
+          body: Column(
+        children: [
+          Container(
+            height: 240,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: widget.cityImage == ""
+                        ? const AssetImage("assets/images/tulum-bg.png")
+                        : imageFromBase64String(widget.cityImage).image,
+                    fit: BoxFit.cover),
+                borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(30),
+                    bottomLeft: Radius.circular(30))),
+            child: SafeArea(
+              bottom: false,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // InputField(
+                  //   hintText: 'Search trips',
+                  //   iconPath: 'assets/icons/Search.svg',
+                  //   controller: _dummyController,
+                  // ),
+                  const SizedBox(height: 70),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 20),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.city,
                               style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xffE7EAEA),
-                                  fontWeight: FontWeight.w400)),
-                        ],
-                      ),
-                      Text("${widget.numberOfTrips.toString()} TRIPS",
-                          style: const TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600)),
-                    ],
-                  ),
-                )
-              ],
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text(widget.countryName,
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Color(0xffE7EAEA),
+                                    fontWeight: FontWeight.w400)),
+                          ],
+                        ),
+                        Text("${widget.numberOfTrips.toString()} TRIPS",
+                            style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600)),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: _buildTripCardList(),
-              // children: [
-              //   SizedBox(
-              //     height: 10,
-              //   ),
-              //   TripCard(
-              //     agency: 'Travelo Agency',
-              //     bookmarked: false,
-              //     datesString: '16.Jun - 23. Jun 2022',
-              //     description:
-              //         'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,',
-              //     destination: 'Tulum, Mexico',
-              //     price: 1256,
-              //     rating: 4,
-              //     resort: 'Holistika resort',
-              //   ),
-              //   SizedBox(
-              //     height: 20,
-              //   ),
-              // ],
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: _buildTripCardList(),
+                // children: [
+                //   SizedBox(
+                //     height: 10,
+                //   ),
+                //   TripCard(
+                //     agency: 'Travelo Agency',
+                //     bookmarked: false,
+                //     datesString: '16.Jun - 23. Jun 2022',
+                //     description:
+                //         'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,',
+                //     destination: 'Tulum, Mexico',
+                //     price: 1256,
+                //     rating: 4,
+                //     resort: 'Holistika resort',
+                //   ),
+                //   SizedBox(
+                //     height: 20,
+                //   ),
+                // ],
+              ),
             ),
-          ),
-        )
-      ],
-    ));
+          )
+        ],
+      )),
+    );
   }
 
   List<Widget> _buildTripCardList() {

@@ -33,6 +33,15 @@ namespace Travelo.Services
             {
                 filteredQuery = filteredQuery.Where(x => x.Tags.Any(t => t.Name == search.Tag));
             }
+            if (!string.IsNullOrWhiteSpace(search.Name))
+            {
+                filteredQuery = filteredQuery.Where(x => x.Name.Contains(search.Name));
+            }
+            if (search.HasTrips)
+            {
+                filteredQuery = filteredQuery.Where(c => Context.TripItem.Any(x => x.Trip.Accommodation.CityId == c.Id));
+            }
+
             return filteredQuery;
         }
 
@@ -72,8 +81,9 @@ namespace Travelo.Services
         public IEnumerable<Model.City> GetDestinations(CitySearchObject search = null)
         {
 
-            IQueryable<Database.City> entity =
-                Context.City.Where(c => Context.TripItem.Any(x => x.Trip.Accommodation.CityId == c.Id)).AsQueryable();
+            //IQueryable<Database.City> entity =
+            //    Context.City.Where(c => Context.TripItem.Any(x => x.Trip.Accommodation.CityId == c.Id)).AsQueryable();
+            var entity = Context.Set<Database.City>().AsQueryable();
             entity = AddFilter(entity, search);
             entity = entity.Include("Country");
             entity = entity.Include("Tags");

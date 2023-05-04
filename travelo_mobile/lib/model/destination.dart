@@ -17,5 +17,13 @@ class Destination {
   factory Destination.fromJson(Map<String, dynamic> json) =>
       _$DestinationFromJson(json);
 
-  // Map<String, dynamic> toJson() => _$DestinationFromJson(this);
+  Map toJson() => {
+        'id': id,
+        'name': name,
+        'countryName': countryName,
+        'tags': tags,
+        'image': image,
+        'numberOfTrips': numberOfTrips,
+        'lowestTripPrice': lowestTripPrice,
+      };
 }

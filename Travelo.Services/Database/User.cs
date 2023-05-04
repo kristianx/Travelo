@@ -4,11 +4,17 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Travelo.Model;
 
 namespace Travelo.Services.Database
 {
     public class User
     {
+        public User()
+        {
+            this.Trips = new HashSet<Trip>();
+        }
+
         [Key]
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -25,6 +31,8 @@ namespace Travelo.Services.Database
         public string? Address { get; set; }
         public string? PostalCode { get; set; }
         public virtual City City { get; set; }
+
+        public virtual ICollection<Trip> Trips { get; set; }
 
     }
 }

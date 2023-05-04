@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:travelo_mobile/pages/SearchBarPageTemplate.dart';
 import 'package:travelo_mobile/providers/destination_provider.dart';
 import 'package:travelo_mobile/utils/util.dart';
 import 'package:travelo_mobile/widgets/BlogCard.dart';
-import 'package:travelo_mobile/widgets/DestinationCard.dart';
-import 'package:travelo_mobile/widgets/InputField.dart';
-
-import '../../main.dart';
 import '../../model/destination.dart';
 import '../destination.dart';
 
@@ -28,23 +23,14 @@ class _HomePageState extends State<HomePage> {
     "Surfing",
     "Day-trips",
   ];
-  List<Destination> destinations = [];
-
-  /// List of body icon
   List<String> icons = [
     "assets/icons/hot.svg",
     "assets/icons/summer.svg",
     "assets/icons/surfing.svg",
     "assets/icons/backpack.svg",
   ];
-  // List<String> activeIcons = [
-  //   "assets/icons/hot-active.svg",
-  //   "assets/icons/summer-active.svg",
-  //   "assets/icons/surfing-active.svg",
-  //   "assets/icons/backpack-active.svg",
-  // ];
+  List<Destination> destinations = [];
   int current = 0;
-  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -62,128 +48,125 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // _destinationProvider =
-    //     Provider.of<DestinationProvider>(context, listen: false);
     return Scaffold(
-        body: SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          // ignore: prefer_const_literals_to_create_immutables
-
-          children: [
-            InputField(
-              controller: _searchController,
-              hintText: 'Search trips',
-              iconPath: 'assets/icons/Search.svg',
-            ),
-            SizedBox(height: 20),
-            Container(
-              // change your height based on preference
-              height: 170,
-              width: double.infinity,
-
-              child: ListView(
-                // set the scroll direction to horizontal
-                scrollDirection: Axis.horizontal,
-                children: [
-                  BlogCard(
-                    date: '18. Maj',
-                    image: 'assets/images/slika.png',
-                    location: 'Mostar, Bosnia and Herzegovina',
-                    name: 'Take a rafting trip on Neretva with 20% off',
-                  ),
-                  BlogCard(
-                    date: '18. Maj',
-                    image: 'assets/images/slika.png',
-                    location: 'Zivinice, Bosnia and Herzegovina',
-                    name: 'Something awesome',
-                  ),
-                  BlogCard(
-                    date: '18. Maj',
-                    image: 'assets/images/slika.png',
-                    location: 'Sarajevo, Bosnia and Herzegovina',
-                    name: 'Take me to the moon.',
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 0),
-              child: SizedBox(
-                width: double.infinity,
-                height: 45,
-                child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: items.length,
+      body: SafeArea(
+        child: SearchBarPageTemplate(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 70),
+                // InputField(
+                //   controller: _searchController,
+                //   hintText: 'Search trips',
+                //   iconPath: 'assets/icons/Search.svg',
+                // ),
+                Container(
+                  // change your height based on preference
+                  height: 170,
+                  width: double.infinity,
+                  child: ListView(
+                    // set the scroll direction to horizontal
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.only(right: 20),
-                    itemBuilder: (ctx, index) {
-                      return Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              setState(() {
-                                current = index;
-                              });
-                              loadData();
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    icons[index],
-                                    height: 25,
-                                    width: 25,
-                                    color: current == index
-                                        ? Color(0xffEAAD5F)
-                                        : Color(0xffA8A8A8),
-                                  ),
-                                  SizedBox(
-                                    width: 7,
-                                  ),
-                                  Text(
-                                    items[index],
-                                    style: TextStyle(
+                    children: [
+                      BlogCard(
+                        date: '18. Maj',
+                        image: 'assets/images/slika.png',
+                        location: 'Mostar, Bosnia and Herzegovina',
+                        name: 'Take a rafting trip on Neretva with 20% off',
+                      ),
+                      BlogCard(
+                        date: '18. Maj',
+                        image: 'assets/images/slika.png',
+                        location: 'Zivinice, Bosnia and Herzegovina',
+                        name: 'Something awesome',
+                      ),
+                      BlogCard(
+                        date: '18. Maj',
+                        image: 'assets/images/slika.png',
+                        location: 'Sarajevo, Bosnia and Herzegovina',
+                        name: 'Take me to the moon.',
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 45,
+                    child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: items.length,
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.only(right: 20),
+                        itemBuilder: (ctx, index) {
+                          return Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  setState(() {
+                                    current = index;
+                                  });
+                                  loadData();
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        icons[index],
+                                        height: 25,
+                                        width: 25,
                                         color: current == index
                                             ? Color(0xffEAAD5F)
                                             : Color(0xffA8A8A8),
-                                        fontWeight: current == index
-                                            ? FontWeight.w500
-                                            : FontWeight.w400,
-                                        fontSize: 18),
+                                      ),
+                                      SizedBox(
+                                        width: 7,
+                                      ),
+                                      Text(
+                                        items[index],
+                                        style: TextStyle(
+                                            color: current == index
+                                                ? Color(0xffEAAD5F)
+                                                : Color(0xffA8A8A8),
+                                            fontWeight: current == index
+                                                ? FontWeight.w500
+                                                : FontWeight.w400,
+                                            fontSize: 18),
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        ],
-                      );
-                    }),
-              ),
-            ),
-            Divider(
-              color: Colors.grey,
-              height: 1,
-              indent: 20,
-              endIndent: 20,
-            ),
+                            ],
+                          );
+                        }),
+                  ),
+                ),
+                Divider(
+                  color: Colors.grey,
+                  height: 1,
+                  indent: 20,
+                  endIndent: 20,
+                ),
 
-            /// DESTINATIONS BODY
-            Container(
-              margin: const EdgeInsets.only(top: 20),
-              width: double.infinity,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: _buildDestinationCardList(),
-              ),
+                /// DESTINATIONS BODY
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: _buildDestinationCardList(),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
-    ));
+    );
   }
-  // SizedBox(height: 20),
 
   List<Widget> _buildDestinationCardList() {
     if (destinations.length == 0) {

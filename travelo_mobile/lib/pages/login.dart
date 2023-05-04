@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:travelo_mobile/main.dart';
 import 'package:travelo_mobile/pages/navpages/main_page.dart';
 
 import '../providers/user_provider.dart';
@@ -18,15 +19,20 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   late UserProvider _userProvider;
-
-  void initState() {
-    super.initState();
-    _userProvider = Provider.of<UserProvider>(context, listen: false);
-    if (_userProvider.checkLoginStatus()) {
+  Future<void> tryLogin() async {
+    var loginFlag = await _userProvider.loginUser(
+        localStorage.getItem("email"), localStorage.getItem("password"));
+    if (loginFlag) {
       Future.delayed(Duration.zero, () {
         Navigator.pushNamed(context, "/");
       });
     }
+  }
+
+  void initState() {
+    super.initState();
+    _userProvider = Provider.of<UserProvider>(context, listen: false);
+    tryLogin();
     //  else {
     // Future.delayed(Duration.zero, () {
     //   Navigator.pushNamed(context, "/login");
@@ -105,6 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                     MaterialPageRoute(builder: (context) => const MainPage()),
                   );
                 }
+                print("racku");
               } catch (e) {
                 showDialog(
                     context: context,

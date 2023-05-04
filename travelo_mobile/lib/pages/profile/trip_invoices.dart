@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../widgets/PageHeader.dart';
+import '../../widgets/PageHeader.dart';
 
 class TripInvoices extends StatefulWidget {
   const TripInvoices({super.key});

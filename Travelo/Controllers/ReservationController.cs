@@ -10,7 +10,7 @@ namespace Travelo.Controllers
     [Route("[controller]")]
     public class ReservationController : BaseCRUDController<Model.Reservation, ReservationSearchObject, ReservationCreateRequest, object>
     {
-        public ReservationController(ICRUDService<Reservation, ReservationSearchObject, ReservationCreateRequest, object> service) : base(service)
+        public ReservationController(IReservationService service) : base(service)
         {
         }
     }

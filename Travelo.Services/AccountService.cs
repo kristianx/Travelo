@@ -51,6 +51,19 @@ namespace Travelo.Services
             return Mapper.Map<Model.Account>(account);
 
         }
+        public void updatePassword(int id, string newPassword)
+        {
+            var set = Context.Set<Database.Account>();
+            var account = set.Find(id);
+            if(account != null)
+            {
+                var salt = GenerateSalt();
+                //account.PasswordSalt = salt;
+                account.PasswordHash = GenerateHash(salt, newPassword);
+                Context.SaveChanges();
+            }
+        
+        }
 
         public override IQueryable<Database.Account> AddFilter(IQueryable<Database.Account> query, AccountSearchObject search = null)
         {
@@ -100,5 +113,6 @@ namespace Travelo.Services
             }
             return Mapper.Map<Model.Account>(entity);
         }
+        
     }
 }

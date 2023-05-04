@@ -3,14 +3,14 @@ import 'package:flutter_svg/svg.dart';
 
 class InputField extends StatefulWidget {
   final String hintText;
-  final String iconPath;
+  final String? iconPath;
   final bool obscure;
   final TextEditingController controller;
 
   const InputField(
       {super.key,
       required this.hintText,
-      required this.iconPath,
+      this.iconPath,
       required this.controller,
       this.obscure = false});
 
@@ -25,7 +25,7 @@ class InputField extends StatefulWidget {
 
 class _InputFieldState extends State<InputField> {
   String hintText;
-  String iconPath;
+  String? iconPath;
   bool obscure;
   TextEditingController controller;
 
@@ -65,7 +65,7 @@ class _InputFieldState extends State<InputField> {
                 prefixIcon: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
                   child: SvgPicture.asset(
-                    iconPath,
+                    iconPath ?? "",
                     width: 20,
                   ),
                 ),

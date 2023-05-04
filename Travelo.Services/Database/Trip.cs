@@ -12,6 +12,7 @@ namespace Travelo.Services.Database
         public Trip() {
 
             this.Tags = new HashSet<Tag>();
+            this.Users = new HashSet<User>();
             this.TripItems = new HashSet<TripItem>();
         }
         [Key]
@@ -25,7 +26,8 @@ namespace Travelo.Services.Database
         public Accommodation Accommodation { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }
-        
+        public virtual ICollection<User> Users { get; set; }
+
 
         //Add a static
         public string? TravelTypes { get; set; }

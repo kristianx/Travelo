@@ -12,5 +12,6 @@ namespace Travelo.Model.Requests
         public int Price { get; set; }
         public int TripItemId { get; set; }
         public int TripId { get; set; }
+        public DateTime TimeOfReservation { get; set; }
     }
 }

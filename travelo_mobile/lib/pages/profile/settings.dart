@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/providers/user_provider.dart';
 
-import '../widgets/PageHeader.dart';
+import '../../widgets/PageHeader.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -13,7 +13,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  late UserProvider _userProvider;
+  UserProvider? _userProvider;
 
   @override
   void initState() {
@@ -178,7 +178,7 @@ class _SettingsState extends State<Settings> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        _userProvider.logOut();
+                        _userProvider!.logOut();
                         Navigator.pushNamed(context, "/welcome");
                       },
                       child: Padding(

@@ -8,10 +8,7 @@ using Travelo.Services.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // Add services to the container.
-
-
 
 builder.Services.AddControllers(x =>
 {
@@ -50,7 +47,7 @@ builder.Services.AddTransient<ICityService, CityService>();
 builder.Services.AddTransient<ICountryService, CountryService>();
 builder.Services.AddTransient<IAccomodationService, AccomodationService>();
 builder.Services.AddTransient<ITripItemService, TripItemService>();
-
+builder.Services.AddTransient<IReservationService, ReservationService>();
 
 builder.Services.AddAutoMapper(typeof(IAgencyService));
 

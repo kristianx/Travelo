@@ -72,15 +72,15 @@ class _MainPageState extends State<MainPage> {
             BottomNavigationBarItem(
               label: "Profile",
               icon: Container(
-                height: 30,
-                width: 30,
+                height: 28,
+                width: 28,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(28),
                   image: DecorationImage(
-                      image: AssetImage("assets/images/userimage.png"),
+                      image: const AssetImage("assets/images/user-image.png"),
                       fit: BoxFit.cover),
                   border: Border.all(
-                      width: currentIndex == 4 ? 3 : 0,
+                      width: currentIndex == 4 ? 3 : 1,
                       color: Color(0xffFFD69D),
                       strokeAlign: BorderSide.strokeAlignCenter),
                 ),

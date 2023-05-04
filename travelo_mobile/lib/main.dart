@@ -10,9 +10,10 @@ import 'package:travelo_mobile/pages/navpages/profile_page.dart';
 import 'package:travelo_mobile/pages/navpages/trips_page.dart';
 import 'package:travelo_mobile/pages/register.dart';
 import 'package:travelo_mobile/pages/register_step2.dart';
-import 'package:travelo_mobile/pages/settings.dart';
+import 'package:travelo_mobile/pages/profile/settings.dart';
 import 'package:travelo_mobile/pages/welcome.dart';
 import 'package:travelo_mobile/providers/destination_provider.dart';
+import 'package:travelo_mobile/providers/reservation_provider.dart';
 import 'package:travelo_mobile/providers/trip_provider.dart';
 import 'package:travelo_mobile/providers/tripitem_provider.dart';
 import 'package:travelo_mobile/providers/user_provider.dart';
@@ -20,7 +21,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:localstorage/localstorage.dart';
 
 final storage = const FlutterSecureStorage();
-final LocalStorage localStorage = new LocalStorage('localstorage');
+final LocalStorage localStorage = new LocalStorage('localstorage.json');
 void main() {
   runApp(const MyApp());
 }
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => DestinationProvider()),
         ChangeNotifierProvider(create: (_) => TripProvider()),
+        ChangeNotifierProvider(create: (_) => ReservationProvider()),
         ChangeNotifierProvider(create: (_) => TripItemProvider())
       ],
       child: MaterialApp(

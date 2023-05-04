@@ -69,15 +69,15 @@ namespace Travelo.Services
             return base.AddInclude(query, search);
         }
 
-        public string Login(UserLogin userLogin)
+        public int? Login(UserLogin userLogin)
         {
             Model.Account acc = _accountService.Login(userLogin.Email, userLogin.Password, Role.Traveler);
 
             if(acc != null)
             {
-                return CreateToken(acc);
+                return acc.Id;
             }
-            return "";
+            return null;
 
         }
         private string CreateToken(Model.Account user)
@@ -101,14 +101,51 @@ namespace Travelo.Services
             return jwt;
         }
 
-        public void UploadImage(int userId, string image)
+        public Model.User UploadImage(UserUploadImageRequest request)
         {
-            var user = Context.User.FirstOrDefault(u => u.Id == userId);
-            if(user != null)
+            var set = Context.Set<Database.User>();
+            var user = set.Find(request.UserId);
+            //var user = Context.User.FirstOrDefault(u => u.Id == request.UserId);
+            if(user != null && request.Image != null)
             {
-                //user.Image = image;
-                //Context.SaveChanges();
+                user.Image = request.Image;
+                Context.SaveChanges();
+                return Mapper.Map<Model.User>(user); 
             }
+            return null;
+        }
+
+        public override Model.User Update(int id, UserUpdateRequest update)
+        {
+
+            Model.Account acc = _accountService.Login(update.Email, update.OldPassword, Role.Traveler);
+
+            if(acc != null && acc.Id == id)
+            {
+
+                var user = Context.User.Include(x => x.Account).FirstOrDefault(x=> x.Id == id);
+
+                if (user != null)
+                {
+                    Mapper.Map(update, user);
+                    Context.SaveChanges();
+                    if (update.NewPassword != null)
+                    {
+                        _accountService.updatePassword(id, update.NewPassword);
+                    }
+                }
+                else
+                {
+                    return null;
+
+                }
+
+                
+
+                return Mapper.Map<Model.User>(user);
+            }
+
+            return null;
         }
 
 

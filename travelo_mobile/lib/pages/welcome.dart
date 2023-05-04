@@ -6,6 +6,7 @@ import 'package:travelo_mobile/pages/register.dart';
 import 'package:travelo_mobile/widgets/SimpleButton.dart';
 
 import '../providers/user_provider.dart';
+import '../widgets/CustomSnackBar.dart';
 import 'navpages/main_page.dart';
 
 class WelcomePage extends StatefulWidget {
