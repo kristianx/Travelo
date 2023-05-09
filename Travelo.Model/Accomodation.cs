@@ -18,7 +18,7 @@ namespace Travelo.Model
 
         public string Description { get; set; }
 
-        //public ICollection<Facility> Facilities { get; set; }
+        public ICollection<string> Facilities { get; set; }
 
         //Check this
         public string LocationMap { get; set; }

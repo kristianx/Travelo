@@ -8,6 +8,10 @@ namespace Travelo.Services.Database
 {
     public class Accommodation
     {
+        public Accommodation()
+        {
+            this.Facilities = new HashSet<Facility>();
+        }
         public int Id { get; set; }
         public string Name { get; set; }
 
@@ -19,7 +23,7 @@ namespace Travelo.Services.Database
         public string Description { get; set; }
 
 
-        public ICollection<Facility> Facilities { get; set; }
+        public virtual ICollection<Facility> Facilities { get; set; }
 
         //Check this
         public string LocationMap { get; set; }

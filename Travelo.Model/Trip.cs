@@ -21,7 +21,8 @@ namespace Travelo.Model
         public byte[] AgencyImage { get; set; }
         public string CountryName { get; set; }
         public string CityName { get; set; }
+        public bool Bookamrked { get; set; }
 
-    }
+    } 
 
 }

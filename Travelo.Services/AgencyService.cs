@@ -56,6 +56,8 @@ namespace Travelo.Services
         public override IQueryable<Database.Agency> AddInclude(IQueryable<Database.Agency> query, AgencySearchObject search = null)
         {
             query = query.Include("Account");
+            query = query.Include(x => x.City.Country.Name);
+            query = query.Include(x => x.Trips);
 
             return base.AddInclude(query, search);
         }

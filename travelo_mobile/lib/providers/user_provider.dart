@@ -16,14 +16,18 @@ class UserProvider extends BaseProvider<User> {
     return User.fromJson(data);
   }
 
-  Future<bool> loginUser(String email, String password) async {
+  Future<bool> loginUser(String? email, String? password) async {
+    if (email == null || password == null) {
+      print("email: " + email.toString());
+      print("password: " + password.toString());
+      throw Exception("Email or password is null");
+    }
+    Map<String, String> headers = await createHeaders();
     var response = await http?.post(
         Uri.parse("https://127.0.0.1:7100/User/Login"),
         body:
             jsonEncode(<String, String>{"email": email, "password": password}),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        });
+        headers: headers);
     if (response?.statusCode == 200 && response != null) {
       print("Login success");
       localStorage.setItem('email', email);

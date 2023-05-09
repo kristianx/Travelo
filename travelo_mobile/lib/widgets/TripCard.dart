@@ -1,51 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:travelo_mobile/main.dart';
 import 'package:travelo_mobile/widgets/ReviewStars.dart';
 import 'package:travelo_mobile/model/trip.dart' as trip_model;
-
-import '../pages/trip.dart';
+import '../providers/trip_provider.dart';
 import '../utils/util.dart';
 
-class TripCard extends StatelessWidget {
-  // final String resort;
-  // final String destination;
-  // final String datesString;
-  // final int rating;
-  // final String description;
-  // final int price;
-  // final String agency;
-  // final bool bookmarked;
-  // final String image;
-  // final String agencyImage;
+class TripCard extends StatefulWidget {
   final trip_model.Trip trip;
-  const TripCard({
-    super.key,
-    required this.trip,
-    // required this.resort,
-    // required this.destination,
-    // required this.rating,
-    // required this.description,
-    // required this.price,
-    // required this.agency,
-    // required this.bookmarked,
-    // required this.datesString,
-    // required this.image,
-    // required this.agencyImage
-  });
+  late bool bookmarked;
+  late Function? bookmarkCallBack;
+
+  TripCard(
+      {super.key,
+      required this.trip,
+      this.bookmarked = false,
+      this.bookmarkCallBack});
+
+  @override
+  State<TripCard> createState() => _TripCardState();
+}
+
+class _TripCardState extends State<TripCard> {
+  late TripProvider _tripProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _tripProvider = context.read<TripProvider>();
+  }
+
+  Future addBookmark() async {
+    var tmp = await _tripProvider.toggleBookmark(
+        widget.trip.id ?? -1, localStorage.getItem("userId"));
+    setState(() {
+      widget.bookmarked = tmp;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Trip(
-                    trip: trip,
-                  )),
+        context.goNamed(
+          'Trip',
+          queryParameters: {"bookmarked": widget.bookmarked ? 'true' : 'false'},
+          extra: widget.trip,
         )
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //       builder: (context) => Trip(
+        //             trip: widget.trip,
+        //           )),
+        // )
       },
       child: Padding(
         // padding: const EdgeInsets.only(left: 15),
@@ -70,9 +80,10 @@ class TripCard extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
                   image: DecorationImage(
-                      image: trip.accomodationImage == ""
+                      image: widget.trip.accomodationImage == ""
                           ? const AssetImage("assets/images/imageHolder.png")
-                          : imageFromBase64String(trip.accomodationImage!)
+                          : imageFromBase64String(
+                                  widget.trip.accomodationImage!)
                               .image,
                       fit: BoxFit.cover)),
               child: Column(
@@ -91,18 +102,18 @@ class TripCard extends StatelessWidget {
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(200)),
                                 image: DecorationImage(
-                                    image: trip.agencyImage == ""
+                                    image: widget.trip.agencyImage == ""
                                         ? const AssetImage(
                                             "assets/images/imageHolder.png")
                                         : imageFromBase64String(
-                                                trip.agencyImage!)
+                                                widget.trip.agencyImage!)
                                             .image,
                                     fit: BoxFit.cover))),
                         SizedBox(
                           width: 5,
                         ),
                         Text(
-                          trip.agencyName ?? "",
+                          widget.trip.agencyName ?? "",
                           style: TextStyle(
                               fontSize: 12,
                               color: Color(0xffffffff),
@@ -131,13 +142,13 @@ class TripCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(trip.accomodationName ?? "",
+                              Text(widget.trip.accomodationName ?? "",
                                   style: TextStyle(
                                       fontSize: 17, color: Color(0xff292929)),
                                   softWrap: true,
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis),
-                              Text(trip.countryName ?? "",
+                              Text(widget.trip.countryName ?? "",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xffA9A9A9)),
                                   softWrap: false,
@@ -145,17 +156,26 @@ class TripCard extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis),
                             ],
                           ),
-                          SvgPicture.asset(
-                            "assets/icons/Bookmarks.svg",
-                            color:
-                                false ? Color(0xffEAAD5F) : Color(0xffD6D6D6),
+                          GestureDetector(
+                            onTap: () {
+                              addBookmark().then((value) => {
+                                    if (widget.bookmarkCallBack != null)
+                                      {widget.bookmarkCallBack!()}
+                                  });
+                            },
+                            child: SvgPicture.asset(
+                              "assets/icons/Bookmarks.svg",
+                              color: widget.bookmarked
+                                  ? Color(0xffEAAD5F)
+                                  : Color(0xffD6D6D6),
+                            ),
                           )
                         ],
                       ),
                       SizedBox(height: 5),
-                      ReviewStars(rating: trip.rating!),
+                      ReviewStars(rating: widget.trip.rating!),
                       SizedBox(height: 5),
-                      Text(trip.dates ?? "",
+                      Text(widget.trip.dates ?? "",
                           style:
                               TextStyle(fontSize: 15, color: Color(0xffA9A9A9)),
                           softWrap: false,
@@ -166,7 +186,7 @@ class TripCard extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          trip.accomodationDescription ?? "",
+                          widget.trip.accomodationDescription ?? "",
                           style:
                               TextStyle(fontSize: 11, color: Color(0xff000000)),
                           softWrap: true,

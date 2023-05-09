@@ -1,10 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:travelo_mobile/widgets/TripCard.dart';
 
+import '../../main.dart';
+import '../../model/trip.dart';
+import '../../providers/trip_provider.dart';
 import '../../widgets/PageHeader.dart';
 
-class BookmarksPage extends StatelessWidget {
+class BookmarksPage extends StatefulWidget {
   const BookmarksPage({super.key});
+
+  @override
+  State<BookmarksPage> createState() => _BookmarksPageState();
+}
+
+class _BookmarksPageState extends State<BookmarksPage> {
+  late TripProvider _tripProvider;
+  List<Trip> trips = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _tripProvider = context.read<TripProvider>();
+    loadData();
+  }
+
+  Future loadData() async {
+    var tmpData =
+        await _tripProvider.getBookmarks(localStorage.getItem("userId"));
+    setState(() {
+      trips = tmpData;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,44 +50,7 @@ class BookmarksPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 15,
-                            height: 30,
-                            decoration: BoxDecoration(
-                                color: Color(0xffEAAD5F),
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10))),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            "16. Jun - 23. Jun 2022",
-                            style: TextStyle(color: Color(0xff8E8E8E)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // TripCard(
-                    //   agency: 'Travelo Agency',
-                    //   bookmarked: false,
-                    //   datesString: '16.Jun - 23. Jun 2022',
-                    //   description:
-                    //       'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,',
-                    //   destination: 'Tulum, Mexico',
-                    //   price: 1256,
-                    //   rating: 4,
-                    //   resort: 'Holistika resort',
-                    //   agencyImage: '',
-                    //   image: '',
-                    // ),
-                  ],
+                  children: _buildTripCardList(),
                 ),
               ),
             ),
@@ -68,5 +58,28 @@ class BookmarksPage extends StatelessWidget {
         ],
       )),
     );
+  }
+
+  List<Widget> _buildTripCardList() {
+    if (trips.isEmpty) {
+      //Add loading for few seconds and if no data then text.
+      return [Center(child: const Text("There are no saved trips."))];
+    }
+    List<Widget> list = [];
+    // list.add(const SizedBox(
+    //   height: 10,
+    // ));
+    list += trips
+        .map((trip) => TripCard(
+              trip: trip,
+              bookmarked: true,
+              bookmarkCallBack: loadData,
+            ))
+        .cast<Widget>()
+        .toList();
+    list.add(const SizedBox(
+      height: 20,
+    ));
+    return list;
   }
 }

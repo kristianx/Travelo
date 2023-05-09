@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Travelo.Model.Requests
 {
 	public class AccomodationUpdateRequest
     { 
-        public byte[] Images { get; set; }
+        public List<byte[]> Images { get; set; }
     }
 }
 

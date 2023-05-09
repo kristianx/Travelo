@@ -10,5 +10,6 @@ namespace Travelo.Model.SearchObjects
         public string City{ get; set; }
         public string Country{ get; set; }
         public string TagName { get; set; }
+        public int? UserId { get; set; }
     }
 }

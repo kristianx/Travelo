@@ -9,6 +9,12 @@ namespace Travelo.Services.Database
 {
     public class Agency
     {
+        public Agency()
+        {
+            this.Trips = new HashSet<Trip>();
+            this.Reservations = new HashSet<Reservation>();
+        }
+
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
@@ -17,6 +23,7 @@ namespace Travelo.Services.Database
         public string? About { get; set; } = null;
         public byte[]? Image { get; set; } = null;
         public string? WebsiteUrl { get; set; } = null;
+        public int Rating { get; set; }
 
         public int AccountId { get; set; }
         public virtual Account Account { get; set; }
@@ -28,7 +35,7 @@ namespace Travelo.Services.Database
 
 
 
-        public ICollection<Trip>? Trips { get; set; } = null;
-        public ICollection<Reservation>? Reservations { get; set; } = null;
+        public virtual ICollection<Trip> Trips { get; set; } 
+        public virtual ICollection<Reservation> Reservations { get; set; } 
     }
 }

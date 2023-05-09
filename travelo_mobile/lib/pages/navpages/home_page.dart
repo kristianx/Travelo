@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/pages/SearchBarPageTemplate.dart';
 import 'package:travelo_mobile/providers/destination_provider.dart';
@@ -178,17 +179,25 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(bottom: 20),
               child: GestureDetector(
                 onTap: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => DestinationPage(
-                            city: x.name ?? "City name",
-                            cityImage: x.image ?? "",
-                            countryName: x.countryName ?? "Country Name",
-                            numberOfTrips: x.numberOfTrips.toString() == ""
-                                ? "0"
-                                : x.numberOfTrips.toString())),
-                  )
+                  context.goNamed('Destination', queryParameters: {
+                    'city': x.name ?? "City name",
+                    'cityImage': x.image ?? "",
+                    'countryName': x.countryName ?? "Country Name",
+                    'numberOfTrips': x.numberOfTrips.toString() == ""
+                        ? "0"
+                        : x.numberOfTrips.toString(),
+                  })
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => DestinationPage(
+                  //           city: x.name ?? "City name",
+                  //           cityImage: x.image ?? "",
+                  //           countryName: x.countryName ?? "Country Name",
+                  //           numberOfTrips: x.numberOfTrips.toString() == ""
+                  //               ? "0"
+                  //               : x.numberOfTrips.toString())),
+                  // )
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),

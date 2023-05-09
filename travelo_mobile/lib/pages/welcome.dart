@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/pages/login.dart';
 import 'package:travelo_mobile/pages/register.dart';
 import 'package:travelo_mobile/widgets/SimpleButton.dart';
 
+import '../main.dart';
 import '../providers/user_provider.dart';
 import '../widgets/CustomSnackBar.dart';
 import 'navpages/main_page.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
-  void initState() {}
+
   @override
   State<WelcomePage> createState() => _WelcomePageState();
 }
@@ -62,7 +64,8 @@ class _WelcomePageState extends State<WelcomePage> {
               SimpleButton(
                 onTap: () {
                   Future.delayed(Duration.zero, () {
-                    Navigator.pushNamed(context, "/login");
+                    // Navigator.pushNamed(context, "/login");
+                    context.go("/login");
                   });
                 },
                 bgColor: Color(0xffEAAD5F),
@@ -74,7 +77,9 @@ class _WelcomePageState extends State<WelcomePage> {
               SizedBox(height: 20),
               SimpleButton(
                 onTap: () {
-                  Navigator.pushNamed(context, "/register");
+                  // Navigator.pushNamed(context, "/register");
+                  context.go("/agency");
+                  // context.go("/register");
                 },
                 bgColor: Colors.white,
                 textColor: Color(0xff747474),

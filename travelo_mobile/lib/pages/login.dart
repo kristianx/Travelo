@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:travelo_mobile/main.dart';
-import 'package:travelo_mobile/pages/navpages/main_page.dart';
-
+import '../main.dart';
 import '../providers/user_provider.dart';
 import '../widgets/InputField.dart';
 import '../widgets/SimpleButton.dart';
@@ -20,24 +19,21 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passwordController = TextEditingController();
   late UserProvider _userProvider;
   Future<void> tryLogin() async {
+    await localStorage.ready;
+    print(localStorage.getItem("email"));
+    print(localStorage.getItem("password"));
     var loginFlag = await _userProvider.loginUser(
         localStorage.getItem("email"), localStorage.getItem("password"));
-    if (loginFlag) {
-      Future.delayed(Duration.zero, () {
-        Navigator.pushNamed(context, "/");
-      });
+    if (loginFlag && context.mounted) {
+      context.go("/home");
     }
   }
 
+  @override
   void initState() {
     super.initState();
     _userProvider = Provider.of<UserProvider>(context, listen: false);
     tryLogin();
-    //  else {
-    // Future.delayed(Duration.zero, () {
-    //   Navigator.pushNamed(context, "/login");
-    // });
-    // }
   }
 
   @override
@@ -106,12 +102,12 @@ class _LoginPageState extends State<LoginPage> {
                 var loginFlag = await _userProvider.loginUser(
                     _usernameController.text, _passwordController.text);
                 if (loginFlag) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MainPage()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => const MainPage()),
+                  // );
+                  context.go("/home");
                 }
-                print("racku");
               } catch (e) {
                 showDialog(
                     context: context,

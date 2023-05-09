@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/pages/login.dart';
 import 'package:travelo_mobile/widgets/InputField.dart';
@@ -53,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   alignment: Alignment.topLeft,
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pop(context);
+                      context.go('/welcome');
                     },
                     child: Icon(
                       Icons.arrow_back_ios_rounded,

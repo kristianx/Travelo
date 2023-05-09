@@ -31,7 +31,7 @@ class Page_HeaderState extends State<PageHeader> {
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
-            SvgPicture.asset("assets/icons/Search.svg")
+            // SvgPicture.asset("assets/icons/Search.svg")
           ],
         ),
       )

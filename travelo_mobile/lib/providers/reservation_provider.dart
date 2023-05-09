@@ -31,11 +31,9 @@ class ReservationProvider extends BaseProvider<Reservation> {
 
     if (response?.statusCode == 200) {
       print("Reservation success");
-      print(response?.body);
       return "";
     } else {
       print("Reservation error here");
-      print(response?.body);
       return response?.body ?? "Error while processing reservation.";
     }
   }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Travelo.Model.Requests
 {
@@ -20,7 +21,7 @@ namespace Travelo.Model.Requests
 
         public string LocationMap { get; set; }
 
-        public byte[] Images { get; set; }
+        public List<byte[]> Images { get; set; }
         
     }
 }

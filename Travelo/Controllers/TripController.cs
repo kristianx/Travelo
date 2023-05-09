@@ -13,15 +13,24 @@ namespace Travelo.Controllers
     [Route("[controller]")]
     public class TripController : BaseCRUDController<Model.Trip, TripSearchObject, TripCreateRequest, TripUpdateRequest>
     {
+        ITripService _service; 
         public TripController(ITripService service) : base(service)
         {
+            _service = service;
         }
 
-        //[HttpGet]
-        //public IEnumerable<Model.Trip> GetByTagName([FromBody] string tagName)
-        //{
-        //    return _service.GetByTagName(tagName);
-        //}
+        
+        [HttpGet("/Trip/Bookmarks/{userId}")]
+        public IEnumerable<Model.Trip> GetBookmarks(int userId)
+        {
+            return _service.GetBookmarks(userId);
+        }
+
+        [HttpPost("~/ToggleBookmark")]
+        public ActionResult<bool> ToggleBookmark(int tripId, int userId)
+        {
+            return Ok(_service.ToggleBookmark(tripId, userId));
+        }
 
         //public override IEnumerable<Model.Trip> Get([FromQuery] TripSearchObject search = null)
         //{

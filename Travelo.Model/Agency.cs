@@ -14,12 +14,8 @@ namespace Travelo.Model
         public string About { get; set; }
         public byte[] Image { get; set; } = null;
         public bool Status { get; set; }
-
-
-        //public Address Address { get; set; }
-
-
-        //public ICollection<Trip> Trips { get; set; } 
-        //public ICollection<Reservation> Reservations { get; set; }
+        public string Location { get; set; }
+        public int numberOfTrips { get; set; }
+        public int rating { get; set; } = 5;
     }
 }

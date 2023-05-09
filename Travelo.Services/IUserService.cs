@@ -14,5 +14,6 @@ namespace Travelo.Services
     {
         int? Login(UserLogin userLogin);
         Model.User UploadImage(UserUploadImageRequest request);
+       
     }
 }

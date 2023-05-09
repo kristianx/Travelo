@@ -22,7 +22,10 @@ namespace Travelo.Services
                 //.ForMember(d => d.CityId, s => s.MapFrom(_ => _.CityId))
                 .ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null));
 
-            CreateMap<Database.Agency, Model.Agency>().ForMember(d => d.Email, s => s.MapFrom(_ => _.Account.Email)).ReverseMap();
+            CreateMap<Database.Agency, Model.Agency>()
+                .ForMember(d => d.Email, s => s.MapFrom(_ => _.Account.Email))
+                .ForMember(d => d.Location, s => s.MapFrom(_ => _.City.Name + ", " + _.City.Country.Name))
+                .ReverseMap();
             CreateMap<AgencyCreateUpdateRequest, Database.Agency>();
 
 

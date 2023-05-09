@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/main.dart';
-import 'package:travelo_mobile/pages/profile/change_password.dart';
-import 'package:travelo_mobile/pages/profile/edit_profile.dart';
-import 'package:travelo_mobile/pages/payment_settings.dart';
-import 'package:travelo_mobile/pages/profile/settings.dart';
-import 'package:travelo_mobile/pages/profile/trip_invoices.dart';
 import 'package:travelo_mobile/providers/user_provider.dart';
 import 'package:travelo_mobile/widgets/PageHeader.dart';
 
@@ -22,7 +18,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late UserProvider _userProvider;
-  User? _user;
+  late User? _user;
 
   Future loadData() async {
     User user =
@@ -34,6 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
+    _user = User();
     super.initState();
     _userProvider = context.read<UserProvider>();
     loadData();
@@ -70,7 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       image: DecorationImage(
                           image: _user!.image == ""
                               ? const AssetImage("assets/images/user-image.png")
-                              : imageFromBase64String(_user!.image ?? "").image,
+                              : imageFromBase64String(_user?.image ?? "").image,
                           fit: BoxFit.cover),
                       boxShadow: [
                         BoxShadow(color: Color(0xffFFE9CC), spreadRadius: 20),
@@ -81,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 30,
                 ),
                 Text(
-                  "${_user!.firstName ?? ''} ${_user!.lastName ?? ''}",
+                  "${_user?.firstName ?? ''} ${_user?.lastName ?? ''}",
                   style: TextStyle(
                       color: Color(0xff454F63),
                       fontWeight: FontWeight.w600,
@@ -95,11 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditProfile(user: _user)),
-                  );
+                  context.goNamed("EditProfile", extra: _user);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -141,11 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const TripInvoices()),
-                  );
+                  context.go("/invoices");
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -184,11 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const PaymentSettings()),
-                  );
+                  context.go("/payment");
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -227,11 +212,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChangePassword(user: _user)),
-                  );
+                  context.goNamed("ChangePassword", extra: _user);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -273,10 +254,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
+                  context.go('/settings');
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),

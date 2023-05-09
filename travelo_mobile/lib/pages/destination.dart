@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:travelo_mobile/main.dart';
 import 'package:travelo_mobile/pages/SearchBarPageTemplate.dart';
 import 'package:travelo_mobile/providers/trip_provider.dart';
 import 'package:travelo_mobile/utils/util.dart';
 import 'package:travelo_mobile/widgets/TripCard.dart';
-
 import '../model/trip.dart';
-import '../widgets/InputField.dart';
 
 class DestinationPage extends StatefulWidget {
   final String city;
@@ -26,10 +25,10 @@ class DestinationPage extends StatefulWidget {
 }
 
 class _DestinationPageState extends State<DestinationPage> {
-  TextEditingController _dummyController = TextEditingController();
   late TripProvider _tripProvider;
 
   List<Trip> trips = [];
+  List<Trip> bookmarkedTrips = [];
 
   @override
   void initState() {
@@ -40,8 +39,11 @@ class _DestinationPageState extends State<DestinationPage> {
 
   Future loadData() async {
     var tmpData = await _tripProvider.get({'City': widget.city});
+    var bookmarks =
+        await _tripProvider.getBookmarks(localStorage.getItem("userId"));
     setState(() {
       trips = tmpData;
+      bookmarkedTrips = bookmarks;
     });
   }
 
@@ -68,11 +70,6 @@ class _DestinationPageState extends State<DestinationPage> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // InputField(
-                  //   hintText: 'Search trips',
-                  //   iconPath: 'assets/icons/Search.svg',
-                  //   controller: _dummyController,
-                  // ),
                   const SizedBox(height: 70),
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -116,25 +113,6 @@ class _DestinationPageState extends State<DestinationPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: _buildTripCardList(),
-                // children: [
-                //   SizedBox(
-                //     height: 10,
-                //   ),
-                //   TripCard(
-                //     agency: 'Travelo Agency',
-                //     bookmarked: false,
-                //     datesString: '16.Jun - 23. Jun 2022',
-                //     description:
-                //         'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,',
-                //     destination: 'Tulum, Mexico',
-                //     price: 1256,
-                //     rating: 4,
-                //     resort: 'Holistika resort',
-                //   ),
-                //   SizedBox(
-                //     height: 20,
-                //   ),
-                // ],
               ),
             ),
           )
@@ -146,28 +124,27 @@ class _DestinationPageState extends State<DestinationPage> {
   List<Widget> _buildTripCardList() {
     if (trips.isEmpty) {
       //Add loading for few seconds and if no data then text.
-      return [const Text("There are no trips.")];
+      return [
+        const Padding(
+          padding: EdgeInsets.only(top: 20),
+          child: Text("There are no trips."),
+        )
+      ];
     }
-    print(trips[0].agencyName);
     List<Widget> list = [];
     list.add(const SizedBox(
       height: 10,
     ));
+
     list += trips
         .map((trip) => TripCard(
-            // agency: trip.agencyName ?? "",
-            // bookmarked: false,
-            // datesString: trip.dates ?? "",
-            // description: trip.accomodationDescription ?? "",
-            // destination: widget.countryName,
-            // price: trip.lowestPrice ?? 0,
-            // rating: 4,
-            // resort: trip.accomodationName ?? "",
-            // image: trip.accomodationImage ?? "",
-            // agencyImage: trip.agencyImage ?? "",
-            trip: trip))
+              trip: trip,
+              bookmarked:
+                  bookmarkedTrips.where(((e) => e.id == trip.id)).isNotEmpty,
+            ))
         .cast<Widget>()
         .toList();
+
     list.add(const SizedBox(
       height: 20,
     ));
