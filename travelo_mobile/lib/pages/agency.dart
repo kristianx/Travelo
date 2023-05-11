@@ -1,37 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:travelo_mobile/providers/agency_provider.dart';
 
 import '../main.dart';
+import '../model/agency.dart';
 import '../model/trip.dart';
 import '../providers/trip_provider.dart';
+import '../utils/util.dart';
 import '../widgets/TripCard.dart';
 
 class AgencyPage extends StatefulWidget {
-  const AgencyPage({super.key});
+  final int agencyId;
+  const AgencyPage({super.key, required this.agencyId});
 
   @override
   State<AgencyPage> createState() => _AgencyPageState();
 }
 
 class _AgencyPageState extends State<AgencyPage> {
+  late Agency? _agency;
+  late AgencyProvider _agencyProvider;
   late TripProvider _tripProvider;
   List<Trip> trips = [];
   List<Trip> bookmarkedTrips = [];
+
   @override
   void initState() {
     super.initState();
+    _agency = Agency();
+    _agencyProvider = context.read<AgencyProvider>();
     _tripProvider = context.read<TripProvider>();
     loadData();
   }
 
   Future loadData() async {
-    var tmpData = await _tripProvider.get({'AgencyId': 2});
+    var agency = await _agencyProvider.getById(widget.agencyId);
+    var tmpData = await _tripProvider.get({'AgencyId': widget.agencyId});
     var bookmarks =
         await _tripProvider.getBookmarks(localStorage.getItem("userId"));
     setState(() {
+      _agency = agency;
       trips = tmpData;
       bookmarkedTrips = bookmarks;
     });
@@ -74,43 +83,46 @@ class _AgencyPageState extends State<AgencyPage> {
                         borderRadius: BorderRadius.circular(100),
                         color: Color(0xffE5F0F5),
                         image: DecorationImage(
-                            image: const AssetImage(
-                                "assets/images/user-image.png"),
+                            image: _agency?.image == ""
+                                ? const AssetImage(
+                                    "assets/images/user-image.png")
+                                : imageFromBase64String(_agency?.image ?? "")
+                                    .image,
                             fit: BoxFit.cover),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(color: Color(0xffFFE9CC), spreadRadius: 20),
                           BoxShadow(color: Color(0xffffffff), spreadRadius: 7),
                         ]),
                   ),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 30),
                   Text(
-                    "Travelo Agency",
-                    style: TextStyle(
+                    _agency?.name ?? "",
+                    style: const TextStyle(
                         color: Color(0xff454F63),
                         fontWeight: FontWeight.w600,
                         fontSize: 20),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset("assets/icons/location.svg"),
-                      SizedBox(
+                      const SizedBox(
                         width: 7,
                       ),
                       Text(
-                        "Ibiza, Spain",
-                        style: TextStyle(
+                        _agency?.location ?? "",
+                        style: const TextStyle(
                             color: Color(0xff454F63),
                             fontWeight: FontWeight.w400,
                             fontSize: 16),
                       ),
                     ],
                   ),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 15),
                   Text(
-                    "Travelo Agency is an agency located in Ibiza, Spain offering their customers best experience and thrill seeking trips. See more",
-                    style: TextStyle(
+                    _agency?.about ?? "",
+                    style: const TextStyle(
                       color: Color(0xff5E5E5E),
                       fontWeight: FontWeight.w400,
                       fontSize: 16,
@@ -137,8 +149,8 @@ class _AgencyPageState extends State<AgencyPage> {
                                   child: SvgPicture.asset(
                                       "assets/icons/phone.svg")),
                             ),
-                            SizedBox(height: 10),
-                            Text(
+                            const SizedBox(height: 10),
+                            const Text(
                               "Call us",
                               style: TextStyle(
                                 color: Color(0xff797979),
@@ -209,7 +221,7 @@ class _AgencyPageState extends State<AgencyPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "21 TRIPS",
+                        "${_agency?.numberOfTrips ?? "-"} TRIPS",
                         style: TextStyle(
                             color: Color(0xff8C8C8C),
                             fontSize: 18,
@@ -225,7 +237,7 @@ class _AgencyPageState extends State<AgencyPage> {
                           SizedBox(
                             width: 5,
                           ),
-                          Text("5.0",
+                          Text("${_agency?.rating ?? 0}.0",
                               style: TextStyle(
                                   fontSize: 18,
                                   color: Color(0xff8C8C8C),

@@ -14,7 +14,10 @@ Agency _$AgencyFromJson(Map<String, dynamic> json) => Agency()
   ..websiteUrl = json['websiteUrl'] as String?
   ..about = json['about'] as String?
   ..image = json['image'] as String?
-  ..status = json['status'] as bool?;
+  ..status = json['status'] as bool?
+  ..location = json['location'] as String?
+  ..numberOfTrips = json['numberOfTrips'] as int?
+  ..rating = json['rating'] as int?;
 
 Map<String, dynamic> _$AgencyToJson(Agency instance) => <String, dynamic>{
       'id': instance.id,
@@ -25,4 +28,7 @@ Map<String, dynamic> _$AgencyToJson(Agency instance) => <String, dynamic>{
       'about': instance.about,
       'image': instance.image,
       'status': instance.status,
+      'location': instance.location,
+      'numberOfTrips': instance.numberOfTrips,
+      'rating': instance.rating,
     };

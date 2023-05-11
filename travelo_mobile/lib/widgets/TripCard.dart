@@ -90,36 +90,41 @@ class _TripCardState extends State<TripCard> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            height: 25,
-                            width: 25,
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(200)),
-                                image: DecorationImage(
-                                    image: widget.trip.agencyImage == ""
-                                        ? const AssetImage(
-                                            "assets/images/imageHolder.png")
-                                        : imageFromBase64String(
-                                                widget.trip.agencyImage!)
-                                            .image,
-                                    fit: BoxFit.cover))),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          widget.trip.agencyName ?? "",
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Color(0xffffffff),
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ],
+                  GestureDetector(
+                    onTap: () {
+                      context.goNamed("Agency", extra: widget.trip.agencyId);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              height: 25,
+                              width: 25,
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(200)),
+                                  image: DecorationImage(
+                                      image: widget.trip.agencyImage == ""
+                                          ? const AssetImage(
+                                              "assets/images/imageHolder.png")
+                                          : imageFromBase64String(
+                                                  widget.trip.agencyImage!)
+                                              .image,
+                                      fit: BoxFit.cover))),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            widget.trip.agencyName ?? "",
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xffffffff),
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

@@ -13,6 +13,9 @@ class Agency {
   String? about;
   String? image;
   bool? status;
+  String? location;
+  int? numberOfTrips;
+  int? rating;
 
   Agency() {}
 

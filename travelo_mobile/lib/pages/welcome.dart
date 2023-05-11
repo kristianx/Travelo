@@ -8,6 +8,7 @@ import 'package:travelo_mobile/widgets/SimpleButton.dart';
 
 import '../main.dart';
 import '../providers/user_provider.dart';
+import '../services/local_auth_service.dart';
 import '../widgets/CustomSnackBar.dart';
 import 'navpages/main_page.dart';
 
@@ -63,8 +64,11 @@ class _WelcomePageState extends State<WelcomePage> {
             children: [
               SimpleButton(
                 onTap: () {
-                  Future.delayed(Duration.zero, () {
-                    // Navigator.pushNamed(context, "/login");
+                  Future.delayed(Duration.zero, () async {
+                    // var authenticate = await LocalAuth.authenticate();
+                    // if (authenticate) {
+                    //   context.go("/login");
+                    // }
                     context.go("/login");
                   });
                 },
@@ -78,8 +82,8 @@ class _WelcomePageState extends State<WelcomePage> {
               SimpleButton(
                 onTap: () {
                   // Navigator.pushNamed(context, "/register");
-                  context.go("/agency");
-                  // context.go("/register");
+
+                  context.go("/register");
                 },
                 bgColor: Colors.white,
                 textColor: Color(0xff747474),

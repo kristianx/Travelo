@@ -165,15 +165,15 @@ class MyRouter {
             },
           ),
           GoRoute(
-            parentNavigatorKey: _shellNavigatorKey,
-            path: '/agency',
-            name: 'Agency',
-            pageBuilder: (context, state) {
-              return NoTransitionPage(
-                child: AgencyPage(),
-              );
-            },
-          )
+              parentNavigatorKey: _shellNavigatorKey,
+              path: '/agency',
+              name: 'Agency',
+              builder: (context, state) {
+                int agencyId = state.extra as int;
+                return AgencyPage(
+                  agencyId: agencyId,
+                );
+              })
         ],
       ),
       GoRoute(
