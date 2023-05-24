@@ -37,7 +37,6 @@ class _TripsPageState extends State<TripsPage> {
     var tmpData = await _reservationProvider
         .get({'userId': localStorage.getItem("userId")});
     setState(() {
-      print(tmpData.length);
       reservations = tmpData;
     });
   }
@@ -149,7 +148,7 @@ class _TripsPageState extends State<TripsPage> {
           .where((element) => element.checkIn!.isAfter(DateTime.now()));
     } else if (current == 1) {
       tmp = reservations
-          .where((element) => element.checkOut!.isBefore(DateTime.now()));
+          .where((element) => element.checkIn!.isBefore(DateTime.now()));
     }
     if (tmp.isEmpty) {
       return [Center(child: const Text("There are no trips."))];

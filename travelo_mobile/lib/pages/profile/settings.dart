@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/providers/user_provider.dart';
 
@@ -42,7 +43,7 @@ class _SettingsState extends State<Settings> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
+                      padding: const EdgeInsets.only(bottom: 6),
                       child: Row(
                         children: [
                           Container(
@@ -55,7 +56,7 @@ class _SettingsState extends State<Settings> {
                                     bottomRight: Radius.circular(10))),
                           ),
                           SizedBox(
-                            width: 15,
+                            width: 10,
                           ),
                           Text(
                             "Notifications",
@@ -65,8 +66,7 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 7, horizontal: 20),
+                      padding: EdgeInsets.fromLTRB(25, 7, 20, 7),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -90,8 +90,7 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 7, horizontal: 20),
+                      padding: EdgeInsets.fromLTRB(25, 7, 20, 7),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -114,8 +113,11 @@ class _SettingsState extends State<Settings> {
                         ],
                       ),
                     ),
+                    SizedBox(
+                      height: 15,
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
+                      padding: const EdgeInsets.only(bottom: 10),
                       child: Row(
                         children: [
                           Container(
@@ -128,7 +130,7 @@ class _SettingsState extends State<Settings> {
                                     bottomRight: Radius.circular(10))),
                           ),
                           SizedBox(
-                            width: 15,
+                            width: 10,
                           ),
                           Text(
                             "Security",
@@ -138,8 +140,7 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 7, horizontal: 20),
+                      padding: EdgeInsets.fromLTRB(25, 7, 20, 7),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -154,8 +155,7 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 7, horizontal: 20),
+                      padding: EdgeInsets.fromLTRB(25, 7, 20, 7),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -179,11 +179,11 @@ class _SettingsState extends State<Settings> {
                     GestureDetector(
                       onTap: () {
                         _userProvider!.logOut();
-                        Navigator.pushNamed(context, "/welcome");
+                        // Navigator.pushNamed(context, "/welcome");
+                        context.go('/welcome');
                       },
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 7, horizontal: 20),
+                        padding: EdgeInsets.fromLTRB(25, 7, 20, 7),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -206,6 +206,5 @@ class _SettingsState extends State<Settings> {
         ],
       )),
     );
-    ;
   }
 }

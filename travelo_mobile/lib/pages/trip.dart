@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/main.dart';
 import 'package:travelo_mobile/model/trip.dart' as trip_model;
 import 'package:travelo_mobile/providers/reservation_provider.dart';
+import 'package:travelo_mobile/services/payment_service.dart';
 import '../model/tripitem.dart';
 import '../providers/trip_provider.dart';
 import '../providers/tripitem_provider.dart';
@@ -69,6 +71,7 @@ class _TripState extends State<Trip> {
   int _price = 0;
   int _value = -1;
   Widget build(BuildContext context) {
+    final paymentController = PaymentController();
     void openGallery() {
       List<String> imagez = [];
       imagez.add(widget.trip.accomodationImage ?? "");
@@ -469,14 +472,22 @@ class _TripState extends State<Trip> {
           if (_price != 0)
             GestureDetector(
               onTap: () async {
-                var response = await _reservationProvider.processReservation(
-                    numberOfAdults,
-                    numberOfChildren,
-                    localStorage.getItem("userId"),
-                    _price,
-                    _value,
-                    widget.trip.id ?? -1,
-                    DateTime.now());
+                var payment = await paymentController.makePayment(
+                    amount: (_price * (numberOfAdults + numberOfChildren))
+                        .toString(),
+                    currency: 'USD');
+                print("Payment Processing Done");
+                var response = "";
+                if (payment) {
+                  response = await _reservationProvider.processReservation(
+                      numberOfAdults,
+                      numberOfChildren,
+                      localStorage.getItem("userId"),
+                      _price,
+                      _value,
+                      widget.trip.id ?? -1,
+                      DateTime.now());
+                }
                 if (response == "") {
                   context.go('/trips');
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -487,32 +498,30 @@ class _TripState extends State<Trip> {
                       .showSnackBar(CustomSnackBar.showErrorSnackBar(response));
                 }
               },
-              child: Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
-                    child: Container(
-                      height: 70,
-                      decoration: BoxDecoration(
-                          color: Color(0xffEAAD5F),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(0.3),
-                                spreadRadius: 0,
-                                blurRadius: 5,
-                                offset: Offset(0, 4))
-                          ]),
-                      child: Center(
-                          child: Text(
-                        "Book now for \$${_price * (numberOfAdults + numberOfChildren)}",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20),
-                      )),
-                    ),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+                  child: Container(
+                    height: 70,
+                    decoration: BoxDecoration(
+                        color: Color(0xffEAAD5F),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 0,
+                              blurRadius: 5,
+                              offset: Offset(0, 4))
+                        ]),
+                    child: Center(
+                        child: Text(
+                      "Book now for \$${_price * (numberOfAdults + numberOfChildren)}",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20),
+                    )),
                   ),
                 ),
               ),

@@ -15,8 +15,6 @@ abstract class BaseProvider<T> with ChangeNotifier {
   HttpClient client = new HttpClient();
   IOClient? http;
 
-//Dohvatiti JWT i koristiti u headeru
-
   BaseProvider(String endpoint) {
     _baseUrl = const String.fromEnvironment("baseUrl",
         defaultValue: "https://127.0.0.1:7100/");

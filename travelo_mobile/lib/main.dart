@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/providers/agency_provider.dart';
 import 'package:travelo_mobile/providers/destination_provider.dart';
@@ -10,9 +11,14 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:travelo_mobile/routes/routes.dart';
 
+import 'package:travelo_mobile/.env';
+
 // const storage = FlutterSecureStorage();
 final LocalStorage localStorage = LocalStorage('localstorage.json');
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = stripePublishableKey;
+  await Stripe.instance.applySettings();
   runApp(const MyApp());
 }
 

@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../main.dart';
 import '../model/user.dart';
-import '../utils/util.dart';
 import 'base_provider.dart';
 
 class UserProvider extends BaseProvider<User> {
@@ -18,9 +16,8 @@ class UserProvider extends BaseProvider<User> {
 
   Future<bool> loginUser(String? email, String? password) async {
     if (email == null || password == null) {
-      print("email: " + email.toString());
-      print("password: " + password.toString());
-      throw Exception("Email or password is null");
+      // throw Exception("Email or password is null");
+      return false;
     }
     Map<String, String> headers = await createHeaders();
     var response = await http?.post(
