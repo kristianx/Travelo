@@ -7,7 +7,6 @@ import 'package:travelo_mobile/providers/reservation_provider.dart';
 import 'package:travelo_mobile/providers/trip_provider.dart';
 import 'package:travelo_mobile/providers/tripitem_provider.dart';
 import 'package:travelo_mobile/providers/user_provider.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:travelo_mobile/routes/routes.dart';
 

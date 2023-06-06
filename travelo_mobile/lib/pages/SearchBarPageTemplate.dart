@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/main.dart';
 import 'package:travelo_mobile/model/agency.dart';
@@ -10,8 +10,6 @@ import 'package:travelo_mobile/model/trip.dart';
 import 'package:travelo_mobile/providers/agency_provider.dart';
 import 'package:travelo_mobile/providers/destination_provider.dart';
 import 'package:travelo_mobile/utils/util.dart';
-
-import '../providers/trip_provider.dart';
 import 'destination.dart';
 
 class SearchBarPageTemplate extends StatefulWidget {
@@ -26,7 +24,6 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
   static const historyLength = 5;
   late FloatingSearchBarController searchController;
   late DestinationProvider _destinationProvider;
-  late TripProvider _tripProvider;
   late AgencyProvider _agencyProvider;
   bool currentlySearching = false;
 
@@ -79,7 +76,6 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
     searchController = FloatingSearchBarController();
     updateSearchHistory();
     _destinationProvider = context.read<DestinationProvider>();
-    _tripProvider = context.read<TripProvider>();
     _agencyProvider = context.read<AgencyProvider>();
   }
 
@@ -107,17 +103,17 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
       progress: currentlySearching,
       hint: 'Search...',
       autocorrect: false,
-      hintStyle: TextStyle(fontSize: 17, color: Color(0xffA8A8A8)),
-      queryStyle: TextStyle(fontSize: 17, color: Color(0xff666666)),
+      hintStyle: const TextStyle(fontSize: 17, color: Color(0xffA8A8A8)),
+      queryStyle: const TextStyle(fontSize: 17, color: Color(0xff666666)),
       backdropColor: Colors.white,
       controller: searchController,
-      iconColor: Color(0xff666666),
+      iconColor: const Color(0xff666666),
       automaticallyImplyBackButton: false,
       shadowColor: Colors.grey.withOpacity(0.25),
-      padding: EdgeInsets.only(left: 20, right: 10),
+      padding: const EdgeInsets.only(left: 20, right: 10),
       margins:
           EdgeInsets.fromLTRB(15, MediaQuery.of(context).padding.top, 15, 0),
-      borderRadius: BorderRadius.all(Radius.circular(20)),
+      borderRadius: const BorderRadius.all(Radius.circular(20)),
       actions: [FloatingSearchBarAction.searchToClear()],
       onQueryChanged: (query) {
         searchTripsAndDestinations(query);
@@ -134,7 +130,7 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
                 height: 56,
                 width: double.infinity,
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   "Type something to start searching...",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -167,14 +163,14 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
               Container(
                 width: 15,
                 height: 30,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Color(0xffEAAD5F),
                     borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Text(
+              const Text(
                 "Agencies",
                 style: TextStyle(color: Color(0xff292929), fontSize: 16),
               ),
@@ -189,7 +185,7 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
                 // addSearchTerm(x);
               },
               child: Container(
-                margin: EdgeInsets.only(bottom: 7),
+                margin: const EdgeInsets.only(bottom: 7),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
@@ -198,7 +194,7 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
                         color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 0,
                         blurRadius: 5,
-                        offset: Offset(0, 4))
+                        offset: const Offset(0, 4))
                   ],
                 ),
                 child: ListTile(
@@ -218,19 +214,19 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
                   ),
                   title: Text(
                     x.name ?? "",
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 15,
                         color: Color(0xff666666),
                         fontWeight: FontWeight.w500),
                   ),
                   subtitle: Text(
                     x.email ?? "",
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 14,
                         color: Color(0xffBDBDBD),
                         fontWeight: FontWeight.w400),
                   ),
-                  trailing: Text(
+                  trailing: const Text(
                     "AGENCY",
                     style: TextStyle(
                         fontSize: 15,
@@ -253,14 +249,14 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
               Container(
                 width: 15,
                 height: 30,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Color(0xffEAAD5F),
                     borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Text(
+              const Text(
                 "History",
                 style: TextStyle(color: Color(0xff292929), fontSize: 16),
               ),
@@ -285,7 +281,7 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
                   );
                 },
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 7),
+                  margin: const EdgeInsets.only(bottom: 7),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
@@ -294,7 +290,7 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
                           color: Colors.grey.withOpacity(0.2),
                           spreadRadius: 0,
                           blurRadius: 5,
-                          offset: Offset(0, 4))
+                          offset: const Offset(0, 4))
                     ],
                   ),
                   child: ListTile(
@@ -314,21 +310,21 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
                     ),
                     title: Text(
                       x.name ?? "",
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 15,
                           color: Color(0xff666666),
                           fontWeight: FontWeight.w500),
                     ),
                     subtitle: Text(
                       x.countryName ?? "",
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 14,
                           color: Color(0xffBDBDBD),
                           fontWeight: FontWeight.w400),
                     ),
                     trailing: Text(
                       "${x.numberOfTrips.toString()} TRIPS",
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 15,
                           color: Color(0xffBDBDBD),
                           fontWeight: FontWeight.w500),
@@ -347,14 +343,14 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
               Container(
                 width: 15,
                 height: 30,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Color(0xffEAAD5F),
                     borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Text(
+              const Text(
                 "Destinations",
                 style: TextStyle(color: Color(0xff292929), fontSize: 16),
               ),
@@ -366,7 +362,7 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
         height: 56,
         width: double.infinity,
         alignment: Alignment.center,
-        child: Text(
+        child: const Text(
           "There are no destinations for that criteria.",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -381,14 +377,14 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
               Container(
                 width: 15,
                 height: 30,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Color(0xffEAAD5F),
                     borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Text(
+              const Text(
                 "Destinations",
                 style: TextStyle(color: Color(0xff292929), fontSize: 16),
               ),
@@ -413,7 +409,7 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
                   );
                 },
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 7),
+                  margin: const EdgeInsets.only(bottom: 7),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
@@ -422,7 +418,7 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
                           color: Colors.grey.withOpacity(0.2),
                           spreadRadius: 0,
                           blurRadius: 5,
-                          offset: Offset(0, 4))
+                          offset: const Offset(0, 4))
                     ],
                   ),
                   child: ListTile(
@@ -442,21 +438,21 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
                     ),
                     title: Text(
                       x.name ?? "",
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 15,
                           color: Color(0xff666666),
                           fontWeight: FontWeight.w500),
                     ),
                     subtitle: Text(
                       x.countryName ?? "",
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 14,
                           color: Color(0xffBDBDBD),
                           fontWeight: FontWeight.w400),
                     ),
                     trailing: Text(
                       "${x.numberOfTrips.toString()} TRIPS",
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 15,
                           color: Color(0xffBDBDBD),
                           fontWeight: FontWeight.w500),

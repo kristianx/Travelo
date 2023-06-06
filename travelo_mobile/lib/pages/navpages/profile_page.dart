@@ -45,17 +45,17 @@ class _ProfilePageState extends State<ProfilePage> {
         Container(
             height: 400,
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("assets/images/spain.png"),
                     fit: BoxFit.cover)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                PageHeader(
+                const PageHeader(
                   pageName: "Profile",
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 Container(
@@ -63,23 +63,23 @@ class _ProfilePageState extends State<ProfilePage> {
                   width: 110,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      color: Color(0xffE5F0F5),
+                      color: const Color(0xffE5F0F5),
                       image: DecorationImage(
                           image: _user!.image == ""
                               ? const AssetImage("assets/images/user-image.png")
                               : imageFromBase64String(_user?.image ?? "").image,
                           fit: BoxFit.cover),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(color: Color(0xffFFE9CC), spreadRadius: 20),
                         BoxShadow(color: Color(0xffffffff), spreadRadius: 7),
                       ]),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Text(
                   "${_user?.firstName ?? ''} ${_user?.lastName ?? ''}",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xff454F63),
                       fontWeight: FontWeight.w600,
                       fontSize: 20),
@@ -87,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             )),
         Transform.translate(
-          offset: Offset(0, -80),
+          offset: const Offset(0, -80),
           child: Column(
             children: [
               GestureDetector(
@@ -103,19 +103,19 @@ class _ProfilePageState extends State<ProfilePage> {
                         width: 55,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Color(0xffE5F0F5),
+                          color: const Color(0xffE5F0F5),
                         ),
                         child: Center(
                             child: SvgPicture.asset(
                           "assets/icons/User.svg",
-                          color: Color(0xff94B4C4),
+                          color: const Color(0xff94B4C4),
                           width: 18,
                         )),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         'Edit profile',
                         style: TextStyle(
@@ -129,7 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               GestureDetector(
@@ -145,16 +145,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         width: 55,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Color(0xffFFE5F5),
+                          color: const Color(0xffFFE5F5),
                         ),
                         child: Center(
                             child:
                                 SvgPicture.asset("assets/icons/invoice.svg")),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         'Trip invoices',
                         style: TextStyle(
@@ -168,7 +168,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               GestureDetector(
@@ -184,16 +184,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         width: 55,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Color(0xffFFE9CC),
+                          color: const Color(0xffFFE9CC),
                         ),
                         child: Center(
                             child:
                                 SvgPicture.asset("assets/icons/payments.svg")),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         'Payment settings',
                         style: TextStyle(
@@ -207,7 +207,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               GestureDetector(
@@ -223,19 +223,19 @@ class _ProfilePageState extends State<ProfilePage> {
                         width: 55,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Color(0xffE6F5F0),
+                          color: const Color(0xffE6F5F0),
                         ),
                         child: Center(
                             child: SvgPicture.asset(
                           "assets/icons/Password.svg",
                           width: 16,
-                          color: Color(0xff989EA7),
+                          color: const Color(0xff989EA7),
                         )),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         'Change password',
                         style: TextStyle(
@@ -249,7 +249,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               GestureDetector(
@@ -265,16 +265,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         width: 55,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Color(0xffECF0F6),
+                          color: const Color(0xffECF0F6),
                         ),
                         child: Center(
                             child:
                                 SvgPicture.asset("assets/icons/settings.svg")),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         'Settings',
                         style: TextStyle(

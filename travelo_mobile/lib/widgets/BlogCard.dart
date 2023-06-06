@@ -30,7 +30,7 @@ class BlogCard extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.2),
                 spreadRadius: 0,
                 blurRadius: 5,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               ),
             ]),
         child: Row(children: [
@@ -38,7 +38,7 @@ class BlogCard extends StatelessWidget {
             width: 130,
             alignment: Alignment.centerLeft,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(15),
                     bottomLeft: Radius.circular(15)),
                 image: DecorationImage(
@@ -46,7 +46,7 @@ class BlogCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(15.0),
-            child: Container(
+            child: SizedBox(
               width: 240,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -54,22 +54,22 @@ class BlogCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(date,
-                      style: TextStyle(fontSize: 15, color: Color(0xff666666)),
+                      style: const TextStyle(fontSize: 15, color: Color(0xff666666)),
                       softWrap: true,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis),
                   Text(name,
-                      style: TextStyle(fontSize: 17, color: Color(0xff474747)),
+                      style: const TextStyle(fontSize: 17, color: Color(0xff474747)),
                       softWrap: true,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis),
                   Row(
                     children: [
                       SvgPicture.asset("assets/icons/location.svg"),
-                      SizedBox(width: 7),
+                      const SizedBox(width: 7),
                       Text(location,
                           style:
-                              TextStyle(fontSize: 12, color: Color(0xff989898)),
+                              const TextStyle(fontSize: 12, color: Color(0xff989898)),
                           softWrap: true,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis),

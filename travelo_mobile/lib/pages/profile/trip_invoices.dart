@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../widgets/PageHeader.dart';
@@ -19,7 +17,7 @@ class _TripInvoicesState extends State<TripInvoices> {
       body: SafeArea(
           child: Column(
         children: [
-          PageHeader(
+          const PageHeader(
             pageName: "Trip invoices",
           ),
           Expanded(
@@ -38,16 +36,16 @@ class _TripInvoicesState extends State<TripInvoices> {
                           Container(
                             width: 15,
                             height: 30,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Color(0xffEAAD5F),
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(10),
                                     bottomRight: Radius.circular(10))),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 15,
                           ),
-                          Text(
+                          const Text(
                             "Today",
                             style: TextStyle(color: Color(0xff8E8E8E)),
                           ),
@@ -66,14 +64,14 @@ class _TripInvoicesState extends State<TripInvoices> {
                                 color: Colors.grey.withOpacity(0.2),
                                 spreadRadius: 0,
                                 blurRadius: 5,
-                                offset: Offset(0, 4),
+                                offset: const Offset(0, 4),
                               ),
                             ]),
                         child: Padding(
                           padding: const EdgeInsets.all(20),
                           child: Row(
                             children: [
-                              Expanded(
+                              const Expanded(
                                   child: Text(
                                 'Holistika Resort with Travelo Agency',
                                 style: TextStyle(
@@ -96,6 +94,5 @@ class _TripInvoicesState extends State<TripInvoices> {
         ],
       )),
     );
-    ;
   }
 }

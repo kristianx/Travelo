@@ -20,32 +20,32 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
       initialLocation: '/bookmarks',
       label: 'Bookmarks',
       icon: SvgPicture.asset("assets/icons/Bookmarks.svg",
-          color: Color(0xffBBBBBB)),
+          color: const Color(0xffBBBBBB)),
       activeIcon: SvgPicture.asset("assets/icons/Bookmarks.svg",
-          color: Color(0xffEAAD5F)),
+          color: const Color(0xffEAAD5F)),
     ),
     MyCustomBottomNavBarItem(
       initialLocation: "/trips",
       label: "Trips",
       icon:
-          SvgPicture.asset("assets/icons/Trips.svg", color: Color(0xffBBBBBB)),
+          SvgPicture.asset("assets/icons/Trips.svg", color: const Color(0xffBBBBBB)),
       activeIcon:
-          SvgPicture.asset("assets/icons/Trips.svg", color: Color(0xffEAAD5F)),
+          SvgPicture.asset("assets/icons/Trips.svg", color: const Color(0xffEAAD5F)),
     ),
     MyCustomBottomNavBarItem(
       initialLocation: "/home",
       label: "Home",
-      icon: SvgPicture.asset("assets/icons/Home.svg", color: Color(0xffBBBBBB)),
+      icon: SvgPicture.asset("assets/icons/Home.svg", color: const Color(0xffBBBBBB)),
       activeIcon:
-          SvgPicture.asset("assets/icons/Home.svg", color: Color(0xffEAAD5F)),
+          SvgPicture.asset("assets/icons/Home.svg", color: const Color(0xffEAAD5F)),
     ),
     MyCustomBottomNavBarItem(
       initialLocation: "/notifications",
       label: "Notifications",
       icon: SvgPicture.asset("assets/icons/Notifications.svg",
-          color: Color(0xffBBBBBB)),
+          color: const Color(0xffBBBBBB)),
       activeIcon: SvgPicture.asset("assets/icons/Notifications.svg",
-          color: Color(0xffEAAD5F)),
+          color: const Color(0xffEAAD5F)),
     ),
     MyCustomBottomNavBarItem(
       initialLocation: "/profile",
@@ -55,12 +55,12 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
         width: 28,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(28),
-          image: DecorationImage(
-              image: const AssetImage("assets/images/user-image.png"),
+          image: const DecorationImage(
+              image: AssetImage("assets/images/user-image.png"),
               fit: BoxFit.cover),
           border: Border.all(
               width: 1,
-              color: Color(0xffFFD69D),
+              color: const Color(0xffFFD69D),
               strokeAlign: BorderSide.strokeAlignCenter),
         ),
       ),
@@ -69,12 +69,12 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
         width: 28,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(28),
-          image: DecorationImage(
-              image: const AssetImage("assets/images/user-image.png"),
+          image: const DecorationImage(
+              image: AssetImage("assets/images/user-image.png"),
               fit: BoxFit.cover),
           border: Border.all(
               width: 3,
-              color: Color(0xffFFD69D),
+              color: const Color(0xffFFD69D),
               strokeAlign: BorderSide.strokeAlignCenter),
         ),
       ),
@@ -89,8 +89,8 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
         elevation: 3,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        selectedItemColor: Color(0xffEAAD5F),
-        unselectedItemColor: Color(0xffBBBBBB),
+        selectedItemColor: const Color(0xffEAAD5F),
+        unselectedItemColor: const Color(0xffBBBBBB),
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
         selectedFontSize: 0,

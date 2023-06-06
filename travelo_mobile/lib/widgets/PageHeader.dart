@@ -1,7 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_svg/svg.dart';
 
 class PageHeader extends StatefulWidget {
   final String pageName;
@@ -20,13 +17,13 @@ class Page_HeaderState extends State<PageHeader> {
   Widget build(BuildContext context) {
     return Column(children: [
       Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               pageName,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color(0xff000000),
                   fontSize: 20,
                   fontWeight: FontWeight.bold),

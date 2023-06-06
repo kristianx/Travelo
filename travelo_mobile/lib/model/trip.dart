@@ -20,7 +20,7 @@ class Trip {
   String? countryName;
   String? cityName;
 
-  Trip() {}
+  Trip();
 
   factory Trip.fromJson(Map<String, dynamic> json) => _$TripFromJson(json);
 }

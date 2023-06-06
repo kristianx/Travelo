@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/pages/login.dart';
-import 'package:travelo_mobile/pages/welcome.dart';
 
 import '../../main.dart';
 import '../../model/user.dart';
@@ -9,7 +8,6 @@ import '../../providers/user_provider.dart';
 import '../../widgets/InputField.dart';
 import '../../widgets/PageHeader.dart';
 import '../../widgets/SimpleButton.dart';
-import '../navpages/profile_page.dart';
 
 class ChangePassword extends StatefulWidget {
   ChangePassword({super.key, required this.user});
@@ -22,10 +20,12 @@ class ChangePassword extends StatefulWidget {
 
 class _ChangePasswordState extends State<ChangePassword> {
   late UserProvider _userProvider;
-  TextEditingController _oldPasswordController = TextEditingController();
-  TextEditingController _newPasswordController = TextEditingController();
-  TextEditingController _confirmNewPasswordController = TextEditingController();
+  final TextEditingController _oldPasswordController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _confirmNewPasswordController =
+      TextEditingController();
 
+  @override
   void initState() {
     super.initState();
     _userProvider = context.read<UserProvider>();
@@ -52,12 +52,12 @@ class _ChangePasswordState extends State<ChangePassword> {
             Container(
                 height: 200,
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage("assets/images/spain.png"),
                         fit: BoxFit.cover,
                         alignment: Alignment.topCenter)),
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     PageHeader(
@@ -66,7 +66,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   ],
                 )),
             Transform.translate(
-              offset: Offset(0, -100),
+              offset: const Offset(0, -100),
               child: Column(
                 children: [
                   InputField(
@@ -74,7 +74,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     hintText: "Current password",
                     iconPath: 'assets/icons/Password.svg',
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   InputField(
@@ -82,7 +82,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     hintText: "New password",
                     iconPath: 'assets/icons/Password.svg',
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   InputField(
@@ -93,7 +93,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             SimpleButton(
@@ -125,7 +125,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   }
                 }
               },
-              bgColor: Color(0xffEAAD5F),
+              bgColor: const Color(0xffEAAD5F),
               textColor: Colors.white,
               text: "Change password",
               width: 300,

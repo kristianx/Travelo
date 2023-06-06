@@ -37,7 +37,7 @@ class MyTripCard extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.2),
                   spreadRadius: 0,
                   blurRadius: 5,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ]),
           child: Row(children: [
@@ -45,7 +45,7 @@ class MyTripCard extends StatelessWidget {
               width: 130,
               alignment: Alignment.centerLeft,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(15),
                       bottomLeft: Radius.circular(15)),
                   image: DecorationImage(
@@ -53,7 +53,7 @@ class MyTripCard extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: Container(
+              child: SizedBox(
                 width: 240,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -67,20 +67,20 @@ class MyTripCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(name,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 17, color: Color(0xff292929)),
                                 softWrap: true,
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis),
                             Text(location,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 13, color: Color(0xffA9A9A9)),
                                 softWrap: false,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis),
                           ],
                         ),
-                        Text("5.0",
+                        const Text("5.0",
                             style: TextStyle(
                                 fontSize: 17, color: Color(0xff616161)))
                       ],
@@ -89,7 +89,7 @@ class MyTripCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(price,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 20,
                                 color: Color(0xff747474),
                                 fontWeight: FontWeight.w500),
@@ -99,7 +99,7 @@ class MyTripCard extends StatelessWidget {
                         Row(
                           children: [
                             Text(agency,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 12, color: Color(0xff828282)),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis),

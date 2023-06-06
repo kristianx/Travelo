@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:travelo_mobile/pages/login.dart';
-import 'package:travelo_mobile/pages/register.dart';
 import 'package:travelo_mobile/widgets/SimpleButton.dart';
-
-import '../main.dart';
-import '../providers/user_provider.dart';
-import '../services/local_auth_service.dart';
-import '../widgets/CustomSnackBar.dart';
-import 'navpages/main_page.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -20,31 +11,12 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  late UserProvider _userProvider;
-  // void initState() {
-  //   super.initState();
-  //   _userProvider = Provider.of<UserProvider>(context, listen: false);
-  //   if (_userProvider.checkLoginStatus()) {
-  //     // Navigator.push(
-  //     //   context,
-  //     //   MaterialPageRoute(builder: (context) => const MainPage()),
-  //     // );
-  //     Future.delayed(Duration.zero, () {
-  //       Navigator.pushNamed(context, "/");
-  //     });
-  //   } else {
-  //     Future.delayed(Duration.zero, () {
-  //       Navigator.pushNamed(context, "/login");
-  //     });
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      padding: EdgeInsets.fromLTRB(0, 120, 0, 80),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.fromLTRB(0, 120, 0, 80),
+      decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage("assets/images/Background.png"),
             fit: BoxFit.cover),
@@ -72,13 +44,13 @@ class _WelcomePageState extends State<WelcomePage> {
                     context.go("/login");
                   });
                 },
-                bgColor: Color(0xffEAAD5F),
+                bgColor: const Color(0xffEAAD5F),
                 textColor: Colors.white,
                 text: "Login",
                 width: 300,
                 height: 70,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               SimpleButton(
                 onTap: () {
                   // Navigator.pushNamed(context, "/register");
@@ -86,7 +58,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   context.go("/register");
                 },
                 bgColor: Colors.white,
-                textColor: Color(0xff747474),
+                textColor: const Color(0xff747474),
                 text: "Register",
                 width: 300,
                 height: 70,

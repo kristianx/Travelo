@@ -16,8 +16,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool progress = false;
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   late UserProvider _userProvider;
   Future<void> tryLogin() async {
     await localStorage.ready;
@@ -51,8 +51,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      padding: EdgeInsets.fromLTRB(0, 120, 0, 80),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.fromLTRB(0, 120, 0, 80),
+      decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage("assets/images/Background.png"),
             fit: BoxFit.cover),
@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                   onTap: () {
                     context.go("/welcome");
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back_ios_rounded,
                   ),
                 ),
@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
             Center(child: SvgPicture.asset("assets/images/Logo.svg")),
           ],
         ),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         Expanded(
           flex: 1,
           child: Column(children: [
@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
               hintText: 'Email',
               iconPath: 'assets/icons/Email.svg',
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             InputField(
               controller: _passwordController,
               hintText: 'Password',
@@ -142,18 +142,18 @@ class _LoginPageState extends State<LoginPage> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
-                        title: Text("Error"),
+                        title: const Text("Error"),
                         content: Text(e.toString()),
                         actions: [
                           TextButton(
-                            child: Text("Ok"),
+                            child: const Text("Ok"),
                             onPressed: () => Navigator.pop(context),
                           )
                         ],
                       ));
             }
           },
-          bgColor: Color(0xffEAAD5F),
+          bgColor: const Color(0xffEAAD5F),
           textColor: Colors.white,
           text: "Log in",
           width: 300,

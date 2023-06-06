@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/pages/navpages/main_page.dart';
 import 'package:travelo_mobile/widgets/SimpleButton.dart';
-import 'package:image_picker/image_picker.dart';
 import '../providers/user_provider.dart';
 import '../utils/util.dart';
 
@@ -25,8 +24,8 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
     _userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
         body: Container(
-      padding: EdgeInsets.fromLTRB(0, 120, 0, 80),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.fromLTRB(0, 120, 0, 80),
+      decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage("assets/images/Background.png"),
             fit: BoxFit.cover),
@@ -36,7 +35,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Center(
@@ -61,7 +60,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                               color: Colors.grey.withOpacity(0.2),
                               spreadRadius: 0,
                               blurRadius: 5,
-                              offset: Offset(0, 4),
+                              offset: const Offset(0, 4),
                             ),
                           ]),
                     )
@@ -76,7 +75,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                               color: Colors.grey.withOpacity(0.2),
                               spreadRadius: 0,
                               blurRadius: 5,
-                              offset: Offset(0, 4),
+                              offset: const Offset(0, 4),
                             ),
                           ]),
                       child: Column(
@@ -84,10 +83,10 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SvgPicture.asset("assets/icons/dummy_image.svg"),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
-                          Text(
+                          const Text(
                             "Choose your image",
                             style: TextStyle(
                                 fontSize: 18,
@@ -107,24 +106,24 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                              title: Text("Error"),
+                              title: const Text("Error"),
                               content: Text(e.toString()),
                               actions: [
                                 TextButton(
-                                  child: Text("Ok"),
+                                  child: const Text("Ok"),
                                   onPressed: () => Navigator.pop(context),
                                 )
                               ],
                             ));
                   }
                 },
-                bgColor: Color(0xffEAAD5F),
+                bgColor: const Color(0xffEAAD5F),
                 textColor: Colors.white,
                 text: "Save",
                 width: 300,
                 height: 70,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SimpleButton(
@@ -135,7 +134,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                   );
                 },
                 bgColor: Colors.white,
-                textColor: Color(0xff747474),
+                textColor: const Color(0xff747474),
                 text: "Skip",
                 width: 300,
                 height: 70,

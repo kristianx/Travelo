@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'agency.g.dart';
@@ -17,7 +16,7 @@ class Agency {
   int? numberOfTrips;
   int? rating;
 
-  Agency() {}
+  Agency();
 
   factory Agency.fromJson(Map<String, dynamic> json) => _$AgencyFromJson(json);
 

@@ -11,7 +11,7 @@ class NotificationsPage extends StatelessWidget {
       body: SafeArea(
           child: Column(
         children: [
-          PageHeader(
+          const PageHeader(
             pageName: "Notifications",
           ),
           Expanded(
@@ -30,23 +30,23 @@ class NotificationsPage extends StatelessWidget {
                           Container(
                             width: 15,
                             height: 30,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Color(0xffEAAD5F),
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(10),
                                     bottomRight: Radius.circular(10))),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 15,
                           ),
-                          Text(
+                          const Text(
                             "Today",
                             style: TextStyle(color: Color(0xff8E8E8E)),
                           ),
                         ],
                       ),
                     ),
-                    NotificationCard(),
+                    const NotificationCard(),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15),
                       child: Row(
@@ -54,25 +54,25 @@ class NotificationsPage extends StatelessWidget {
                           Container(
                             width: 15,
                             height: 30,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Color(0xffEAAD5F),
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(10),
                                     bottomRight: Radius.circular(10))),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 15,
                           ),
-                          Text(
+                          const Text(
                             "01. April",
                             style: TextStyle(color: Color(0xff8E8E8E)),
                           ),
                         ],
                       ),
                     ),
-                    NotificationCard(),
-                    NotificationCard(),
-                    NotificationCard(),
+                    const NotificationCard(),
+                    const NotificationCard(),
+                    const NotificationCard(),
                   ],
                 ),
               ),

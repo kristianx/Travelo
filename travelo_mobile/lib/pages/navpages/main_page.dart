@@ -14,13 +14,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  @override
   List pages = [
-    BookmarksPage(),
-    TripsPage(),
-    HomePage(),
-    NotificationsPage(),
-    ProfilePage(),
+    const BookmarksPage(),
+    const TripsPage(),
+    const HomePage(),
+    const NotificationsPage(),
+    const ProfilePage(),
   ];
   int currentIndex = 2;
   void onTap(int index) {
@@ -29,6 +28,7 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[currentIndex],
@@ -38,8 +38,8 @@ class _MainPageState extends State<MainPage> {
           currentIndex: currentIndex,
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          selectedItemColor: Color(0xffEAAD5F),
-          unselectedItemColor: Color(0xffBBBBBB),
+          selectedItemColor: const Color(0xffEAAD5F),
+          unselectedItemColor: const Color(0xffBBBBBB),
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
           selectedFontSize: 0,
@@ -49,26 +49,26 @@ class _MainPageState extends State<MainPage> {
                 label: "Bookmarks",
                 icon: SvgPicture.asset("assets/icons/Bookmarks.svg",
                     color: currentIndex == 0
-                        ? Color(0xffEAAD5F)
-                        : Color(0xffBBBBBB))),
+                        ? const Color(0xffEAAD5F)
+                        : const Color(0xffBBBBBB))),
             BottomNavigationBarItem(
                 label: "Trips",
                 icon: SvgPicture.asset("assets/icons/Trips.svg",
                     color: currentIndex == 1
-                        ? Color(0xffEAAD5F)
-                        : Color(0xffBBBBBB))),
+                        ? const Color(0xffEAAD5F)
+                        : const Color(0xffBBBBBB))),
             BottomNavigationBarItem(
                 label: "Home",
                 icon: SvgPicture.asset("assets/icons/Home.svg",
                     color: currentIndex == 2
-                        ? Color(0xffEAAD5F)
-                        : Color(0xffBBBBBB))),
+                        ? const Color(0xffEAAD5F)
+                        : const Color(0xffBBBBBB))),
             BottomNavigationBarItem(
                 label: "Notifications",
                 icon: SvgPicture.asset("assets/icons/Notifications.svg",
                     color: currentIndex == 3
-                        ? Color(0xffEAAD5F)
-                        : Color(0xffBBBBBB))),
+                        ? const Color(0xffEAAD5F)
+                        : const Color(0xffBBBBBB))),
             BottomNavigationBarItem(
               label: "Profile",
               icon: Container(
@@ -76,12 +76,12 @@ class _MainPageState extends State<MainPage> {
                 width: 28,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(28),
-                  image: DecorationImage(
-                      image: const AssetImage("assets/images/user-image.png"),
+                  image: const DecorationImage(
+                      image: AssetImage("assets/images/user-image.png"),
                       fit: BoxFit.cover),
                   border: Border.all(
                       width: currentIndex == 4 ? 3 : 1,
-                      color: Color(0xffFFD69D),
+                      color: const Color(0xffFFD69D),
                       strokeAlign: BorderSide.strokeAlignCenter),
                 ),
               ),

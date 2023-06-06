@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:travelo_mobile/pages/login.dart';
 import 'package:travelo_mobile/widgets/InputField.dart';
 import 'package:travelo_mobile/widgets/SimpleButton.dart';
 
 import '../providers/user_provider.dart';
-import 'navpages/home_page.dart';
+// import 'navpages/home_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -19,20 +16,21 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _userNameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   late UserProvider _userProvider;
+  var cityId = "-1";
+
   @override
-  var CityId = "-1";
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
         body: Container(
-      padding: EdgeInsets.fromLTRB(0, 120, 0, 80),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.fromLTRB(0, 120, 0, 80),
+      decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage("assets/images/Background.png"),
             fit: BoxFit.cover),
@@ -56,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     onTap: () {
                       context.go('/welcome');
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.arrow_back_ios_rounded,
                     ),
                   ),
@@ -70,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Center(child: SvgPicture.asset("assets/images/Logo.svg")),
             ],
           ),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Expanded(
             flex: 1,
             child: Column(children: [
@@ -101,31 +99,31 @@ class _RegisterPageState extends State<RegisterPage> {
                 obscure: true,
               ),
               Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   child: Container(
                     height: 60,
                     alignment: Alignment.center,
                     child: Material(
                       elevation: 5,
                       shadowColor: Colors.grey.shade300,
-                      borderRadius:
-                          const BorderRadius.all(const Radius.circular(15)),
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
                       child: DropdownButtonFormField(
-                        value: CityId,
-                        items: [
-                          DropdownMenuItem(child: Text("Text"), value: "-1"),
+                        value: cityId,
+                        items: const [
+                          DropdownMenuItem(value: "-1", child: Text("Text")),
                           DropdownMenuItem(
-                              child: Text("Bosnia and Herzegovina"),
-                              value: "1"),
-                          DropdownMenuItem(child: Text("Croatia"), value: "2"),
+                              value: "1",
+                              child: Text("Bosnia and Herzegovina")),
+                          DropdownMenuItem(value: "2", child: Text("Croatia")),
                         ],
                         onChanged: (v) {
-                          CityId = v.toString();
+                          cityId = v.toString();
                         },
                         decoration: InputDecoration(
                           fillColor: Colors.white,
                           filled: true,
-                          border: OutlineInputBorder(
+                          border: const OutlineInputBorder(
                             // width: 0.0 produces a thin "hairline" border
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20.0)),
@@ -153,30 +151,31 @@ class _RegisterPageState extends State<RegisterPage> {
                     _emailController.text,
                     _passwordController.text,
                     _userNameController.text,
-                    CityId);
+                    cityId);
 
                 if (registerFlag) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => const HomePage()),
+                  // );
+                  context.go('/home');
                 }
               } catch (e) {
                 showDialog(
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
-                          title: Text("Error"),
+                          title: const Text("Error"),
                           content: Text(e.toString()),
                           actions: [
                             TextButton(
-                              child: Text("Ok"),
+                              child: const Text("Ok"),
                               onPressed: () => Navigator.pop(context),
                             )
                           ],
                         ));
               }
             },
-            bgColor: Color(0xffEAAD5F),
+            bgColor: const Color(0xffEAAD5F),
             textColor: Colors.white,
             text: "Create account",
             width: 300,

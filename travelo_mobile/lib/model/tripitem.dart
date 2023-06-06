@@ -14,7 +14,7 @@ class TripItem {
   int? totalPrice;
   String? dates;
 
-  TripItem() {}
+  TripItem();
 
   factory TripItem.fromJson(Map<String, dynamic> json) =>
       _$TripItemFromJson(json);

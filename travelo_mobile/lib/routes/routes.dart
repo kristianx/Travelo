@@ -44,7 +44,7 @@ class MyRouter {
             path: '/home',
             parentNavigatorKey: _shellNavigatorKey,
             pageBuilder: (context, state) {
-              return NoTransitionPage(
+              return const NoTransitionPage(
                 child: HomePage(),
               );
             },
@@ -53,7 +53,7 @@ class MyRouter {
             path: '/bookmarks',
             parentNavigatorKey: _shellNavigatorKey,
             pageBuilder: (context, state) {
-              return NoTransitionPage(
+              return const NoTransitionPage(
                 child: BookmarksPage(),
               );
             },
@@ -62,7 +62,7 @@ class MyRouter {
             parentNavigatorKey: _shellNavigatorKey,
             path: '/trips',
             pageBuilder: (context, state) {
-              return NoTransitionPage(
+              return const NoTransitionPage(
                 child: TripsPage(),
               );
             },
@@ -71,7 +71,7 @@ class MyRouter {
             parentNavigatorKey: _shellNavigatorKey,
             path: '/notifications',
             pageBuilder: (context, state) {
-              return NoTransitionPage(
+              return const NoTransitionPage(
                 child: NotificationsPage(),
               );
             },
@@ -80,7 +80,7 @@ class MyRouter {
             parentNavigatorKey: _shellNavigatorKey,
             path: '/profile',
             pageBuilder: (context, state) {
-              return NoTransitionPage(
+              return const NoTransitionPage(
                 child: ProfilePage(),
               );
             },
@@ -98,7 +98,7 @@ class MyRouter {
             parentNavigatorKey: _shellNavigatorKey,
             path: '/invoices',
             pageBuilder: (context, state) {
-              return NoTransitionPage(
+              return const NoTransitionPage(
                 child: TripInvoices(),
               );
             },
@@ -107,7 +107,7 @@ class MyRouter {
             parentNavigatorKey: _shellNavigatorKey,
             path: '/payment',
             pageBuilder: (context, state) {
-              return NoTransitionPage(
+              return const NoTransitionPage(
                 child: PaymentSettings(),
               );
             },
@@ -125,7 +125,7 @@ class MyRouter {
             parentNavigatorKey: _shellNavigatorKey,
             path: '/settings',
             pageBuilder: (context, state) {
-              return NoTransitionPage(
+              return const NoTransitionPage(
                 child: Settings(),
               );
             },
@@ -178,19 +178,19 @@ class MyRouter {
       ),
       GoRoute(
         path: '/welcome',
-        builder: (context, state) => WelcomePage(),
+        builder: (context, state) => const WelcomePage(),
       ),
       GoRoute(
         path: '/login',
-        builder: (context, state) => LoginPage(),
+        builder: (context, state) => const LoginPage(),
       ),
       GoRoute(
         path: '/register',
-        builder: (context, state) => RegisterPage(),
+        builder: (context, state) => const RegisterPage(),
       ),
       GoRoute(
         path: '/register2',
-        builder: (context, state) => RegisterPageStep2(),
+        builder: (context, state) => const RegisterPageStep2(),
       ),
     ],
   );

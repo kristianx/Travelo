@@ -1,6 +1,4 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class SimpleButton extends StatelessWidget {
   SimpleButton(
@@ -19,7 +17,7 @@ class SimpleButton extends StatelessWidget {
   final double? width;
   final double? height;
   final VoidCallback onTap;
-  bool hasShadow;
+  final bool hasShadow;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +26,6 @@ class SimpleButton extends StatelessWidget {
       child: Container(
         width: width,
         height: height,
-        child: Center(
-            child: Text(
-          text,
-          style: TextStyle(
-              color: textColor, fontWeight: FontWeight.w600, fontSize: 18),
-        )),
         decoration: BoxDecoration(
             color: bgColor,
             borderRadius: BorderRadius.circular(20),
@@ -42,9 +34,15 @@ class SimpleButton extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.2),
                 spreadRadius: 0,
                 blurRadius: 10,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               )
             ]),
+        child: Center(
+            child: Text(
+          text,
+          style: TextStyle(
+              color: textColor, fontWeight: FontWeight.w600, fontSize: 18),
+        )),
       ),
     );
   }

@@ -12,7 +12,7 @@ class Destination {
   int? numberOfTrips;
   int? lowestTripPrice;
 
-  Destination() {}
+  Destination();
 
   factory Destination.fromJson(Map<String, dynamic> json) =>
       _$DestinationFromJson(json);

@@ -14,7 +14,7 @@ class User {
   String? address;
   String? postalCode;
 
-  User() {}
+  User();
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

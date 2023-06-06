@@ -22,15 +22,15 @@ class _SettingsState extends State<Settings> {
     _userProvider = context.read<UserProvider>();
   }
 
-  @override
   bool set1 = false;
   bool set2 = false;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
           child: Column(
         children: [
-          PageHeader(
+          const PageHeader(
             pageName: "Settings",
           ),
           Expanded(
@@ -49,16 +49,16 @@ class _SettingsState extends State<Settings> {
                           Container(
                             width: 15,
                             height: 30,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Color(0xffEAAD5F),
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(10),
                                     bottomRight: Radius.circular(10))),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
-                          Text(
+                          const Text(
                             "Notifications",
                             style: TextStyle(color: Color(0xff8E8E8E)),
                           ),
@@ -66,11 +66,11 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(25, 7, 20, 7),
+                      padding: const EdgeInsets.fromLTRB(25, 7, 20, 7),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "Email notifications",
                             style: TextStyle(
                                 fontSize: 15,
@@ -84,17 +84,17 @@ class _SettingsState extends State<Settings> {
                                 set1 = !set1;
                               });
                             },
-                            activeColor: Color(0xffEAAD5F),
+                            activeColor: const Color(0xffEAAD5F),
                           )
                         ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(25, 7, 20, 7),
+                      padding: const EdgeInsets.fromLTRB(25, 7, 20, 7),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "Push notifications",
                             style: TextStyle(
                                 fontSize: 15,
@@ -108,12 +108,12 @@ class _SettingsState extends State<Settings> {
                                 set2 = !set2;
                               });
                             },
-                            activeColor: Color(0xffEAAD5F),
+                            activeColor: const Color(0xffEAAD5F),
                           )
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Padding(
@@ -123,23 +123,23 @@ class _SettingsState extends State<Settings> {
                           Container(
                             width: 15,
                             height: 30,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Color(0xffEAAD5F),
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(10),
                                     bottomRight: Radius.circular(10))),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
-                          Text(
+                          const Text(
                             "Security",
                             style: TextStyle(color: Color(0xff8E8E8E)),
                           ),
                         ],
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.fromLTRB(25, 7, 20, 7),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,11 +155,11 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(25, 7, 20, 7),
+                      padding: const EdgeInsets.fromLTRB(25, 7, 20, 7),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "Use FaceID to unlock",
                             style: TextStyle(
                                 fontSize: 15,
@@ -171,7 +171,7 @@ class _SettingsState extends State<Settings> {
                             onChanged: (onChanged) {
                               setState(() {});
                             },
-                            activeColor: Color(0xffEAAD5F),
+                            activeColor: const Color(0xffEAAD5F),
                           )
                         ],
                       ),
@@ -182,7 +182,7 @@ class _SettingsState extends State<Settings> {
                         // Navigator.pushNamed(context, "/welcome");
                         context.go('/welcome');
                       },
-                      child: Padding(
+                      child: const Padding(
                         padding: EdgeInsets.fromLTRB(25, 7, 20, 7),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +33,7 @@ class _TripState extends State<Trip> {
   int numberOfChildren = 0;
   int numberOfAdults = 1;
 
+  @override
   void initState() {
     super.initState();
     _tripItemProvider = context.read<TripItemProvider>();
@@ -67,9 +66,9 @@ class _TripState extends State<Trip> {
     });
   }
 
-  @override
   int _price = 0;
   int _value = -1;
+  @override
   Widget build(BuildContext context) {
     final paymentController = PaymentController();
     void openGallery() {
@@ -97,7 +96,7 @@ class _TripState extends State<Trip> {
                                   widget.trip.accomodationImage!)
                               .image,
                       fit: BoxFit.cover),
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       bottomRight: Radius.circular(30),
                       bottomLeft: Radius.circular(30))),
               child: Column(
@@ -118,13 +117,13 @@ class _TripState extends State<Trip> {
                           children: [
                             Text(
                               widget.trip.accomodationName ?? "Accomodation",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 22,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500),
                             ),
                             Text(widget.trip.cityName ?? "Destination",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 18,
                                     color: Color(0xffE7EAEA),
                                     fontWeight: FontWeight.w400)),
@@ -140,17 +139,17 @@ class _TripState extends State<Trip> {
                                   "assets/icons/star.svg",
                                   width: 20,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 Text("${widget.trip.rating}.0",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 20,
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600)),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 3,
                             ),
                             Text("${widget.trip.ratingCount} reviews",
@@ -168,7 +167,7 @@ class _TripState extends State<Trip> {
             ),
           ),
           Transform.translate(
-            offset: Offset(0, -20),
+            offset: const Offset(0, -20),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
@@ -184,7 +183,7 @@ class _TripState extends State<Trip> {
                                 color: Colors.grey.withOpacity(0.2),
                                 spreadRadius: 0,
                                 blurRadius: 5,
-                                offset: Offset(0, 4))
+                                offset: const Offset(0, 4))
                           ]),
                       child: DropdownButtonFormField(
                         value: _value,
@@ -199,7 +198,7 @@ class _TripState extends State<Trip> {
                           _value = v;
                           selectedTrip();
                         },
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           fillColor: Colors.white,
                           filled: true,
                           border: OutlineInputBorder(
@@ -212,7 +211,7 @@ class _TripState extends State<Trip> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   GestureDetector(
@@ -231,13 +230,13 @@ class _TripState extends State<Trip> {
                                 color: Colors.grey.withOpacity(0.2),
                                 spreadRadius: 0,
                                 blurRadius: 5,
-                                offset: Offset(0, 4))
+                                offset: const Offset(0, 4))
                           ]),
                       child: SvgPicture.asset(
                         "assets/icons/Bookmarks.svg",
                         color: widget.bookmarked
-                            ? Color(0xffEAAD5F)
-                            : Color(0xffD6D6D6),
+                            ? const Color(0xffEAAD5F)
+                            : const Color(0xffD6D6D6),
                       ),
                     ),
                   )
@@ -261,12 +260,12 @@ class _TripState extends State<Trip> {
                               color: Colors.grey.withOpacity(0.2),
                               spreadRadius: 0,
                               blurRadius: 5,
-                              offset: Offset(0, 4))
+                              offset: const Offset(0, 4))
                         ]),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Column(children: [
-                        Text(
+                        const Text(
                           "Children",
                           style: TextStyle(
                             color: Color(0xff787878),
@@ -291,13 +290,13 @@ class _TripState extends State<Trip> {
                                   width: 60,
                                   height: 60,
                                   decoration: BoxDecoration(
-                                    color: Color(0xffF8F8F8),
+                                    color: const Color(0xffF8F8F8),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Center(
                                       child: Text(
                                     numberOfChildren.toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 24,
                                         color: Color(0xff747474),
                                         fontWeight: FontWeight.w500),
@@ -318,7 +317,7 @@ class _TripState extends State<Trip> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Expanded(
@@ -333,12 +332,12 @@ class _TripState extends State<Trip> {
                               color: Colors.grey.withOpacity(0.2),
                               spreadRadius: 0,
                               blurRadius: 5,
-                              offset: Offset(0, 4))
+                              offset: const Offset(0, 4))
                         ]),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Column(children: [
-                        Text(
+                        const Text(
                           "Adults",
                           style: TextStyle(
                             color: Color(0xff787878),
@@ -363,13 +362,13 @@ class _TripState extends State<Trip> {
                                   width: 60,
                                   height: 60,
                                   decoration: BoxDecoration(
-                                    color: Color(0xffF8F8F8),
+                                    color: const Color(0xffF8F8F8),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Center(
                                       child: Text(
                                     numberOfAdults.toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 24,
                                         color: Color(0xff747474),
                                         fontWeight: FontWeight.w500),
@@ -394,22 +393,22 @@ class _TripState extends State<Trip> {
             ),
           ),
           Column(children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 15),
               child: Divider(
                 indent: 15,
                 endIndent: 15,
                 height: 1,
               ),
             ),
-            Container(
+            SizedBox(
               height: 75,
               child: ListView(
                   scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.only(left: 20, right: 20),
                   children: widget.trip.facilities!
                       .map(
                         (fac) => Padding(
@@ -419,7 +418,7 @@ class _TripState extends State<Trip> {
                             width: 75,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: Color(0xffF8F8F8),
+                              color: const Color(0xffF8F8F8),
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -427,12 +426,12 @@ class _TripState extends State<Trip> {
                               children: [
                                 SvgPicture.asset(
                                     "assets/icons/${fac.toLowerCase()}.svg"),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Text(
                                   fac,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color(0xff6B6B6B),
                                     fontSize: 14,
                                   ),
@@ -452,17 +451,17 @@ class _TripState extends State<Trip> {
                   widget.trip.accomodationDescription ??
                       "Accomodation desctiption",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 17,
                     color: Color(0xff5E5E5E),
                     fontWeight: FontWeight.w400,
                   )),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               height: 200,
               width: double.infinity,
-              child: GoogleMap(
+              child: const GoogleMap(
                 initialCameraPosition:
                     CameraPosition(target: LatLng(43.341584, 17.801163)),
                 myLocationButtonEnabled: false,
@@ -505,19 +504,19 @@ class _TripState extends State<Trip> {
                   child: Container(
                     height: 70,
                     decoration: BoxDecoration(
-                        color: Color(0xffEAAD5F),
+                        color: const Color(0xffEAAD5F),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
                               color: Colors.grey.withOpacity(0.3),
                               spreadRadius: 0,
                               blurRadius: 5,
-                              offset: Offset(0, 4))
+                              offset: const Offset(0, 4))
                         ]),
                     child: Center(
                         child: Text(
                       "Book now for \$${_price * (numberOfAdults + numberOfChildren)}",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
                           fontSize: 20),
@@ -555,7 +554,7 @@ class _TripState extends State<Trip> {
                 child: Text(
                   "${DateFormat('dd. MMMM yyyy').format(trip.checkIn!)} - ${DateFormat('dd. MMMM yyyy').format(trip.checkOut!)}",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w400,
                   ),
                 ),

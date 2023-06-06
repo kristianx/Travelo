@@ -39,7 +39,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
       body: SafeArea(
           child: Column(
         children: [
-          PageHeader(
+          const PageHeader(
             pageName: "Bookmarks",
           ),
           Expanded(
@@ -63,7 +63,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
   List<Widget> _buildTripCardList() {
     if (trips.isEmpty) {
       //Add loading for few seconds and if no data then text.
-      return [Center(child: const Text("There are no saved trips."))];
+      return [const Center(child: Text("There are no saved trips."))];
     }
     List<Widget> list = [];
     // list.add(const SizedBox(

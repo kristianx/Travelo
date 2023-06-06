@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/main.dart';
 import 'package:travelo_mobile/providers/reservation_provider.dart';
-import 'package:travelo_mobile/widgets/MyTripCard.dart';
 
 import '../../model/reservation.dart';
 import '../../utils/util.dart';
@@ -47,7 +44,7 @@ class _TripsPageState extends State<TripsPage> {
       body: SafeArea(
         child: Column(
           children: [
-            PageHeader(
+            const PageHeader(
               pageName: "My Trips",
             ),
             Padding(
@@ -59,7 +56,7 @@ class _TripsPageState extends State<TripsPage> {
                     physics: const BouncingScrollPhysics(),
                     itemCount: items.length,
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.only(right: 20),
+                    padding: const EdgeInsets.only(right: 20),
                     itemBuilder: (ctx, index) {
                       return Column(
                         children: [
@@ -70,13 +67,13 @@ class _TripsPageState extends State<TripsPage> {
                               });
                             },
                             child: Padding(
-                              padding: EdgeInsets.only(left: 20),
+                              padding: const EdgeInsets.only(left: 20),
                               child: Text(
                                 items[index],
                                 style: TextStyle(
                                     color: current == index
-                                        ? Color(0xffEAAD5F)
-                                        : Color(0xffA8A8A8),
+                                        ? const Color(0xffEAAD5F)
+                                        : const Color(0xffA8A8A8),
                                     fontWeight: current == index
                                         ? FontWeight.w500
                                         : FontWeight.w400,
@@ -89,7 +86,7 @@ class _TripsPageState extends State<TripsPage> {
                     }),
               ),
             ),
-            Divider(
+            const Divider(
               color: Colors.grey,
               height: 1,
               indent: 15,
@@ -151,7 +148,7 @@ class _TripsPageState extends State<TripsPage> {
           .where((element) => element.checkIn!.isBefore(DateTime.now()));
     }
     if (tmp.isEmpty) {
-      return [Center(child: const Text("There are no trips."))];
+      return [const Center(child: Text("There are no trips."))];
     }
     list = tmp
         .map((r) => GestureDetector(
@@ -168,7 +165,7 @@ class _TripsPageState extends State<TripsPage> {
                           color: Colors.grey.withOpacity(0.2),
                           spreadRadius: 0,
                           blurRadius: 5,
-                          offset: Offset(0, 4),
+                          offset: const Offset(0, 4),
                         ),
                       ]),
                   child: Row(children: [
@@ -176,19 +173,19 @@ class _TripsPageState extends State<TripsPage> {
                       width: 130,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(15),
                               bottomLeft: Radius.circular(15)),
                           image: DecorationImage(
                               image: r.destinationImage == ""
-                                  ? AssetImage("assets/images/imageHolder.png")
+                                  ? const AssetImage("assets/images/imageHolder.png")
                                   : imageFromBase64String(r.destinationImage!)
                                       .image,
                               fit: BoxFit.cover)),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(15.0),
-                      child: Container(
+                      child: SizedBox(
                         width: 240,
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
@@ -202,14 +199,14 @@ class _TripsPageState extends State<TripsPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(r.destinationName ?? "",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 17,
                                             color: Color(0xff292929)),
                                         softWrap: true,
                                         maxLines: 3,
                                         overflow: TextOverflow.ellipsis),
                                     Text(r.countryName ?? "",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 13,
                                             color: Color(0xffA9A9A9)),
                                         softWrap: false,
@@ -218,12 +215,12 @@ class _TripsPageState extends State<TripsPage> {
                                   ],
                                 ),
                                 Text("${r.rating.toString()}.0",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 17, color: Color(0xff616161)))
                               ],
                             ),
                             Text(r.date ?? "",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 13, color: Color(0xff828282)),
                                 softWrap: false,
                                 maxLines: 1,
@@ -232,7 +229,7 @@ class _TripsPageState extends State<TripsPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text("\$${r.price.toString()}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 20,
                                         color: Color(0xff747474),
                                         fontWeight: FontWeight.w500),
@@ -242,7 +239,7 @@ class _TripsPageState extends State<TripsPage> {
                                 Row(
                                   children: [
                                     Text(r.agencyName ?? "",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 12,
                                             color: Color(0xff828282)),
                                         maxLines: 1,

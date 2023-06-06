@@ -7,7 +7,6 @@ import 'package:travelo_mobile/providers/destination_provider.dart';
 import 'package:travelo_mobile/utils/util.dart';
 import 'package:travelo_mobile/widgets/BlogCard.dart';
 import '../../model/destination.dart';
-import '../destination.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -55,20 +54,20 @@ class _HomePageState extends State<HomePage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 70),
+                const SizedBox(height: 70),
                 // InputField(
                 //   controller: _searchController,
                 //   hintText: 'Search trips',
                 //   iconPath: 'assets/icons/Search.svg',
                 // ),
-                Container(
+                SizedBox(
                   // change your height based on preference
                   height: 170,
                   width: double.infinity,
                   child: ListView(
                     // set the scroll direction to horizontal
                     scrollDirection: Axis.horizontal,
-                    children: [
+                    children: const [
                       BlogCard(
                         date: '18. Maj',
                         image: 'assets/images/slika.png',
@@ -99,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                         physics: const BouncingScrollPhysics(),
                         itemCount: items.length,
                         scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.only(right: 20),
+                        padding: const EdgeInsets.only(right: 20),
                         itemBuilder: (ctx, index) {
                           return Column(
                             children: [
@@ -111,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                                   loadData();
                                 },
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 20),
+                                  padding: const EdgeInsets.only(left: 20),
                                   child: Row(
                                     children: [
                                       SvgPicture.asset(
@@ -119,18 +118,18 @@ class _HomePageState extends State<HomePage> {
                                         height: 25,
                                         width: 25,
                                         color: current == index
-                                            ? Color(0xffEAAD5F)
-                                            : Color(0xffA8A8A8),
+                                            ? const Color(0xffEAAD5F)
+                                            : const Color(0xffA8A8A8),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 7,
                                       ),
                                       Text(
                                         items[index],
                                         style: TextStyle(
                                             color: current == index
-                                                ? Color(0xffEAAD5F)
-                                                : Color(0xffA8A8A8),
+                                                ? const Color(0xffEAAD5F)
+                                                : const Color(0xffA8A8A8),
                                             fontWeight: current == index
                                                 ? FontWeight.w500
                                                 : FontWeight.w400,
@@ -145,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                         }),
                   ),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.grey,
                   height: 1,
                   indent: 20,
@@ -170,9 +169,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Widget> _buildDestinationCardList() {
-    if (destinations.length == 0) {
+    if (destinations.isEmpty) {
       //Add loading for few seconds and if no data then text.
-      return [Text("There are no trips.")];
+      return [const Text("There are no trips.")];
     }
     List<Widget> list = destinations
         .map((x) => Padding(
@@ -211,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.grey.withOpacity(0.2),
                             spreadRadius: 0,
                             blurRadius: 5,
-                            offset: Offset(0, 4),
+                            offset: const Offset(0, 4),
                           ),
                         ]),
                     child: Row(children: [
@@ -220,13 +219,13 @@ class _HomePageState extends State<HomePage> {
                         height: 190,
                         alignment: Alignment.centerLeft,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(15),
                                 bottomLeft: Radius.circular(15)),
                             image: DecorationImage(
                                 // image: AssetImage("assets/images/tulum.png"),
                                 image: x.image == ""
-                                    ? AssetImage(
+                                    ? const AssetImage(
                                         "assets/images/imageHolder.png")
                                     : imageFromBase64String(x.image!).image,
                                 fit: BoxFit.cover)),
@@ -244,14 +243,14 @@ class _HomePageState extends State<HomePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(x.name ?? "",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 17,
                                             color: Color(0xff292929)),
                                         softWrap: true,
                                         maxLines: 3,
                                         overflow: TextOverflow.ellipsis),
                                     Text(x.countryName ?? "",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             color: Color(0xff989898)),
                                         maxLines: 1,
@@ -259,10 +258,8 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                                 Text(
-                                    "From \$" +
-                                        x.lowestTripPrice.toString() +
-                                        "per person",
-                                    style: TextStyle(
+                                    "From \$${x.lowestTripPrice}per person",
+                                    style: const TextStyle(
                                         fontSize: 15,
                                         color: Color(0xffEAAD5F),
                                         fontWeight: FontWeight.w500),
@@ -271,7 +268,7 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                     x.numberOfTrips.toString() +
                                         " trips".toUpperCase(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 15, color: Color(0xff989898)),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis),
@@ -284,13 +281,13 @@ class _HomePageState extends State<HomePage> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(5),
-                                          color: Color(0xffE5F0F5),
+                                          color: const Color(0xffE5F0F5),
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 7, horizontal: 10),
                                           child: Text(tag ?? "",
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 12,
                                                   color: Color(0xff94B4C4)),
                                               maxLines: 1,

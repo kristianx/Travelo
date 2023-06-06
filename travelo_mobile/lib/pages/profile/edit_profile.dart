@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/main.dart';
 import 'package:travelo_mobile/pages/navpages/profile_page.dart';
@@ -30,7 +29,7 @@ class _EditProfileState extends State<EditProfile> {
   late UserProvider _userProvider;
   List<Destination> cities = [];
   List<DropdownMenuItem> citiesDropdown = [
-    DropdownMenuItem(
+    const DropdownMenuItem(
       value: -2,
       enabled: false,
       child: Text("Loading..."),
@@ -39,11 +38,12 @@ class _EditProfileState extends State<EditProfile> {
   int cityId = -2;
 
   late DestinationProvider _destinationProvider;
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _addressController = TextEditingController();
-  TextEditingController _postalCodeController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _postalCodeController = TextEditingController();
 
+  @override
   void initState() {
     super.initState();
     _destinationProvider = context.read<DestinationProvider>();
@@ -78,7 +78,7 @@ class _EditProfileState extends State<EditProfile> {
             Container(
                 height: 175,
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage("assets/images/spain.png"),
                         fit: BoxFit.cover,
@@ -86,10 +86,10 @@ class _EditProfileState extends State<EditProfile> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    PageHeader(
+                    const PageHeader(
                       pageName: "Edit profile",
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     GestureDetector(
@@ -104,11 +104,9 @@ class _EditProfileState extends State<EditProfile> {
                             MaterialPageRoute(
                                 builder: (context) => const ProfilePage()),
                           );
-                          if (tmpUser != null) {
-                            setState(() {
-                              widget.user = tmpUser;
-                            });
-                          }
+                          setState(() {
+                            widget.user = tmpUser;
+                          });
                         }
                       },
                       child: Container(
@@ -116,7 +114,7 @@ class _EditProfileState extends State<EditProfile> {
                         width: 80,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            color: Color(0xffE5F0F5),
+                            color: const Color(0xffE5F0F5),
                             image: DecorationImage(
                                 image: widget.user!.image == ""
                                     ? const AssetImage(
@@ -125,7 +123,7 @@ class _EditProfileState extends State<EditProfile> {
                                             widget.user!.image ?? "")
                                         .image,
                                 fit: BoxFit.cover),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                   color: Color(0xffFFE9CC), spreadRadius: 20),
                               BoxShadow(
@@ -140,7 +138,7 @@ class _EditProfileState extends State<EditProfile> {
               hintText: widget.user!.firstName ?? 'First name',
               iconPath: 'assets/icons/User.svg',
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             InputField(
@@ -148,7 +146,7 @@ class _EditProfileState extends State<EditProfile> {
               hintText: widget.user!.lastName ?? 'Last name',
               iconPath: 'assets/icons/User.svg',
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
 
@@ -157,7 +155,7 @@ class _EditProfileState extends State<EditProfile> {
               hintText: 'Address',
               iconPath: 'assets/icons/Planet.svg',
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             InputField(
@@ -165,11 +163,11 @@ class _EditProfileState extends State<EditProfile> {
               hintText: 'Postal code',
               iconPath: 'assets/icons/Planet.svg',
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Container(
                   height: 60,
                   alignment: Alignment.center,
@@ -177,7 +175,7 @@ class _EditProfileState extends State<EditProfile> {
                     elevation: 3,
                     shadowColor: Colors.grey.shade300,
                     borderRadius:
-                        const BorderRadius.all(const Radius.circular(20)),
+                        const BorderRadius.all(Radius.circular(20)),
                     child: DropdownButtonFormField(
                       value: cityId,
                       items: citiesDropdown,
@@ -187,7 +185,7 @@ class _EditProfileState extends State<EditProfile> {
                       decoration: InputDecoration(
                         fillColor: Colors.white,
                         filled: true,
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                           // width: 0.0 produces a thin "hairline" border
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                           borderSide: BorderSide.none,
@@ -203,7 +201,7 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                 )),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             // InputField(
@@ -248,7 +246,7 @@ class _EditProfileState extends State<EditProfile> {
                   }
                 }
               },
-              bgColor: Color(0xffEAAD5F),
+              bgColor: const Color(0xffEAAD5F),
               textColor: Colors.white,
               text: "Save",
               width: 300,

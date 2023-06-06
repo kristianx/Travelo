@@ -54,11 +54,11 @@ class _AgencyPageState extends State<AgencyPage> {
         child: Column(children: [
           Container(
             decoration: BoxDecoration(
-                image: DecorationImage(
+                image: const DecorationImage(
                     image: AssetImage("assets/images/spain.png"),
                     fit: BoxFit.fitWidth,
                     alignment: Alignment.topCenter),
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(25),
                   bottomRight: Radius.circular(25),
                 ),
@@ -81,7 +81,7 @@ class _AgencyPageState extends State<AgencyPage> {
                     width: 110,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
-                        color: Color(0xffE5F0F5),
+                        color: const Color(0xffE5F0F5),
                         image: DecorationImage(
                             image: _agency?.image == ""
                                 ? const AssetImage(
@@ -129,7 +129,7 @@ class _AgencyPageState extends State<AgencyPage> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -143,7 +143,7 @@ class _AgencyPageState extends State<AgencyPage> {
                               width: 65,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: Color(0xffCDF0E1),
+                                color: const Color(0xffCDF0E1),
                               ),
                               child: Center(
                                   child: SvgPicture.asset(
@@ -170,14 +170,14 @@ class _AgencyPageState extends State<AgencyPage> {
                               width: 65,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: Color(0xffFFD9A9),
+                                color: const Color(0xffFFD9A9),
                               ),
                               child: Center(
                                   child: SvgPicture.asset(
                                       "assets/icons/messages.svg")),
                             ),
-                            SizedBox(height: 10),
-                            Text(
+                            const SizedBox(height: 10),
+                            const Text(
                               "Message",
                               style: TextStyle(
                                 color: Color(0xff797979),
@@ -197,14 +197,14 @@ class _AgencyPageState extends State<AgencyPage> {
                               width: 65,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: Color(0xffE5F0F5),
+                                color: const Color(0xffE5F0F5),
                               ),
                               child: Center(
                                   child: SvgPicture.asset(
                                       "assets/icons/website.svg")),
                             ),
-                            SizedBox(height: 10),
-                            Text(
+                            const SizedBox(height: 10),
+                            const Text(
                               "Website",
                               style: TextStyle(
                                 color: Color(0xff797979),
@@ -216,13 +216,13 @@ class _AgencyPageState extends State<AgencyPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         "${_agency?.numberOfTrips ?? "-"} TRIPS",
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Color(0xff8C8C8C),
                             fontSize: 18,
                             fontWeight: FontWeight.w600),
@@ -234,11 +234,11 @@ class _AgencyPageState extends State<AgencyPage> {
                             "assets/icons/star.svg",
                             width: 20,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text("${_agency?.rating ?? 0}.0",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 18,
                                   color: Color(0xff8C8C8C),
                                   fontWeight: FontWeight.w600)),

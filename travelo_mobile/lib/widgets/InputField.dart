@@ -46,7 +46,7 @@ class _InputFieldState extends State<InputField> {
               color: Colors.grey.withOpacity(0.2),
               spreadRadius: 0,
               blurRadius: 5,
-              offset: Offset(0, 4), // changes position of shadow
+              offset: const Offset(0, 4), // changes position of shadow
             ),
           ]),
           child: TextField(

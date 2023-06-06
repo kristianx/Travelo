@@ -21,7 +21,7 @@ class Reservation {
   DateTime? checkIn;
   DateTime? checkOut;
 
-  Reservation() {}
+  Reservation();
 
   factory Reservation.fromJson(Map<String, dynamic> json) =>
       _$ReservationFromJson(json);

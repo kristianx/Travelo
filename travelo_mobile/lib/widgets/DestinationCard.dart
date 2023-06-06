@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:travelo_mobile/pages/destination.dart';
 
 class DestinationCard extends StatelessWidget {
   const DestinationCard({super.key});
@@ -27,7 +24,7 @@ class DestinationCard extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.2),
                   spreadRadius: 0,
                   blurRadius: 5,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ]),
           child: Row(children: [
@@ -35,7 +32,7 @@ class DestinationCard extends StatelessWidget {
               width: 130,
               height: 190,
               alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
                       bottomLeft: Radius.circular(15)),
@@ -52,7 +49,7 @@ class DestinationCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Tulum, Quintana Roo",
@@ -68,7 +65,7 @@ class DestinationCard extends StatelessWidget {
                               overflow: TextOverflow.ellipsis)
                         ],
                       ),
-                      Text("From \$96 per person",
+                      const Text("From \$96 per person",
                           style: TextStyle(
                               fontSize: 15,
                               color: Color(0xffEAAD5F),
@@ -77,7 +74,7 @@ class DestinationCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis),
                       Text("21 trips".toUpperCase(),
                           style:
-                              TextStyle(fontSize: 15, color: Color(0xff989898)),
+                              const TextStyle(fontSize: 15, color: Color(0xff989898)),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
                       Wrap(
@@ -87,10 +84,10 @@ class DestinationCard extends StatelessWidget {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: Color(0xffE5F0F5),
+                              color: const Color(0xffE5F0F5),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
                                   vertical: 7, horizontal: 10),
                               child: Text("Summer",
                                   style: TextStyle(
@@ -102,10 +99,10 @@ class DestinationCard extends StatelessWidget {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: Color(0xffE5F0F5),
+                              color: const Color(0xffE5F0F5),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
                                   vertical: 7, horizontal: 10),
                               child: Text("Surfing",
                                   style: TextStyle(
@@ -117,10 +114,10 @@ class DestinationCard extends StatelessWidget {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: Color(0xffE5F0F5),
+                              color: const Color(0xffE5F0F5),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
                                   vertical: 7, horizontal: 10),
                               child: Text("Hot",
                                   style: TextStyle(

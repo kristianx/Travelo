@@ -39,7 +39,7 @@ class CustomSnackBar {
               ),
               Flexible(
                 child: Text(message,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.w400),
@@ -91,7 +91,7 @@ class CustomSnackBar {
               ),
               Flexible(
                 child: Text(message,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.w400),

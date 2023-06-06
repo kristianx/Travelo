@@ -113,12 +113,12 @@ class _TripCardState extends State<TripCard> {
                                                   widget.trip.agencyImage!)
                                               .image,
                                       fit: BoxFit.cover))),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(
                             widget.trip.agencyName ?? "",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 12,
                                 color: Color(0xffffffff),
                                 fontWeight: FontWeight.w500),
@@ -148,13 +148,13 @@ class _TripCardState extends State<TripCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(widget.trip.accomodationName ?? "",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 17, color: Color(0xff292929)),
                                   softWrap: true,
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis),
                               Text(widget.trip.countryName ?? "",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 13, color: Color(0xffA9A9A9)),
                                   softWrap: false,
                                   maxLines: 1,
@@ -171,29 +171,29 @@ class _TripCardState extends State<TripCard> {
                             child: SvgPicture.asset(
                               "assets/icons/Bookmarks.svg",
                               color: widget.bookmarked
-                                  ? Color(0xffEAAD5F)
-                                  : Color(0xffD6D6D6),
+                                  ? const Color(0xffEAAD5F)
+                                  : const Color(0xffD6D6D6),
                             ),
                           )
                         ],
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       ReviewStars(rating: widget.trip.rating!),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Text(widget.trip.dates ?? "",
                           style:
-                              TextStyle(fontSize: 15, color: Color(0xffA9A9A9)),
+                              const TextStyle(fontSize: 15, color: Color(0xffA9A9A9)),
                           softWrap: false,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
-                      Divider(
+                      const Divider(
                         height: 20,
                       ),
                       Expanded(
                         child: Text(
                           widget.trip.accomodationDescription ?? "",
                           style:
-                              TextStyle(fontSize: 11, color: Color(0xff000000)),
+                              const TextStyle(fontSize: 11, color: Color(0xff000000)),
                           softWrap: true,
                           maxLines: 5,
                           overflow: TextOverflow.ellipsis,
@@ -202,7 +202,7 @@ class _TripCardState extends State<TripCard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("\$1000",
+                          const Text("\$1000",
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Color(0xff747474),
@@ -211,12 +211,12 @@ class _TripCardState extends State<TripCard> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis),
                           Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 15, horizontal: 25),
                             decoration: BoxDecoration(
-                                color: Color(0xffEAAD5F),
+                                color: const Color(0xffEAAD5F),
                                 borderRadius: BorderRadius.circular(10)),
-                            child: Text("Book trip",
+                            child: const Text("Book trip",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Color(0xffffffff),

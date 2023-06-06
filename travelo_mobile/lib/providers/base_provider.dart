@@ -6,13 +6,12 @@ import 'package:http/io_client.dart';
 import 'package:flutter/foundation.dart';
 
 import '../main.dart';
-import '../utils/util.dart';
 
 abstract class BaseProvider<T> with ChangeNotifier {
   static String? _baseUrl;
   String? _endpoint;
 
-  HttpClient client = new HttpClient();
+  HttpClient client = HttpClient();
   IOClient? http;
 
   BaseProvider(String endpoint) {
@@ -21,7 +20,7 @@ abstract class BaseProvider<T> with ChangeNotifier {
     print("baseurl: $_baseUrl");
 
     if (_baseUrl!.endsWith("/") == false) {
-      _baseUrl = _baseUrl! + "/";
+      _baseUrl = "${_baseUrl!}/";
     }
 
     _endpoint = endpoint;
@@ -67,7 +66,7 @@ abstract class BaseProvider<T> with ChangeNotifier {
 
     if (search != null) {
       String queryString = getQueryString(search);
-      url = url + "?" + queryString;
+      url = "$url?$queryString";
     }
 
     var uri = Uri.parse(url);
@@ -96,7 +95,7 @@ abstract class BaseProvider<T> with ChangeNotifier {
 
     if (isValidResponseCode(response)) {
       var data = jsonDecode(response.body);
-      return fromJson(data) as T;
+      return fromJson(data);
     } else {
       return null;
     }
@@ -113,7 +112,7 @@ abstract class BaseProvider<T> with ChangeNotifier {
 
     if (isValidResponseCode(response)) {
       var data = jsonDecode(response.body);
-      return fromJson(data) as T;
+      return fromJson(data);
     } else {
       return null;
     }
@@ -169,7 +168,7 @@ abstract class BaseProvider<T> with ChangeNotifier {
         }
         query += '$prefix$key=$encoded';
       } else if (value is DateTime) {
-        query += '$prefix$key=${(value as DateTime).toIso8601String()}';
+        query += '$prefix$key=${(value).toIso8601String()}';
       } else if (value is List || value is Map) {
         if (value is List) value = value.asMap();
         value.forEach((k, v) {

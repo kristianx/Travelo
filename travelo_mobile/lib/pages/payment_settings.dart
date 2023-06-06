@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../widgets/PageHeader.dart';
@@ -17,17 +15,16 @@ class PaymentSettings extends StatefulWidget {
 class _PaymentSettingsState extends State<PaymentSettings> {
   @override
   Widget build(BuildContext context) {
-    int selected = 0;
     return Scaffold(
       body: SafeArea(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-            PageHeader(
+            const PageHeader(
               pageName: "Payment settings",
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Padding(
@@ -35,13 +32,13 @@ class _PaymentSettingsState extends State<PaymentSettings> {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: Color(0xffEAAD5F),
+                    color: const Color(0xffEAAD5F),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 0,
                         blurRadius: 5,
-                        offset: Offset(0, 4),
+                        offset: const Offset(0, 4),
                       ),
                     ]),
                 child: Padding(
@@ -53,15 +50,15 @@ class _PaymentSettingsState extends State<PaymentSettings> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Color(0xffffffff),
+                          color: const Color(0xffffffff),
                         ),
                         child: Center(
                             child: Image.asset("assets/images/paypal.png")),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         'mar**@gmail.com',
                         style: TextStyle(
@@ -70,10 +67,10 @@ class _PaymentSettingsState extends State<PaymentSettings> {
                             fontWeight: FontWeight.w600),
                         softWrap: true,
                       )),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
-                      Text(
+                      const Text(
                         "DEFAULT",
                         style: TextStyle(
                             fontSize: 12,
@@ -90,13 +87,13 @@ class _PaymentSettingsState extends State<PaymentSettings> {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: Color(0xffffffff),
+                    color: const Color(0xffffffff),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 0,
                         blurRadius: 5,
-                        offset: Offset(0, 4),
+                        offset: const Offset(0, 4),
                       ),
                     ]),
                 child: Padding(
@@ -108,15 +105,15 @@ class _PaymentSettingsState extends State<PaymentSettings> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Color(0xffffffff),
+                          color: const Color(0xffffffff),
                         ),
                         child: Center(
                             child: Image.asset("assets/images/visa.png")),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         '**** **** **** 6132',
                         style: TextStyle(
@@ -125,7 +122,7 @@ class _PaymentSettingsState extends State<PaymentSettings> {
                             fontWeight: FontWeight.w600),
                         softWrap: true,
                       )),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
                     ],
@@ -138,13 +135,13 @@ class _PaymentSettingsState extends State<PaymentSettings> {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: Color(0xffffffff),
+                    color: const Color(0xffffffff),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 0,
                         blurRadius: 5,
-                        offset: Offset(0, 4),
+                        offset: const Offset(0, 4),
                       ),
                     ]),
                 child: Padding(
@@ -156,15 +153,15 @@ class _PaymentSettingsState extends State<PaymentSettings> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Color(0xffffffff),
+                          color: const Color(0xffffffff),
                         ),
                         child: Center(
                             child: Image.asset("assets/images/mastercard.png")),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         '**** **** **** 7583',
                         style: TextStyle(
@@ -173,7 +170,7 @@ class _PaymentSettingsState extends State<PaymentSettings> {
                             fontWeight: FontWeight.w600),
                         softWrap: true,
                       )),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
                     ],
@@ -182,15 +179,15 @@ class _PaymentSettingsState extends State<PaymentSettings> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset("assets/icons/plus.svg"),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
-                  Text(
+                  const Text(
                     "Add new payment method",
                     style: TextStyle(
                         fontSize: 14,
@@ -200,7 +197,7 @@ class _PaymentSettingsState extends State<PaymentSettings> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             SimpleButton(
@@ -210,7 +207,7 @@ class _PaymentSettingsState extends State<PaymentSettings> {
                   MaterialPageRoute(builder: (context) => const ProfilePage()),
                 );
               },
-              bgColor: Color(0xffEAAD5F),
+              bgColor: const Color(0xffEAAD5F),
               textColor: Colors.white,
               text: "Save",
               width: 300,
