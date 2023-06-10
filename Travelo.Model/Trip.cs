@@ -13,9 +13,11 @@ namespace Travelo.Model
         public int Rating { get; set; } = 5;
         public int RatingCount { get; set; } = 115;
         public List<string> Facilities { get; set; }
+        public List<string> AllDates { get; set; }
         public string Location { get; set; }
         public string Dates { get; set; }
         public int LowestPrice { get; set; }
+        public int HighestPrice { get; set; }
         public int AgencyId { get; set; }
         public string AgencyName { get; set; }
         public byte[] AgencyImage { get; set; }

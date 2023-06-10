@@ -11,7 +11,7 @@ namespace Travelo.Controllers
     [ApiController]
     [Route("[controller]")]
 
-    public class AgencyController : BaseCRUDController<Model.Agency, AgencySearchObject, AgencyCreateUpdateRequest, AgencyCreateUpdateRequest>
+    public class AgencyController : BaseCRUDController<Model.Agency, AgencySearchObject, AgencyCreateRequest, AgencyUpdateRequest>
     {
         IAgencyService _service;
         public AgencyController(IAgencyService service) : base(service)
@@ -22,13 +22,13 @@ namespace Travelo.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public override Model.Agency Create([FromBody] AgencyCreateUpdateRequest request)
+        public override Model.Agency Create([FromBody] AgencyCreateRequest request)
         {
             return base.Create(request);
         }
 
 
-        [HttpPost("~/UpdateImage")]
+        [HttpPost("~/Agency/UpdateImage")]
         public ActionResult UpdateImage([FromBody] AgencyUpdateImageRequest update)
         {
             if(_service.UpdateImage(update))
@@ -39,5 +39,18 @@ namespace Travelo.Controllers
 
             
         }
+        [AllowAnonymous]
+        [HttpPost("Login")]
+        public ActionResult<string> Login([FromBody] AgencyLogin agencylogin)
+        {
+            int? id = _service.Login(agencylogin);
+            if (id != null)
+            {
+                return Ok(id);
+            }
+            return BadRequest("User not found");
+
+        }
+
     }
 }

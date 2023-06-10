@@ -6,12 +6,13 @@ class InputField extends StatefulWidget {
   final String? iconPath;
   final bool obscure;
   final TextEditingController controller;
-
+  final int height;
   const InputField(
       {super.key,
       required this.hintText,
       this.iconPath,
       required this.controller,
+      this.height = -1,
       this.obscure = false});
 
   @override
@@ -55,6 +56,7 @@ class _InputFieldState extends State<InputField> {
               textAlignVertical: TextAlignVertical.center,
               controller: controller,
               decoration: InputDecoration(
+                hoverColor: Colors.white54,
                 filled: true,
                 hintText: hintText,
                 fillColor: Colors.white,

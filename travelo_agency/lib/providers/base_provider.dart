@@ -107,10 +107,13 @@ abstract class BaseProvider<T> with ChangeNotifier {
 
     Map<String, String> headers = await createHeaders();
 
+    print("Before:");
     var response =
         await http!.put(uri, headers: headers, body: jsonEncode(request));
 
     if (isValidResponseCode(response)) {
+      print("Here:");
+      print(response.body);
       var data = jsonDecode(response.body);
       return fromJson(data);
     } else {

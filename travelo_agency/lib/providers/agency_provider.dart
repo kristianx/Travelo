@@ -2,27 +2,25 @@ import 'dart:convert';
 import 'dart:io';
 import '../main.dart';
 
-import '../models/user.dart';
+import '../models/agency.dart';
 import 'base_provider.dart';
 
-class UserProvider extends BaseProvider<User> {
-  UserProvider() : super("User");
+class AgencyProvider extends BaseProvider<Agency> {
+  AgencyProvider() : super("Agency");
 
   @override
-  User fromJson(data) {
-    // TODO: implement fromJson
-
-    return User.fromJson(data);
+  Agency fromJson(data) {
+    return Agency.fromJson(data);
   }
 
-  Future<bool> loginUser(String? email, String? password) async {
+  Future<bool> login(String? email, String? password) async {
     if (email == null || password == null) {
       // throw Exception("Email or password is null");
       return false;
     }
     Map<String, String> headers = await createHeaders();
     var response = await http?.post(
-        Uri.parse("https://127.0.0.1:7100/User/Login"),
+        Uri.parse("https://127.0.0.1:7100/Agency/Login"),
         body:
             jsonEncode(<String, String>{"email": email, "password": password}),
         headers: headers);
@@ -30,7 +28,7 @@ class UserProvider extends BaseProvider<User> {
       print("Login success");
       localStorage.setItem('email', email);
       localStorage.setItem('password', password);
-      localStorage.setItem('userId', int.parse(response.body));
+      localStorage.setItem('agencyId', int.parse(response.body));
       return true;
     } else {
       print("Login error here");
@@ -38,25 +36,25 @@ class UserProvider extends BaseProvider<User> {
     }
   }
 
-  Future<User> uploadImage(int userId, File file) async {
+  Future<bool> uploadImage(int userId, File file) async {
     Map<String, String> headers = await createHeaders();
 
     var response = await http?.post(
-        Uri.parse("https://127.0.0.1:7100/uploadImage"),
+        Uri.parse("https://127.0.0.1:7100/Agency/UpdateImage"),
         body: jsonEncode(<String, dynamic>{
-          "userId": userId,
+          "agencyId": userId,
           "image": base64Encode(file.readAsBytesSync())
         }),
         headers: headers);
 
-    if (isValidResponseCode(response!)) {
-      return fromJson(jsonDecode(response.body));
+    if (response!.statusCode == 200) {
+      return true;
     } else {
-      throw Exception("Exception... handle this gracefully");
+      return false;
     }
   }
 
-  Future<bool> registerUser(String firstName, String lastName, String email,
+  Future<bool> register(String firstName, String lastName, String email,
       String password, String username, String CityId) async {
     var response =
         await http?.post(Uri.parse("https://127.0.0.1:7100/User/Register"),
@@ -75,11 +73,6 @@ class UserProvider extends BaseProvider<User> {
 
     if (response?.statusCode == 200) {
       print("Registration success");
-      // await storage.write(key: 'jwt', value: response!.body);
-      // await storage.write(key: 'username', value: email);
-      // await storage.write(key: 'password', value: password);
-      // Authorization.email = email;
-      // Authorization.password = password;
       localStorage.setItem('email', email);
       localStorage.setItem('password', password);
       return true;
@@ -87,22 +80,6 @@ class UserProvider extends BaseProvider<User> {
       print("Registration error here");
       return false;
     }
-  }
-
-  // bool checkLoginStatus() {
-  //   String? email = localStorage.getItem('email');
-  //   String? password = localStorage.getItem('password');
-  //   print("email: " + email.toString());
-  //   print("password: " + password.toString());
-  //   if (email != null && email != "" && password != null && password != "") {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  void newAuth() {
-    localStorage.deleteItem("email");
-    localStorage.deleteItem("password");
   }
 
   void logOut() {

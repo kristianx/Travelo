@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
-// import '../providers/user_provider.dart';
+import '../providers/agency_provider.dart';
 import '../widgets/InputField.dart';
 import '../widgets/SimpleButton.dart';
 
@@ -18,34 +18,36 @@ class _LoginPageState extends State<LoginPage> {
   bool progress = false;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  // late UserProvider _userProvider;
-  // Future<void> tryLogin() async {
-  //   await localStorage.ready;
-  //   print(localStorage.getItem("email"));
-  //   print(localStorage.getItem("password"));
-  //   var loginFlag = await _userProvider.loginUser(
-  //       localStorage.getItem("email"), localStorage.getItem("password"));
-  //   if (loginFlag && context.mounted) {
-  //     setState(() {
-  //       progress = false;
-  //     });
-  //     context.go("/home");
-  //   } else {
-  //     setState(() {
-  //       progress = false;
-  //     });
-  //   }
-  // }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _userProvider = Provider.of<UserProvider>(context, listen: false);
-  //   setState(() {
-  //     progress = true;
-  //   });
-  //   tryLogin();
-  // }
+  late AgencyProvider _agencyProvider;
+
+  Future<void> tryLogin() async {
+    await localStorage.ready;
+    print(localStorage.getItem("email"));
+    print(localStorage.getItem("password"));
+    var loginFlag = await _agencyProvider.login(
+        localStorage.getItem("email"), localStorage.getItem("password"));
+    if (loginFlag && context.mounted) {
+      setState(() {
+        progress = false;
+      });
+      context.go("/dashboard");
+    } else {
+      setState(() {
+        progress = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _agencyProvider = Provider.of<AgencyProvider>(context, listen: false);
+    setState(() {
+      progress = true;
+    });
+    tryLogin();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,30 +106,26 @@ class _LoginPageState extends State<LoginPage> {
         ),
         SimpleButton(
           onTap: () async {
-            // try {
-            //   var loginFlag = await _userProvider.loginUser(
-            //       _usernameController.text, _passwordController.text);
-            //   if (loginFlag) {
-            //     // Navigator.push(
-            //     //   context,
-            //     //   MaterialPageRoute(builder: (context) => const MainPage()),
-            //     // );
-            //     context.go("/home");
-            //   }
-            // } catch (e) {
-            //   showDialog(
-            //       context: context,
-            //       builder: (BuildContext context) => AlertDialog(
-            //             title: const Text("Error"),
-            //             content: Text(e.toString()),
-            //             actions: [
-            //               TextButton(
-            //                 child: const Text("Ok"),
-            //                 onPressed: () => Navigator.pop(context),
-            //               )
-            //             ],
-            //           ));
-            // }
+            try {
+              var loginFlag = await _agencyProvider.login(
+                  _usernameController.text, _passwordController.text);
+              if (loginFlag) {
+                context.go("/dashboard");
+              }
+            } catch (e) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                        title: const Text("Error"),
+                        content: Text(e.toString()),
+                        actions: [
+                          TextButton(
+                            child: const Text("Ok"),
+                            onPressed: () => Navigator.pop(context),
+                          )
+                        ],
+                      ));
+            }
           },
           bgColor: const Color(0xffEAAD5F),
           textColor: Colors.white,

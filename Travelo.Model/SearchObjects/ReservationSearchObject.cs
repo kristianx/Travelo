@@ -6,6 +6,7 @@ namespace Travelo.Model.SearchObjects
 {
     public class ReservationSearchObject : BaseSearchObject
     {
-        public int? UserId { get; set; } 
+        public int? UserId { get; set; }
+        public int? AgencyId { get; set; }
     }
 }

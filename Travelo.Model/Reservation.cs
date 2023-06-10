@@ -14,6 +14,7 @@ namespace Travelo.Model
         public int Price { get; set; }
         public int TripItemId { get; set; }
         public int TripId { get; set; }
+        public string AccomodationName { get; set; }
         public string AgencyName { get; set; }
         public string DestinationName { get; set; }
         public string CountryName { get; set; }

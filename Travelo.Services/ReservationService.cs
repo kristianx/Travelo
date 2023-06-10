@@ -32,6 +32,12 @@ namespace Travelo.Services
             {
                 filteredQuery = filteredQuery.Where(x => x.User.Id == search.UserId);
             }
+            
+            if (search.AgencyId != null)
+            {
+                filteredQuery = filteredQuery.Where(x => x.Trip.AgencyId == search.AgencyId);
+            }
+
 
             return filteredQuery;
         }

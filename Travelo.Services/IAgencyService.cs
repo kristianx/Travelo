@@ -9,8 +9,9 @@ using Travelo.Services.Database;
 
 namespace Travelo.Services
 {
-    public interface IAgencyService : ICRUDService<Model.Agency,AgencySearchObject, AgencyCreateUpdateRequest, AgencyCreateUpdateRequest>
+    public interface IAgencyService : ICRUDService<Model.Agency,AgencySearchObject, AgencyCreateRequest, AgencyUpdateRequest>
     {
         public bool UpdateImage(AgencyUpdateImageRequest update);
+        public int? Login(AgencyLogin agencylogin);
     }
 }

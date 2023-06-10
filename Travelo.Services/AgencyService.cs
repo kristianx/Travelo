@@ -15,7 +15,7 @@ using Travelo.Services.Database;
 
 namespace Travelo.Services
 {
-    public class AgencyService : BaseCRUDService<Model.Agency, Database.Agency, AgencySearchObject, AgencyCreateUpdateRequest, AgencyCreateUpdateRequest>, IAgencyService
+    public class AgencyService : BaseCRUDService<Model.Agency, Database.Agency, AgencySearchObject, AgencyCreateRequest, AgencyUpdateRequest>, IAgencyService
     {
         private readonly IAccountService _accountService;
         public AgencyService(TraveloContext context, IMapper mapper, IAccountService accountService) : base(context, mapper)
@@ -24,7 +24,7 @@ namespace Travelo.Services
         }
      
 
-        public override Model.Agency Create(AgencyCreateUpdateRequest create)
+        public override Model.Agency Create(AgencyCreateRequest create)
         {
 
             //Validation
@@ -88,6 +88,55 @@ namespace Travelo.Services
                 return true;
             }
             return false;
+        }
+        public int? Login(AgencyLogin agencyLogin)
+        {
+            Model.Account acc = _accountService.Login(agencyLogin.Email, agencyLogin.Password, Role.Agency);
+            if(acc != null)
+            {
+                Database.Agency? ag = Context.Agency.Single(agency => agency.AccountId == acc.Id);
+                if (ag != null)
+                {
+                    return ag.Id;
+                }
+            }
+            
+
+      
+            return null;
+
+        }
+        public override Model.Agency Update(int id, AgencyUpdateRequest update)
+        {
+
+            Model.Account acc = _accountService.Login(update.Email, update.OldPassword, Role.Agency);
+
+            if (acc != null)
+            {
+
+                var agency = Context.Agency.Include(x => x.Account).FirstOrDefault(x => x.Id == id);
+
+                if (agency != null && agency.Id == id)
+                {
+                    Mapper.Map(update, agency);
+                    Context.SaveChanges();
+                    if (update.NewPassword != null)
+                    {
+                        _accountService.updatePassword(id, update.NewPassword);
+                    }
+                }
+                else
+                {
+                    return null;
+
+                }
+
+
+
+                return Mapper.Map<Model.Agency>(agency);
+            }
+
+            return null;
         }
     }
 }

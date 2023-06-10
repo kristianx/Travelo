@@ -100,7 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                   child: Container(
                     height: 60,
                     alignment: Alignment.center,
@@ -111,7 +111,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: DropdownButtonFormField(
                         value: cityId,
                         items: const [
-                          DropdownMenuItem(value: "-1", child: Text("Text")),
+                          DropdownMenuItem(
+                              value: "-1", child: Text("Choose city")),
                           DropdownMenuItem(
                               value: "1",
                               child: Text("Bosnia and Herzegovina")),

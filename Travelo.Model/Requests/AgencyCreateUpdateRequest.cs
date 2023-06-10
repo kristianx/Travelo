@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Travelo.Model.Requests
 {
-    public class AgencyCreateUpdateRequest : AccountCreateUpdateRequest
+    public class AgencyCreateRequest : AccountCreateUpdateRequest
     {
 
 

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
-import 'package:travelo_agency/providers/user_provider.dart';
+import 'package:travelo_agency/providers/agency_provider.dart';
+import 'package:travelo_agency/providers/city_provider.dart';
+import 'package:travelo_agency/providers/reservation_provider.dart';
+import 'package:travelo_agency/providers/trip_provider.dart';
 import 'package:travelo_agency/routes/routes.dart';
 
 final LocalStorage localStorage = LocalStorage('localstorage.json');
@@ -17,7 +20,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => AgencyProvider()),
+        ChangeNotifierProvider(create: (_) => ReservationProvider()),
+        ChangeNotifierProvider(create: (_) => TripProvider()),
+        ChangeNotifierProvider(create: (_) => CityProvider()),
       ],
       child: MaterialApp.router(
         routerConfig: MyRouter.router,
