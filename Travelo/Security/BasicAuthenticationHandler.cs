@@ -30,7 +30,13 @@ public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSc
 
         var email = credentials[0];
         var password = credentials[1];
-        var role = credentials[2];
+        var role = "";
+
+        if(credentials.Length > 2)
+        {
+            role = credentials[2];
+        }
+      
 
         Role r = Role.Traveler;
         if (role == "agency")

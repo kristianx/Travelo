@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_agency/providers/accomodation_provider.dart';
 import 'package:travelo_agency/providers/agency_provider.dart';
@@ -8,6 +9,7 @@ import 'package:travelo_agency/providers/reservation_provider.dart';
 import 'package:travelo_agency/providers/tripItemProvider.dart';
 import 'package:travelo_agency/providers/trip_provider.dart';
 import 'package:travelo_agency/routes/routes.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 final LocalStorage localStorage = LocalStorage('localstorage.json');
 void main() {
@@ -30,6 +32,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TripItemProvider()),
       ],
       child: MaterialApp.router(
+        localizationsDelegates: [
+          GlobalWidgetsLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          MonthYearPickerLocalizations.delegate,
+        ],
         routerConfig: MyRouter.router,
         theme: ThemeData(
             primarySwatch: Colors.blue,

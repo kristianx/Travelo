@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -5,7 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:travelo_agency/main.dart';
 import 'package:travelo_agency/models/reservation.dart';
 import 'package:travelo_agency/providers/reservation_provider.dart';
-
+import 'package:travelo_agency/widgets/MonthlyChart.dart';
+import '../models/dailyStats.dart';
 import '../utils/util.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -18,16 +20,28 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   late ReservationProvider _reservationProvider;
   List<Reservation> reservations = [];
+  List<DailyStats> stats = [];
   String sales = "-";
   String customers = "-";
   String bookings = "-";
   String offers = "-";
+  late int showingTooltip;
+  DateTime selectedDate = DateTime.now();
+
+  Future updateStats() async {
+    setState(() {});
+  }
 
   Future loadData() async {
     var tmpData = await _reservationProvider
         .get({'agencyId': localStorage.getItem('agencyId')});
+    var tmpStats = await _reservationProvider.getStats(
+        localStorage.getItem('agencyId') as int,
+        selectedDate.month,
+        selectedDate.year);
     setState(() {
       reservations = tmpData;
+      stats = tmpStats;
       sales = reservations
           .fold(0, (previousValue, element) => previousValue + element.price!)
           .toString();
@@ -40,40 +54,64 @@ class _DashboardPageState extends State<DashboardPage> {
                   element.numberOfChildren!)
           .toString();
       bookings = reservations.length.toString();
+      offers = reservations.length.toString();
     });
   }
 
   @override
   void initState() {
     super.initState();
+    showingTooltip = -1;
     _reservationProvider =
         Provider.of<ReservationProvider>(context, listen: false);
     loadData();
   }
 
+  BarChartGroupData generateGroupData(int x, int y) {
+    return BarChartGroupData(
+      x: x,
+      showingTooltipIndicators: showingTooltip == x ? [0] : [],
+      barRods: [
+        BarChartRodData(
+          toY: y.toDouble(),
+          color: const Color(0xffCBCBCB),
+          width: 20,
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 20),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
-            children: _buildStatCards()),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 35),
-          child: Center(
-              child: Text(
-            "Bookings",
-            style: TextStyle(fontSize: 25, color: Color(0xff747474)),
-          )),
-        ),
-        Center(
-          child: Table(
-              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              children: _buildTableRows()),
-        )
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        children: [
+          const SizedBox(height: 20),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              children: _buildStatCards()),
+          const SizedBox(height: 20),
+          MonthlyChart(),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 35),
+            child: Center(
+                child: Text(
+              "Bookings",
+              style: TextStyle(fontSize: 25, color: Color(0xff747474)),
+            )),
+          ),
+          Center(
+            child: Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                children: _buildTableRows()),
+          ),
+          const SizedBox(height: 100),
+        ],
+      ),
     );
   }
 
@@ -101,12 +139,12 @@ class _DashboardPageState extends State<DashboardPage> {
               children: [
                 Text(
                   "\$$sales",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xff747474),
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
-                Text(
+                const Text(
                   "Total sales",
                   style: TextStyle(
                       color: Color(0xffCBCBCB),
@@ -140,12 +178,12 @@ class _DashboardPageState extends State<DashboardPage> {
               children: [
                 Text(
                   customers,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xff747474),
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
-                Text(
+                const Text(
                   "Total customers",
                   style: TextStyle(
                       color: Color(0xffCBCBCB),
@@ -179,12 +217,12 @@ class _DashboardPageState extends State<DashboardPage> {
               children: [
                 Text(
                   bookings,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xff747474),
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
-                Text(
+                const Text(
                   "Total bookings",
                   style: TextStyle(
                       color: Color(0xffCBCBCB),
@@ -218,12 +256,12 @@ class _DashboardPageState extends State<DashboardPage> {
               children: [
                 Text(
                   offers,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xff747474),
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
-                Text(
+                const Text(
                   "Total offers",
                   style: TextStyle(
                       color: Color(0xffCBCBCB),
@@ -324,13 +362,15 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ]));
     if (reservations.isEmpty) {
-      list.add(TableRow(children: [
+      list.add(const TableRow(children: [
+        Center(),
         Center(),
         Center(),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 20),
           child: Center(child: Text("There are no bookings.")),
         ),
+        Center(),
         Center(),
         Center(),
       ]));

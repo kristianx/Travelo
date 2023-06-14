@@ -8,6 +8,7 @@ import '../../models/agency.dart';
 import '../../providers/agency_provider.dart';
 import '../../utils/util.dart';
 
+// ignore: must_be_immutable
 class ScaffoldWithNavBar extends StatefulWidget {
   String location;
   ScaffoldWithNavBar({super.key, required this.child, required this.location});
