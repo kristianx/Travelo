@@ -41,6 +41,10 @@ namespace Travelo.Services
             {
                 filteredQuery = filteredQuery.Where(x => x.Tags.Any(t => t.Name == search.TagName));
             }
+            if (search.hasItems)
+            {
+                filteredQuery = filteredQuery.Where(x => x.TripItems.Count > 0);
+            }
 
             return filteredQuery;
         }
@@ -55,7 +59,7 @@ namespace Travelo.Services
      
         public override IEnumerable<Model.Trip> Get(TripSearchObject search = null)
         {
-            var trips = Context.Trip.Where(t => t.TripItems.Count > 0).AsQueryable();
+            var trips = Context.Trip.AsQueryable();
 
             trips = AddFilter(trips, search);
 

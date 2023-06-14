@@ -107,17 +107,28 @@ abstract class BaseProvider<T> with ChangeNotifier {
 
     Map<String, String> headers = await createHeaders();
 
-    print("Before:");
     var response =
         await http!.put(uri, headers: headers, body: jsonEncode(request));
-
     if (isValidResponseCode(response)) {
-      print("Here:");
-      print(response.body);
       var data = jsonDecode(response.body);
       return fromJson(data);
     } else {
       return null;
+    }
+  }
+
+  Future<bool> delete(int id) async {
+    var url = "$_baseUrl$_endpoint/$id";
+    var uri = Uri.parse(url);
+
+    Map<String, String> headers = await createHeaders();
+
+    var response = await http!.delete(uri, headers: headers);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -137,7 +148,8 @@ abstract class BaseProvider<T> with ChangeNotifier {
 
     // print("Auth: " + username.toString() + " " + password.toString());
 
-    String basicAuth = "Basic ${base64Encode(utf8.encode('$email:$password'))}";
+    String basicAuth =
+        "Basic ${base64Encode(utf8.encode('$email:$password:agency'))}";
 
     var headers = {
       "Content-Type": "application/json",

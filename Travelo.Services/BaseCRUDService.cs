@@ -56,5 +56,19 @@ namespace Travelo.Services
             return Mapper.Map<T>(entity);
 
         }
+        public virtual bool Delete(int id)
+        {
+            var set = Context.Set<TDb>();
+
+            var entity = set.Find(id);
+
+            if (entity != null)
+            {
+                Context.Set<TDb>().Remove(entity);
+                Context.SaveChanges();
+                return true;
+            }
+           return false;
+        }
     }
 }

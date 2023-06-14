@@ -25,5 +25,10 @@ namespace Travelo.Controllers
         {
             return _service.GetDestinations(search);
         }
+        [AllowAnonymous]
+        public override IEnumerable<Model.City> Get([FromQuery] CitySearchObject search = null)
+        {
+            return base.Get(search);
+        }
     }
 }

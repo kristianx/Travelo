@@ -14,8 +14,21 @@ namespace Travelo.Controllers
     [Route("[controller]")]
     public class AccommodationController : BaseCRUDController<Model.Accomodation, AccomodationSearchObject, AccomodationCreateRequest, AccomodationUpdateRequest>
     {
+        IAccomodationService _service;
         public AccommodationController(IAccomodationService service) : base(service)
         {
+            _service = service;
+        }
+        [HttpPost("~/Accommodation/UpdateImage")]
+        public ActionResult UpdateImage([FromBody] AccommodationUpdateImageRequest update)
+        {
+            if (_service.UpdateImage(update))
+            {
+                return Ok();
+            }
+            return BadRequest();
+
+
         }
     }
 }

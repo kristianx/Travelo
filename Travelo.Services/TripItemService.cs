@@ -19,6 +19,16 @@ namespace Travelo.Services
         {
             return base.Get(search);
         }
+        public override IQueryable<TripItem> AddFilter(IQueryable<TripItem> query, TripItemSearchObject search = null)
+        {
+
+            var filteredQuery = base.AddFilter(query, search);
+            if (search.TripId != null)
+            {
+                filteredQuery = filteredQuery.Where(x => x.TripId == search.TripId);
+            }
+            return filteredQuery;
+        }
     }
 
 

@@ -27,8 +27,8 @@ namespace Travelo.Services
                 .ForMember(d => d.Location, s => s.MapFrom(_ => _.City.Name + ", " + _.City.Country.Name))
                 .ForMember(d => d.CityName, s => s.MapFrom(_ => _.City.Name))
                 .ReverseMap();
-            CreateMap<AgencyCreateRequest, Database.Agency>().ReverseMap();
-            CreateMap<AgencyUpdateRequest, Database.Agency>().ReverseMap();
+            CreateMap<AgencyCreateRequest, Database.Agency>().ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null));
+            CreateMap<AgencyUpdateRequest, Database.Agency>().ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null));
 
 
             CreateMap<Database.Trip, Model.Trip>()
@@ -45,6 +45,7 @@ namespace Travelo.Services
                 .ForMember(d => d.Dates, s => s.MapFrom(_ => _.TripItems.OrderBy(t => t.PricePerPerson).FirstOrDefault()!.Dates))
                 .ForMember(d => d.CityName, s => s.MapFrom(_ => _.Accommodation.City.Name))
                 .ForMember(d => d.AllDates, s => s.MapFrom(_ => _.TripItems.Select(x=> x.Dates).ToList()))
+                .ForMember(d => d.AccomodationId, s => s.MapFrom(_ => _.Accommodation.Id))
                 .ForMember(d => d.CountryName, s => s.MapFrom(_ => _.Accommodation.City.Country.Name))
                 .ReverseMap();
             CreateMap<TripCreateRequest, Database.Trip>();
@@ -52,7 +53,7 @@ namespace Travelo.Services
 
 
             CreateMap<Database.TripItem, Model.TripItem>().ReverseMap();
-            CreateMap<TripItemCreateUpdateRequest, Database.TripItem>();
+            CreateMap<TripItemCreateUpdateRequest, Database.TripItem>().ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null)) ;
 
 
             CreateMap<Database.City, Model.City>()
@@ -72,8 +73,10 @@ namespace Travelo.Services
 
             //Get facilities and populate
             CreateMap<Database.Accommodation, Model.Accomodation>().ReverseMap();
-            CreateMap<AccomodationCreateRequest, Database.Accommodation>();
-            CreateMap<AccomodationUpdateRequest, Database.Accommodation>();
+            CreateMap<AccomodationCreateRequest, Database.Accommodation>()
+                 .ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null));
+            CreateMap<AccomodationUpdateRequest, Database.Accommodation>()
+                .ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null)); 
 
             CreateMap<Database.Reservation, Model.Reservation>()
                 .ForMember(d => d.AgencyName, s => s.MapFrom(_ => _.Trip.Agency.Name))

@@ -11,4 +11,5 @@ namespace Travelo.Services
     public interface ITripItemService : ICRUDService<Model.TripItem, TripItemSearchObject, TripItemCreateUpdateRequest, TripItemCreateUpdateRequest>
     {
     }
+
 }

@@ -24,6 +24,7 @@ namespace Travelo.Model
         public string CountryName { get; set; }
         public string CityName { get; set; }
         public bool Bookamrked { get; set; }
+        public int AccomodationId { get; set; }
 
     } 
 

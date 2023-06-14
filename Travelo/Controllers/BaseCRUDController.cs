@@ -24,5 +24,21 @@ namespace Travelo.Controllers
             var result = ((ICRUDService<T, TSearch, TCreate, TUpdate>)this.Service).Update(id, request);
             return result;
         }
+
+        [HttpDelete("{id}")]
+        public virtual ActionResult Delete(int id)
+        {
+            var result = ((ICRUDService<T, TSearch, TCreate, TUpdate>)this.Service).Delete(id);
+            if (result)
+            {
+                return Ok("Item deleted");
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+
+        }
     }
 }

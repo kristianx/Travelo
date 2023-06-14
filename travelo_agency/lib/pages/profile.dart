@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_agency/models/agency.dart';
 import 'package:travelo_agency/models/city.dart';
@@ -52,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future loadData() async {
     var tmpAgency =
         await _agencyProvider.getById(localStorage.getItem('agencyId') as int);
-    var tmpCities = await _cityProvider.get();
+    var tmpCities = await _cityProvider.get({"hasTrips": false});
 
     setState(() {
       _agency = tmpAgency;
@@ -90,10 +91,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.all(30),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "Account information",
@@ -102,6 +103,18 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontWeight: FontWeight.w500,
                             color: Color(0xff747474),
                           ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            _agencyProvider.logOut();
+                            context.go('/welcome');
+                          },
+                          child: Text("Logout",
+                              style: TextStyle(
+                                color: Color(0xffEAAD5F),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              )),
                         ),
                       ],
                     ),
@@ -334,47 +347,52 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Container(
-                      width: 350,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              spreadRadius: 0,
-                              blurRadius: 5,
-                              offset: const Offset(
-                                  0, 4), // changes position of shadow
-                            ),
-                          ]),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/icons/Password.svg",
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Text("**********"),
-                              ],
-                            ),
-                            const Text(
-                              "CHANGE",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 13,
-                                  color: Color(0xffEAAD5F)),
-                            )
-                          ],
+                  GestureDetector(
+                    onTap: () {
+                      context.go('/change-password');
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Container(
+                        width: 350,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.2),
+                                spreadRadius: 0,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 4), // changes position of shadow
+                              ),
+                            ]),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/icons/Password.svg",
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text("**********"),
+                                ],
+                              ),
+                              const Text(
+                                "CHANGE",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 13,
+                                    color: Color(0xffEAAD5F)),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),

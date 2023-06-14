@@ -10,6 +10,7 @@ namespace Travelo.Services
     {
         T Create(TCreate create);
         T Update(int id, TUpdate update);
+        bool Delete(int id);
 
     }
 }

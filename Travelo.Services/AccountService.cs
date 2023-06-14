@@ -62,6 +62,10 @@ namespace Travelo.Services
                 account.PasswordHash = GenerateHash(salt, newPassword);
                 Context.SaveChanges();
             }
+            else
+            {
+                throw new Exception("Something went wrong");
+            }
         
         }
 
@@ -98,13 +102,14 @@ namespace Travelo.Services
         public Model.Account Login(string email, string password, Role role)
         {
             var entity = Context.Account.FirstOrDefault(x => x.Email == email);
+           
             if (entity == null)
             {
                 return null;
             }
             if (entity.Role != role)
             {
-                return null;
+                throw new UserException("Not a valid role.");
             }
             var hash = GenerateHash(entity.PasswordSalt, password);
             if (hash != entity.PasswordHash)

@@ -13,6 +13,17 @@ namespace Travelo.Services
 		{ 
 
         }
+        public bool UpdateImage(AccommodationUpdateImageRequest update)
+        {
+            Database.Accommodation accomodation  = Context.Accommodations.FirstOrDefault(a => a.Id == update.AccomodationId);
+            if (accomodation != null)
+            {
+                Context.Accommodations.FirstOrDefault(a => a.Id == update.AccomodationId).Images = update.Image;
+                Context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
     }
 }
 

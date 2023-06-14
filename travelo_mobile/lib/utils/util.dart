@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // class Authorization {
 //   static String? email;
@@ -45,4 +46,17 @@ String formatNumber(dynamic) {
     return "";
   }
   return f.format(dynamic);
+}
+
+dynamic launchTel(String number) async {
+  try {
+    Uri email = Uri(
+      scheme: 'tel',
+      path: number,
+    );
+
+    await launchUrl(email);
+  } catch (e) {
+    debugPrint(e.toString());
+  }
 }

@@ -6,11 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-// class Authorization {
-//   static String? email;
-//   static String? password;
-// }
-
 bool doesAssetExist(String assetPath) {
   try {
     rootBundle.load(assetPath);

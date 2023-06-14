@@ -75,7 +75,11 @@ namespace Travelo.Services
 
             if(acc != null)
             {
-                return acc.Id;
+                Database.User? user = Context.User.Single(us => us.AccountId == acc.Id);
+                if (user != null)
+                {
+                    return user.Id;
+                }
             }
             return null;
 

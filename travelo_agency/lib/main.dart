@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
+import 'package:travelo_agency/providers/accomodation_provider.dart';
 import 'package:travelo_agency/providers/agency_provider.dart';
 import 'package:travelo_agency/providers/city_provider.dart';
 import 'package:travelo_agency/providers/reservation_provider.dart';
+import 'package:travelo_agency/providers/tripItemProvider.dart';
 import 'package:travelo_agency/providers/trip_provider.dart';
 import 'package:travelo_agency/routes/routes.dart';
 
@@ -24,6 +26,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ReservationProvider()),
         ChangeNotifierProvider(create: (_) => TripProvider()),
         ChangeNotifierProvider(create: (_) => CityProvider()),
+        ChangeNotifierProvider(create: (_) => AccomodationProvider()),
+        ChangeNotifierProvider(create: (_) => TripItemProvider()),
       ],
       child: MaterialApp.router(
         routerConfig: MyRouter.router,

@@ -24,7 +24,9 @@ class _LoginPageState extends State<LoginPage> {
     print(localStorage.getItem("email"));
     print(localStorage.getItem("password"));
     var loginFlag = await _userProvider.loginUser(
-        localStorage.getItem("email"), localStorage.getItem("password"));
+      localStorage.getItem("email"),
+      localStorage.getItem("password"),
+    );
     if (loginFlag && context.mounted) {
       setState(() {
         progress = false;
@@ -71,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
         const Expanded(
             child: Center(
                 child: Text(
-          "LOADING...",
+          "Loading...",
           style: TextStyle(
               color: Color(0xffA8A8A8),
               fontWeight: FontWeight.w400,

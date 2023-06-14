@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/providers/agency_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
 import '../model/agency.dart';
@@ -134,7 +135,14 @@ class _AgencyPageState extends State<AgencyPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          // final Uri launchUri = Uri(
+                          //   scheme: 'tel',
+                          //   path: _agency?.phone ?? '',
+                          // );
+                          // await launchUrl(launchUri);
+                          launchTel(_agency!.phone ?? '');
+                        },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -221,7 +229,7 @@ class _AgencyPageState extends State<AgencyPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${_agency?.numberOfTrips ?? "-"} TRIPS",
+                        "${trips.length} TRIPS",
                         style: const TextStyle(
                             color: Color(0xff8C8C8C),
                             fontSize: 18,

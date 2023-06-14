@@ -249,6 +249,17 @@ class _DashboardPageState extends State<DashboardPage> {
             padding: EdgeInsets.symmetric(vertical: 20),
             child: Center(
                 child: Text(
+              "Date",
+              style: TextStyle(
+                  color: Color(0xff292929),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500),
+            )),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 20),
+            child: Center(
+                child: Text(
               "Image",
               style: TextStyle(
                   color: Color(0xff292929),
@@ -300,6 +311,17 @@ class _DashboardPageState extends State<DashboardPage> {
                   fontWeight: FontWeight.w500),
             )),
           ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 20),
+            child: Center(
+                child: Text(
+              "Price",
+              style: TextStyle(
+                  color: Color(0xff292929),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500),
+            )),
+          ),
         ]));
     if (reservations.isEmpty) {
       list.add(TableRow(children: [
@@ -315,6 +337,9 @@ class _DashboardPageState extends State<DashboardPage> {
     } else {
       list += reservations
           .map((re) => TableRow(children: [
+                Center(
+                    child: Text(DateFormat('dd. MMMM yyyy')
+                        .format(re.timeOfReservation!))),
                 Padding(
                   padding: const EdgeInsets.all(7.0),
                   child: Center(
@@ -342,6 +367,11 @@ class _DashboardPageState extends State<DashboardPage> {
                 Center(
                     child:
                         Text("${re.numberOfAdults} + ${re.numberOfChildren}")),
+                Center(
+                    child: Text(
+                  "\$${re.price}",
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+                )),
               ]))
           .toList();
     }

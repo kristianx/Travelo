@@ -44,6 +44,7 @@ dependencies:
   localstorage: ^4.0.1+2
   get: ^4.6.5
   image_picker: ^0.8.8
+  syncfusion_flutter_datepicker: ^21.2.10
 
 dev_dependencies:
   flutter_test:

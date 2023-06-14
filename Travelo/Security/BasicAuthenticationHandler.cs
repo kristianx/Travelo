@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
+using Travelo.Model;
 using Travelo.Services;
 
 public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
@@ -29,8 +30,15 @@ public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSc
 
         var email = credentials[0];
         var password = credentials[1];
+        var role = credentials[2];
 
-        var user = Service.Login(email, password, Travelo.Model.Role.Agency);
+        Role r = Role.Traveler;
+        if (role == "agency")
+        {
+            r = Role.Agency;
+        }
+
+        var user = Service.Login(email, password, r);
 
         if(user == null)
         {

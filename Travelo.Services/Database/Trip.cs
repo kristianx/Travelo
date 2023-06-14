@@ -23,6 +23,7 @@ namespace Travelo.Services.Database
 
         public virtual ICollection<TripItem> TripItems {get;set; }
 
+        public int AccommodationId { get; set; }
         public Accommodation Accommodation { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }

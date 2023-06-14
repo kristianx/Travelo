@@ -134,7 +134,8 @@ abstract class BaseProvider<T> with ChangeNotifier {
 
     // print("Auth: " + username.toString() + " " + password.toString());
 
-    String basicAuth = "Basic ${base64Encode(utf8.encode('$email:$password'))}";
+    String basicAuth =
+        "Basic ${base64Encode(utf8.encode('$email:$password:traveler'))}";
 
     var headers = {
       "Content-Type": "application/json",

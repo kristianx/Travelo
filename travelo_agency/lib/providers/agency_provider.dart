@@ -82,6 +82,11 @@ class AgencyProvider extends BaseProvider<Agency> {
     }
   }
 
+  void newAuth(String email, String password) {
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
+  }
+
   void logOut() {
     localStorage.setItem('email', null);
     localStorage.setItem('password', null);

@@ -8,6 +8,7 @@ class Trip {
   String? accomodationImage;
   String? accomodationName;
   String? accomodationDescription;
+  int? accomodationId;
   int? rating;
   int? ratingCount;
   List<String>? facilities;

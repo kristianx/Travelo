@@ -20,10 +20,11 @@ class _OffersPageState extends State<OffersPage> {
   List<Trip> trips = [];
 
   Future loadData() async {
-    var tmpData =
-        await _tripProvider.get({'AgencyId': localStorage.getItem('AgencyId')});
+    var tmpData = await _tripProvider
+        .get({'AgencyId': localStorage.getItem('agencyId'), 'hasItems': false});
     setState(() {
       trips = tmpData;
+      print(trips.length);
     });
   }
 
@@ -111,7 +112,7 @@ class _OffersPageState extends State<OffersPage> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 15,
                 mainAxisSpacing: 15,
-                mainAxisExtent: 250, // here set custom Height You Want
+                mainAxisExtent: 250,
               ),
               shrinkWrap: true,
               itemCount: trips.length,
@@ -237,6 +238,7 @@ class _OffersPageState extends State<OffersPage> {
                 );
               },
             ),
+            const SizedBox(height: 60),
           ],
         ),
       ),

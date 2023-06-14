@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travelo_agency/models/trip.dart';
+import 'package:travelo_agency/pages/change_password.dart';
 import 'package:travelo_agency/pages/dashboard.dart';
 import 'package:travelo_agency/pages/new_offer.dart';
 import 'package:travelo_agency/pages/offer.dart';
@@ -91,6 +92,15 @@ class MyRouter {
               pageBuilder: (context, state) {
                 return const NoTransitionPage(
                   child: ProfilePage(),
+                );
+              },
+            ),
+            GoRoute(
+              path: '/change-password',
+              parentNavigatorKey: _shellNavigatorKey,
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(
+                  child: ChangePasswordPage(),
                 );
               },
             ),

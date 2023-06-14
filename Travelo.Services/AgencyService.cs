@@ -118,12 +118,16 @@ namespace Travelo.Services
 
                 if (agency != null && agency.Id == id)
                 {
-                    Mapper.Map(update, agency);
-                    Context.SaveChanges();
                     if (update.NewPassword != null)
                     {
-                        _accountService.updatePassword(id, update.NewPassword);
+                        _accountService.updatePassword(acc.Id, update.NewPassword);
                     }
+                    else
+                    {
+                        Mapper.Map(update, agency);
+                        Context.SaveChanges();
+                    }
+                 
                 }
                 else
                 {

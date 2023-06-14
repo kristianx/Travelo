@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../../main.dart';
+import '../../models/agency.dart';
+import '../../providers/agency_provider.dart';
+import '../../utils/util.dart';
 
 class ScaffoldWithNavBar extends StatefulWidget {
   String location;
@@ -13,6 +19,23 @@ class ScaffoldWithNavBar extends StatefulWidget {
 }
 
 class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
+  Agency _agency = Agency();
+  late AgencyProvider _agencyProvider;
+  @override
+  void initState() {
+    super.initState();
+    _agencyProvider = context.read<AgencyProvider>();
+    loadData();
+  }
+
+  Future loadData() async {
+    var tmpAgency =
+        await _agencyProvider.getById(localStorage.getItem('agencyId') as int);
+    setState(() {
+      _agency = tmpAgency;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,20 +151,17 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(200)),
                                 image: DecorationImage(
-                                    // image: widget.trip.agencyImage == ""
-                                    //     ? const AssetImage(
-                                    //         "assets/images/imageHolder.png")
-                                    //     : imageFromBase64String(
-                                    //             widget.trip.agencyImage!)
-                                    //         .image,
-                                    image: const AssetImage(
-                                        "assets/images/imageHolder.png"),
+                                    image: _agency.image == ""
+                                        ? const AssetImage(
+                                            "assets/images/imageHolder.png")
+                                        : imageFromBase64String(_agency.image!)
+                                            .image,
                                     fit: BoxFit.cover))),
                         const SizedBox(
                           width: 7,
                         ),
                         Text(
-                          "Travelo",
+                          _agency.name ?? "Agency name",
                           style: TextStyle(
                               fontSize: 15,
                               color: widget.location == "/profile"
