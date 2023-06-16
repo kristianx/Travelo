@@ -1,9 +1,13 @@
 # Travelo
 
-a. Desktop verzija:
-  i. Korisničko ime: travelo@gmail.com 
-  ii. Lozinka: Tester
+Desktop verzija:
+
+    Email: travelo@gmail.com
   
-b. Mobile verzija:
-  i. Korisničko ime: test@gmail.com
-  ii. Lozinka: Tester
+    Lozinka: Tester
+  
+Mobile verzija:
+
+    Email: test@gmail.com
+  
+    Lozinka: Tester
