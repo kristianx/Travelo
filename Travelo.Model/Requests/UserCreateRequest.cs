@@ -15,7 +15,6 @@ namespace Travelo.Model.Requests
         [MinLength(4)]
         public string Username { get; set; }
 
-        public byte[] Image { get; set; }
         [MinLength(5)]
         public string Address { get; set; }
    

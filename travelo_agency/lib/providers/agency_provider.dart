@@ -20,7 +20,7 @@ class AgencyProvider extends BaseProvider<Agency> {
     }
     Map<String, String> headers = await createHeaders();
     var response = await http?.post(
-        Uri.parse("https://127.0.0.1:7100/Agency/Login"),
+        Uri.parse("http://127.0.0.1:7100/Agency/Login"),
         body:
             jsonEncode(<String, String>{"email": email, "password": password}),
         headers: headers);
@@ -40,7 +40,7 @@ class AgencyProvider extends BaseProvider<Agency> {
     Map<String, String> headers = await createHeaders();
 
     var response = await http?.post(
-        Uri.parse("https://127.0.0.1:7100/Agency/UpdateImage"),
+        Uri.parse("http://127.0.0.1:7100/Agency/UpdateImage"),
         body: jsonEncode(<String, dynamic>{
           "agencyId": userId,
           "image": base64Encode(file.readAsBytesSync())
@@ -54,20 +54,32 @@ class AgencyProvider extends BaseProvider<Agency> {
     }
   }
 
-  Future<bool> register(String firstName, String lastName, String email,
-      String password, String username, String CityId) async {
-    var response =
-        await http?.post(Uri.parse("https://127.0.0.1:7100/User/Register"),
-            body: jsonEncode(<String, String>{
-              "firstName": firstName,
-              "lastName": lastName,
-              "email": email,
-              "password": password,
-              "confirmPassword": password,
-              "username": username,
-              "CityId": CityId,
-            }),
-            headers: <String, String>{
+  Future<bool> register(
+    String name,
+    String email,
+    String phone,
+    String websiteUrl,
+    String about,
+    String address,
+    String postalCode,
+    String password,
+    String confirmPassword,
+    int cityId,
+  ) async {
+    var response = await http?.post(Uri.parse("http://127.0.0.1:7100/Agency"),
+        body: jsonEncode(<String, dynamic>{
+          "name": name,
+          "email": email,
+          "phone": phone,
+          "websiteUrl": websiteUrl,
+          "about": about,
+          "address": address,
+          "postalCode": postalCode,
+          "password": password,
+          "confirmPassword": confirmPassword,
+          "cityId": cityId,
+        }),
+        headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });
 
@@ -75,6 +87,7 @@ class AgencyProvider extends BaseProvider<Agency> {
       print("Registration success");
       localStorage.setItem('email', email);
       localStorage.setItem('password', password);
+      localStorage.setItem('agencyId', fromJson(jsonDecode(response!.body)).id);
       return true;
     } else {
       print("Registration error here");

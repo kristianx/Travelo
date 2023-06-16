@@ -41,8 +41,10 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
+
     _cityProvider = context.read<CityProvider>();
     _agencyProvider = context.read<AgencyProvider>();
+
     loadData();
   }
 
@@ -172,22 +174,20 @@ class _RegisterPageState extends State<RegisterPage> {
             SimpleButton(
               onTap: () async {
                 try {
-                  var registerFlag = await _agencyProvider.insert({
-                    "name": _nameController.text,
-                    "email": _emailController.text,
-                    "phone": _phoneController.text,
-                    "websiteUrl": _websiteController.text,
-                    "about": _aboutController.text,
-                    "address": _addressController.text,
-                    "postalCode": _postCodeController.text,
-                    "password": _passwordController.text,
-                    "confirmPassword": _passwordController.text,
-                    "cityId": cityId,
-                  });
+                  var registerFlag = await _agencyProvider.register(
+                    _nameController.text,
+                    _emailController.text,
+                    _phoneController.text,
+                    _websiteController.text,
+                    _aboutController.text,
+                    _addressController.text,
+                    _postCodeController.text,
+                    _passwordController.text,
+                    _passwordController.text,
+                    cityId,
+                  );
 
                   if (registerFlag != null) {
-                    _agencyProvider.newAuth(
-                        _emailController.text, _passwordController.text);
                     context.go('/dashboard');
                     ScaffoldMessenger.of(context).showSnackBar(
                         CustomSnackBar.showSuccessSnackBar(

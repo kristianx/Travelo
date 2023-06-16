@@ -152,7 +152,8 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(200)),
                                 image: DecorationImage(
-                                    image: _agency.image == ""
+                                    image: _agency.image == null ||
+                                            _agency.image == ""
                                         ? const AssetImage(
                                             "assets/images/imageHolder.png")
                                         : imageFromBase64String(_agency.image!)

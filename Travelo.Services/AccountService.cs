@@ -81,10 +81,14 @@ namespace Travelo.Services
 
         public static string GenerateSalt()
         {
+            RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
+            var byteArray = new byte[16];
+            provider.GetBytes(byteArray);
+            return Convert.ToBase64String(byteArray);
             //var buf = new byte[16];
             //(new RSACryptoServiceProvider()).GetBytes(buf);
             //return Convert.ToBase64String(buf);
-            return Convert.ToBase64String(new byte[16]);
+            //return Convert.ToBase64String(new byte[16]);
         }
         public static string GenerateHash(string salt, string password)
         {
