@@ -77,23 +77,21 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
       const SizedBox(height: 50),
-      Expanded(
-        flex: 1,
-        child: Column(children: [
-          InputField(
-            controller: _usernameController,
-            hintText: 'Email',
-            iconPath: 'assets/icons/Email.svg',
-          ),
-          const SizedBox(height: 15),
-          InputField(
-            controller: _passwordController,
-            hintText: 'Password',
-            iconPath: 'assets/icons/Password.svg',
-            obscure: true,
-          ),
-        ]),
-      ),
+      Column(children: [
+        InputField(
+          controller: _usernameController,
+          hintText: 'Email',
+          iconPath: 'assets/icons/Email.svg',
+        ),
+        const SizedBox(height: 15),
+        InputField(
+          controller: _passwordController,
+          hintText: 'Password',
+          iconPath: 'assets/icons/Password.svg',
+          obscure: true,
+        ),
+      ]),
+      const SizedBox(height: 50),
       SimpleButton(
         onTap: () async {
           try {

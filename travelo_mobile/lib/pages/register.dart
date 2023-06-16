@@ -71,82 +71,83 @@ class _RegisterPageState extends State<RegisterPage> {
               ],
             ),
             const SizedBox(height: 50),
-            Expanded(
-              flex: 1,
-              child: Column(children: [
-                InputField(
-                  controller: _firstNameController,
-                  hintText: 'First name',
-                  iconPath: 'assets/icons/User.svg',
-                ),
-                InputField(
-                  controller: _lastNameController,
-                  hintText: 'Lase name',
-                  iconPath: 'assets/icons/User.svg',
-                ),
-                InputField(
-                  controller: _emailController,
-                  hintText: 'Email',
-                  iconPath: 'assets/icons/Email.svg',
-                ),
-                InputField(
-                  controller: _userNameController,
-                  hintText: 'Username',
-                  iconPath: 'assets/icons/User.svg',
-                ),
-                InputField(
-                  controller: _passwordController,
-                  hintText: 'Password',
-                  iconPath: 'assets/icons/Password.svg',
-                  obscure: true,
-                ),
-                Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                    child: Container(
-                      height: 60,
-                      alignment: Alignment.center,
-                      child: Material(
-                        elevation: 5,
-                        shadowColor: Colors.grey.shade300,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                        child: DropdownButtonFormField(
-                          value: cityId,
-                          items: const [
-                            DropdownMenuItem(
-                                value: "-1", child: Text("Choose city")),
-                            DropdownMenuItem(
-                                value: "1",
-                                child: Text("Bosnia and Herzegovina")),
-                            DropdownMenuItem(
-                                value: "2", child: Text("Croatia")),
-                          ],
-                          onChanged: (v) {
-                            cityId = v.toString();
-                          },
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            border: const OutlineInputBorder(
-                              // width: 0.0 produces a thin "hairline" border
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                              borderSide: BorderSide.none,
-                            ),
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
-                              child: SvgPicture.asset(
-                                "assets/icons/Planet.svg",
-                                width: 20,
-                              ),
+            Column(children: [
+              InputField(
+                controller: _firstNameController,
+                hintText: 'First name',
+                iconPath: 'assets/icons/User.svg',
+              ),
+              const SizedBox(height: 15),
+              InputField(
+                controller: _lastNameController,
+                hintText: 'Lase name',
+                iconPath: 'assets/icons/User.svg',
+              ),
+              const SizedBox(height: 15),
+              InputField(
+                controller: _emailController,
+                hintText: 'Email',
+                iconPath: 'assets/icons/Email.svg',
+              ),
+              const SizedBox(height: 15),
+              InputField(
+                controller: _userNameController,
+                hintText: 'Username',
+                iconPath: 'assets/icons/User.svg',
+              ),
+              const SizedBox(height: 15),
+              InputField(
+                controller: _passwordController,
+                hintText: 'Password',
+                iconPath: 'assets/icons/Password.svg',
+                obscure: true,
+              ),
+              const SizedBox(height: 15),
+              Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                  child: Container(
+                    height: 60,
+                    alignment: Alignment.center,
+                    child: Material(
+                      elevation: 5,
+                      shadowColor: Colors.grey.shade300,
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                      child: DropdownButtonFormField(
+                        value: cityId,
+                        items: const [
+                          DropdownMenuItem(
+                              value: "-1", child: Text("Choose city")),
+                          DropdownMenuItem(
+                              value: "1",
+                              child: Text("Bosnia and Herzegovina")),
+                          DropdownMenuItem(value: "2", child: Text("Croatia")),
+                        ],
+                        onChanged: (v) {
+                          cityId = v.toString();
+                        },
+                        decoration: InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: const OutlineInputBorder(
+                            // width: 0.0 produces a thin "hairline" border
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
+                            borderSide: BorderSide.none,
+                          ),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
+                            child: SvgPicture.asset(
+                              "assets/icons/Planet.svg",
+                              width: 20,
                             ),
                           ),
                         ),
                       ),
-                    )),
-              ]),
-            ),
+                    ),
+                  )),
+            ]),
+            const SizedBox(height: 50),
             SimpleButton(
               onTap: () async {
                 try {
