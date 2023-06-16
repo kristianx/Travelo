@@ -28,18 +28,21 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      padding: const EdgeInsets.fromLTRB(0, 120, 0, 80),
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage("assets/images/Background.png"),
-            fit: BoxFit.cover),
+        body: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(0, 120, 0, 80),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/Background.png"),
+              fit: BoxFit.cover),
+        ),
+        child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: _buildLoginPage()),
       ),
-      child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: _buildLoginPage()),
     ));
   }
 
