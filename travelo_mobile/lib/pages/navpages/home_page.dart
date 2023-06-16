@@ -257,8 +257,7 @@ class _HomePageState extends State<HomePage> {
                                         overflow: TextOverflow.ellipsis)
                                   ],
                                 ),
-                                Text(
-                                    "From \$${x.lowestTripPrice}per person",
+                                Text("From \$${x.lowestTripPrice}per person",
                                     style: const TextStyle(
                                         fontSize: 15,
                                         color: Color(0xffEAAD5F),

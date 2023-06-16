@@ -15,38 +15,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool progress = false;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   late UserProvider _userProvider;
-  Future<void> tryLogin() async {
-    await localStorage.ready;
-    print(localStorage.getItem("email"));
-    print(localStorage.getItem("password"));
-    var loginFlag = await _userProvider.loginUser(
-      localStorage.getItem("email"),
-      localStorage.getItem("password"),
-    );
-    if (loginFlag && context.mounted) {
-      setState(() {
-        progress = false;
-      });
-      context.go("/home");
-    } else {
-      setState(() {
-        progress = false;
-      });
-    }
-  }
 
   @override
   void initState() {
     super.initState();
     _userProvider = Provider.of<UserProvider>(context, listen: false);
-    setState(() {
-      progress = true;
-    });
-    tryLogin();
   }
 
   @override
@@ -68,100 +44,86 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   List<Widget> _buildLoginPage() {
-    if (progress) {
-      return [
-        const Expanded(
-            child: Center(
-                child: Text(
-          "Loading...",
-          style: TextStyle(
-              color: Color(0xffA8A8A8),
-              fontWeight: FontWeight.w400,
-              fontSize: 18),
-        )))
-      ];
-    } else {
-      return [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 20,
-              ),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: GestureDetector(
-                  onTap: () {
-                    context.go("/welcome");
-                  },
-                  child: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                  ),
+    return [
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 20,
+            ),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: GestureDetector(
+                onTap: () {
+                  context.go("/welcome");
+                },
+                child: const Icon(
+                  Icons.arrow_back_ios_rounded,
                 ),
               ),
-            )
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(child: SvgPicture.asset("assets/images/Logo.svg")),
-          ],
-        ),
-        const SizedBox(height: 50),
-        Expanded(
-          flex: 1,
-          child: Column(children: [
-            InputField(
-              controller: _usernameController,
-              hintText: 'Email',
-              iconPath: 'assets/icons/Email.svg',
             ),
-            const SizedBox(height: 15),
-            InputField(
-              controller: _passwordController,
-              hintText: 'Password',
-              iconPath: 'assets/icons/Password.svg',
-              obscure: true,
-            ),
-          ]),
-        ),
-        SimpleButton(
-          onTap: () async {
-            try {
-              var loginFlag = await _userProvider.loginUser(
-                  _usernameController.text, _passwordController.text);
-              if (loginFlag) {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => const MainPage()),
-                // );
-                context.go("/home");
-              }
-            } catch (e) {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                        title: const Text("Error"),
-                        content: Text(e.toString()),
-                        actions: [
-                          TextButton(
-                            child: const Text("Ok"),
-                            onPressed: () => Navigator.pop(context),
-                          )
-                        ],
-                      ));
+          )
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(child: SvgPicture.asset("assets/images/Logo.svg")),
+        ],
+      ),
+      const SizedBox(height: 50),
+      Expanded(
+        flex: 1,
+        child: Column(children: [
+          InputField(
+            controller: _usernameController,
+            hintText: 'Email',
+            iconPath: 'assets/icons/Email.svg',
+          ),
+          const SizedBox(height: 15),
+          InputField(
+            controller: _passwordController,
+            hintText: 'Password',
+            iconPath: 'assets/icons/Password.svg',
+            obscure: true,
+          ),
+        ]),
+      ),
+      SimpleButton(
+        onTap: () async {
+          try {
+            var loginFlag = await _userProvider.loginUser(
+                _usernameController.text, _passwordController.text);
+            if (loginFlag) {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const MainPage()),
+              // );
+              context.go("/home");
             }
-          },
-          bgColor: const Color(0xffEAAD5F),
-          textColor: Colors.white,
-          text: "Log in",
-          width: 300,
-          height: 70,
-        ),
-      ];
-    }
+          } catch (e) {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                      title: const Text("Error"),
+                      content: Text(e.toString()),
+                      actions: [
+                        TextButton(
+                          child: const Text("Ok"),
+                          onPressed: () => Navigator.pop(context),
+                        )
+                      ],
+                    ));
+          }
+        },
+        bgColor: const Color(0xffEAAD5F),
+        textColor: Colors.white,
+        text: "Log in",
+        width: 300,
+        height: 70,
+      ),
+    ];
   }
 }

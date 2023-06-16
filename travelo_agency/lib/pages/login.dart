@@ -28,7 +28,6 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       progress = true;
     });
-    // tryLogin();
   }
 
   @override
@@ -50,86 +49,72 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   List<Widget> _buildLoginPage() {
-    if (progress) {
-      return [
-        const Expanded(
-            child: Center(
-                child: Text(
-          "LOADING...",
-          style: TextStyle(
-              color: Color(0xffA8A8A8),
-              fontWeight: FontWeight.w400,
-              fontSize: 18),
-        )))
-      ];
-    } else {
-      return [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 30),
-            child: GestureDetector(
-              onTap: () {
-                context.go("/welcome");
-              },
-              child: const Icon(
-                Icons.arrow_back_ios_rounded,
-              ),
+    return [
+      Align(
+        alignment: Alignment.topLeft,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 30),
+          child: GestureDetector(
+            onTap: () {
+              context.go("/welcome");
+            },
+            child: const Icon(
+              Icons.arrow_back_ios_rounded,
             ),
           ),
         ),
-        Center(child: SvgPicture.asset("assets/images/Logo.svg")),
-        const SizedBox(height: 50),
-        Expanded(
-          flex: 1,
-          child: SizedBox(
-            width: 500,
-            child: Column(children: [
-              InputField(
-                controller: _usernameController,
-                hintText: 'Email',
-                iconPath: 'assets/icons/Email.svg',
-              ),
-              const SizedBox(height: 15),
-              InputField(
-                controller: _passwordController,
-                hintText: 'Password',
-                iconPath: 'assets/icons/Password.svg',
-                obscure: true,
-              ),
-            ]),
-          ),
+      ),
+      Center(child: SvgPicture.asset("assets/images/Logo.svg")),
+      const SizedBox(height: 50),
+      Expanded(
+        flex: 1,
+        child: SizedBox(
+          width: 500,
+          child: Column(children: [
+            InputField(
+              controller: _usernameController,
+              hintText: 'Email',
+              iconPath: 'assets/icons/Email.svg',
+            ),
+            const SizedBox(height: 15),
+            InputField(
+              controller: _passwordController,
+              hintText: 'Password',
+              iconPath: 'assets/icons/Password.svg',
+              obscure: true,
+            ),
+          ]),
         ),
-        SimpleButton(
-          onTap: () async {
-            try {
-              var loginFlag = await _agencyProvider.login(
-                  _usernameController.text, _passwordController.text);
-              if (loginFlag) {
-                context.go("/dashboard");
-              }
-            } catch (e) {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                        title: const Text("Error"),
-                        content: Text(e.toString()),
-                        actions: [
-                          TextButton(
-                            child: const Text("Ok"),
-                            onPressed: () => Navigator.pop(context),
-                          )
-                        ],
-                      ));
+      ),
+      SimpleButton(
+        onTap: () async {
+          try {
+            var loginFlag = await _agencyProvider.login(
+                _usernameController.text, _passwordController.text);
+            if (loginFlag) {
+              context.go("/dashboard");
             }
-          },
-          bgColor: const Color(0xffEAAD5F),
-          textColor: Colors.white,
-          text: "Log in",
-          width: 300,
-          height: 70,
-        ),
-      ];
-    }
+          } catch (e) {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                      title: const Text("Error"),
+                      content: Text(e.toString()),
+                      actions: [
+                        TextButton(
+                          child: const Text("Ok"),
+                          onPressed: () => Navigator.pop(context),
+                        )
+                      ],
+                    ));
+          }
+        },
+        bgColor: const Color(0xffEAAD5F),
+        textColor: Colors.white,
+        text: "Log in",
+        width: 300,
+        height: 70,
+      ),
+    ];
   }
 }

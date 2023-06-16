@@ -83,8 +83,6 @@ using(var scope = app.Services.CreateAsyncScope())
     dataContext.Database.EnsureCreated();
     //dataContext.Database.Migrate();
 
-    //DataSeeder.SeedData(dataContext);
-
     
 }
 app.Run();

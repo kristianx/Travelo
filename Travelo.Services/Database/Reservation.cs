@@ -10,7 +10,7 @@ namespace Travelo.Services.Database
 {
     public class Reservation
     {
-        [Key]
+       
         public int Id { get; set; }
 
         public DateTime TimeOfReservation { get; set; }
@@ -18,6 +18,7 @@ namespace Travelo.Services.Database
         public int NumberOfAdults { get; set; }
         public int NumberOfChildren { get; set; }
 
+        public int UserId { get; set; }
         public User User { get; set; }
 
         public int Price { get; set; }
