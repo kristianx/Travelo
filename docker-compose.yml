@@ -1,0 +1,36 @@
+﻿version: '3'
+services:
+#mssql docker
+  travelo-sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: unless-stopped
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=myPassword1]
+      - MSSQL_PID=Developer
+    ports:
+      - 1401:1433
+    expose:
+      - 1433
+    networks:
+      - travelonet2023
+
+  travelo-api:
+    restart: unless-stopped
+    build:
+      context: .
+    environment:
+      - ConnectionStrings:Mac=Server=travelo-sql,1433;Database=210333;User Id=sa;Password=myPassword1];Encrypt=false;
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 7100:7100
+    networks:
+      - travelonet2023
+    links:
+      - travelo-sql
+    depends_on:
+      - travelo-sql
+      
+networks:
+  travelonet2023:
+    driver: bridge      

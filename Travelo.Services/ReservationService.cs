@@ -23,6 +23,7 @@ namespace Travelo.Services
             entity.TripItem = Context.TripItem.First(x => x.Id == create.TripItemId);
             entity.User = Context.User.First(x => x.Id == create.UserId);
             entity.Price = entity.Price * (entity.NumberOfAdults + entity.NumberOfChildren);
+            
         }
         public override IQueryable<Database.Reservation> AddFilter(IQueryable<Database.Reservation> query, ReservationSearchObject search = null)
         {

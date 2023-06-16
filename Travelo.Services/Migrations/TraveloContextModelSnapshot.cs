@@ -484,13 +484,13 @@ namespace Travelo.Services.Migrations
                     b.HasOne("Travelo.Services.Database.Accommodation", null)
                         .WithMany()
                         .HasForeignKey("AccomodationsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Travelo.Services.Database.Facility", null)
                         .WithMany()
                         .HasForeignKey("FacilitiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -499,13 +499,13 @@ namespace Travelo.Services.Migrations
                     b.HasOne("Travelo.Services.Database.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Travelo.Services.Database.City", null)
                         .WithMany()
                         .HasForeignKey("citiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -514,13 +514,13 @@ namespace Travelo.Services.Migrations
                     b.HasOne("Travelo.Services.Database.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Travelo.Services.Database.Trip", null)
                         .WithMany()
                         .HasForeignKey("tripsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -529,7 +529,7 @@ namespace Travelo.Services.Migrations
                     b.HasOne("Travelo.Services.Database.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("City");
@@ -540,13 +540,13 @@ namespace Travelo.Services.Migrations
                     b.HasOne("Travelo.Services.Database.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Travelo.Services.Database.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("City");
@@ -559,13 +559,13 @@ namespace Travelo.Services.Migrations
                     b.HasOne("Travelo.Services.Database.Account", "Account")
                         .WithMany()
                         .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Travelo.Services.Database.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Account");
@@ -578,7 +578,7 @@ namespace Travelo.Services.Migrations
                     b.HasOne("Travelo.Services.Database.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Country");
@@ -588,24 +588,25 @@ namespace Travelo.Services.Migrations
                 {
                     b.HasOne("Travelo.Services.Database.Agency", null)
                         .WithMany("Reservations")
-                        .HasForeignKey("AgencyId");
+                        .HasForeignKey("AgencyId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Travelo.Services.Database.Trip", "Trip")
                         .WithMany()
                         .HasForeignKey("TripId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Travelo.Services.Database.TripItem", "TripItem")
                         .WithMany()
                         .HasForeignKey("TripItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Travelo.Services.Database.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Trip");
@@ -620,13 +621,13 @@ namespace Travelo.Services.Migrations
                     b.HasOne("Travelo.Services.Database.Accommodation", "Accommodation")
                         .WithMany()
                         .HasForeignKey("AccommodationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Travelo.Services.Database.Agency", "Agency")
                         .WithMany("Trips")
                         .HasForeignKey("AgencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Accommodation");
@@ -639,7 +640,7 @@ namespace Travelo.Services.Migrations
                     b.HasOne("Travelo.Services.Database.Trip", "Trip")
                         .WithMany("TripItems")
                         .HasForeignKey("TripId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Trip");
@@ -650,13 +651,13 @@ namespace Travelo.Services.Migrations
                     b.HasOne("Travelo.Services.Database.Account", "Account")
                         .WithMany()
                         .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Travelo.Services.Database.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Account");
@@ -669,13 +670,13 @@ namespace Travelo.Services.Migrations
                     b.HasOne("Travelo.Services.Database.Trip", null)
                         .WithMany()
                         .HasForeignKey("TripsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Travelo.Services.Database.User", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

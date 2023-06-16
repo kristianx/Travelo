@@ -32,6 +32,14 @@ namespace Travelo.Controllers
             return Ok(_service.ToggleBookmark(tripId, userId));
         }
 
+        [HttpGet("/{id}/recommend")]
+        public async Task<IEnumerable<Model.Trip>> RecommendAsync(int id)
+        {
+            return await _service.Recommend(id);
+        }
+
+
+
         //public override IEnumerable<Model.Trip> Get([FromQuery] TripSearchObject search = null)
         //{
         //    //IEnumerable <Model.Trip> trips =  base.Get(search);

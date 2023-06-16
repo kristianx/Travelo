@@ -77,4 +77,14 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+using(var scope = app.Services.CreateAsyncScope())
+{
+    var dataContext = scope.ServiceProvider.GetRequiredService<TraveloContext>();
+    dataContext.Database.EnsureCreated();
+    //dataContext.Database.Migrate();
+
+    //DataSeeder.SeedData(dataContext);
+
+    
+}
 app.Run();

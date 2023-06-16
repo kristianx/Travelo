@@ -6,11 +6,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Travelo.Services.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Account",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordSalt = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Account", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Country",
                 columns: table => new
@@ -25,7 +41,7 @@ namespace Travelo.Services.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Role",
+                name: "Facility",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -34,7 +50,20 @@ namespace Travelo.Services.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Role", x => x.Id);
+                    table.PrimaryKey("PK_Facility", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tag",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tag", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,7 +86,8 @@ namespace Travelo.Services.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CountryId = table.Column<int>(type: "int", nullable: true)
+                    CountryId = table.Column<int>(type: "int", nullable: false),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -67,28 +97,6 @@ namespace Travelo.Services.Migrations
                         column: x => x.CountryId,
                         principalTable: "Country",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Account",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordSalt = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Account", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Account_Role_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -112,8 +120,7 @@ namespace Travelo.Services.Migrations
                         name: "FK_Accommodations_City_CityId",
                         column: x => x.CityId,
                         principalTable: "City",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -134,14 +141,12 @@ namespace Travelo.Services.Migrations
                         name: "FK_Address_City_CityId",
                         column: x => x.CityId,
                         principalTable: "City",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Address_Country_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Country",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +161,7 @@ namespace Travelo.Services.Migrations
                     About = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     WebsiteUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Rating = table.Column<int>(type: "int", nullable: false),
                     AccountId = table.Column<int>(type: "int", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -168,14 +174,34 @@ namespace Travelo.Services.Migrations
                         name: "FK_Agency_Account_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Account",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Agency_City_CityId",
                         column: x => x.CityId,
                         principalTable: "City",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CityTag",
+                columns: table => new
+                {
+                    TagsId = table.Column<int>(type: "int", nullable: false),
+                    citiesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CityTag", x => new { x.TagsId, x.citiesId });
+                    table.ForeignKey(
+                        name: "FK_CityTag_City_citiesId",
+                        column: x => x.citiesId,
+                        principalTable: "City",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CityTag_Tag_TagsId",
+                        column: x => x.TagsId,
+                        principalTable: "Tag",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -201,32 +227,33 @@ namespace Travelo.Services.Migrations
                         name: "FK_User_Account_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Account",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_User_City_CityId",
                         column: x => x.CityId,
                         principalTable: "City",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Facility",
+                name: "AccommodationFacility",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AccommodationId = table.Column<int>(type: "int", nullable: true)
+                    AccomodationsId = table.Column<int>(type: "int", nullable: false),
+                    FacilitiesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Facility", x => x.Id);
+                    table.PrimaryKey("PK_AccommodationFacility", x => new { x.AccomodationsId, x.FacilitiesId });
                     table.ForeignKey(
-                        name: "FK_Facility_Accommodations_AccommodationId",
-                        column: x => x.AccommodationId,
+                        name: "FK_AccommodationFacility_Accommodations_AccomodationsId",
+                        column: x => x.AccomodationsId,
                         principalTable: "Accommodations",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AccommodationFacility_Facility_FacilitiesId",
+                        column: x => x.FacilitiesId,
+                        principalTable: "Facility",
                         principalColumn: "Id");
                 });
 
@@ -247,31 +274,32 @@ namespace Travelo.Services.Migrations
                         name: "FK_Trip_Accommodations_AccommodationId",
                         column: x => x.AccommodationId,
                         principalTable: "Accommodations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Trip_Agency_AgencyId",
                         column: x => x.AgencyId,
                         principalTable: "Agency",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tag",
+                name: "TagTrip",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TripId = table.Column<int>(type: "int", nullable: true)
+                    TagsId = table.Column<int>(type: "int", nullable: false),
+                    tripsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tag", x => x.Id);
+                    table.PrimaryKey("PK_TagTrip", x => new { x.TagsId, x.tripsId });
                     table.ForeignKey(
-                        name: "FK_Tag_Trip_TripId",
-                        column: x => x.TripId,
+                        name: "FK_TagTrip_Tag_TagsId",
+                        column: x => x.TagsId,
+                        principalTable: "Tag",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_TagTrip_Trip_tripsId",
+                        column: x => x.tripsId,
                         principalTable: "Trip",
                         principalColumn: "Id");
                 });
@@ -296,8 +324,29 @@ namespace Travelo.Services.Migrations
                         name: "FK_TripItem_Trip_TripId",
                         column: x => x.TripId,
                         principalTable: "Trip",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TripUser",
+                columns: table => new
+                {
+                    TripsId = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TripUser", x => new { x.TripsId, x.UsersId });
+                    table.ForeignKey(
+                        name: "FK_TripUser_Trip_TripsId",
+                        column: x => x.TripsId,
+                        principalTable: "Trip",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_TripUser_User_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "User",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -327,31 +376,28 @@ namespace Travelo.Services.Migrations
                         name: "FK_Reservation_TripItem_TripItemId",
                         column: x => x.TripItemId,
                         principalTable: "TripItem",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Reservation_Trip_TripId",
                         column: x => x.TripId,
                         principalTable: "Trip",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Reservation_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccommodationFacility_FacilitiesId",
+                table: "AccommodationFacility",
+                column: "FacilitiesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accommodations_CityId",
                 table: "Accommodations",
                 column: "CityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Account_RoleId",
-                table: "Account",
-                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Address_CityId",
@@ -379,9 +425,9 @@ namespace Travelo.Services.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Facility_AccommodationId",
-                table: "Facility",
-                column: "AccommodationId");
+                name: "IX_CityTag_citiesId",
+                table: "CityTag",
+                column: "citiesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservation_AgencyId",
@@ -404,9 +450,9 @@ namespace Travelo.Services.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tag_TripId",
-                table: "Tag",
-                column: "TripId");
+                name: "IX_TagTrip_tripsId",
+                table: "TagTrip",
+                column: "tripsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Trip_AccommodationId",
@@ -424,6 +470,11 @@ namespace Travelo.Services.Migrations
                 column: "TripId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TripUser_UsersId",
+                table: "TripUser",
+                column: "UsersId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_User_AccountId",
                 table: "User",
                 column: "AccountId");
@@ -438,22 +489,34 @@ namespace Travelo.Services.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AccommodationFacility");
+
+            migrationBuilder.DropTable(
                 name: "Address");
 
             migrationBuilder.DropTable(
-                name: "Facility");
+                name: "CityTag");
 
             migrationBuilder.DropTable(
                 name: "Reservation");
 
             migrationBuilder.DropTable(
-                name: "Tag");
+                name: "TagTrip");
 
             migrationBuilder.DropTable(
                 name: "TravelType");
 
             migrationBuilder.DropTable(
+                name: "TripUser");
+
+            migrationBuilder.DropTable(
+                name: "Facility");
+
+            migrationBuilder.DropTable(
                 name: "TripItem");
+
+            migrationBuilder.DropTable(
+                name: "Tag");
 
             migrationBuilder.DropTable(
                 name: "User");
@@ -472,9 +535,6 @@ namespace Travelo.Services.Migrations
 
             migrationBuilder.DropTable(
                 name: "City");
-
-            migrationBuilder.DropTable(
-                name: "Role");
 
             migrationBuilder.DropTable(
                 name: "Country");
