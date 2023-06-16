@@ -11,6 +11,7 @@ import 'package:travelo_agency/pages/profile.dart';
 
 import '../pages/login.dart';
 import '../pages/register.dart';
+import '../pages/reports.dart';
 import '../pages/templates/ScaffoldWithNavBar.dart';
 import '../pages/welcome.dart';
 
@@ -83,6 +84,15 @@ class MyRouter {
                 Trip trip = state.extra as Trip;
                 return OfferPage(
                   trip: trip,
+                );
+              },
+            ),
+            GoRoute(
+              path: '/reports',
+              parentNavigatorKey: _shellNavigatorKey,
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(
+                  child: ReportsPage(),
                 );
               },
             ),

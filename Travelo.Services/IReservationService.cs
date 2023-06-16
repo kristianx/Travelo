@@ -12,5 +12,8 @@ namespace Travelo.Services
     public interface IReservationService : ICRUDService<Model.Reservation, ReservationSearchObject, ReservationCreateRequest, object>
     {
         public List<DailyReservationInfo> GetDailyReservations(GetReservationDaily search);
+        public List<BestCustomers> GetBestCustomers(int AgencyId);
+        public List<TopReservations> GetTop5Reservations(int AgencyId);
+
     }
 }

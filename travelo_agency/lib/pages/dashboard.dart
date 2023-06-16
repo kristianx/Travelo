@@ -400,7 +400,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
                 Center(child: Text(re.accomodationName ?? "-")),
-                Center(child: Text(re.countryName ?? "-")),
+                Center(child: Text("${re.destinationName}, ${re.countryName}")),
                 Center(child: Text(
                     // "${DateFormat('dd. MMMM').format(re.checkIn!)} - ${DateFormat('dd. MMMM yyyy').format(re.checkOut!)}"
                     re.date ?? "-")),

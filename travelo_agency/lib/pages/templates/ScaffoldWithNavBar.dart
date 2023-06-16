@@ -84,7 +84,7 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
                               height: 20,
                               color: widget.location == '/dashboard'
                                   ? const Color(0xffEAAD5F)
-                                  : const Color(0xffBBBBBB),
+                                  : const Color(0xff959595),
                             ),
                             const SizedBox(
                               width: 10,
@@ -131,7 +131,38 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
                             ),
                           ],
                         ),
-                      )
+                      ),
+                      const SizedBox(
+                        width: 40,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          context.go("/reports");
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              "assets/icons/reports.svg",
+                              height: 20,
+                              color: widget.location == '/reports'
+                                  ? const Color(0xffEAAD5F)
+                                  : const Color(0xff959595),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Reports',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: widget.location == "/reports"
+                                      ? Color(0xff454F63)
+                                      : Color(0xff959595)),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                   GestureDetector(

@@ -73,6 +73,20 @@ class _RegisterPageState extends State<RegisterPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 30),
+                child: GestureDetector(
+                  onTap: () {
+                    context.go("/welcome");
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                  ),
+                ),
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

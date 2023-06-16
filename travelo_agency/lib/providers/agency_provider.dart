@@ -20,7 +20,7 @@ class AgencyProvider extends BaseProvider<Agency> {
     }
     Map<String, String> headers = await createHeaders();
     var response = await http?.post(
-        Uri.parse("http://127.0.0.1:7100/Agency/Login"),
+        Uri.parse("https://127.0.0.1:7100/Agency/Login"),
         body:
             jsonEncode(<String, String>{"email": email, "password": password}),
         headers: headers);
@@ -40,7 +40,7 @@ class AgencyProvider extends BaseProvider<Agency> {
     Map<String, String> headers = await createHeaders();
 
     var response = await http?.post(
-        Uri.parse("http://127.0.0.1:7100/Agency/UpdateImage"),
+        Uri.parse("https://127.0.0.1:7100/Agency/UpdateImage"),
         body: jsonEncode(<String, dynamic>{
           "agencyId": userId,
           "image": base64Encode(file.readAsBytesSync())
@@ -66,7 +66,7 @@ class AgencyProvider extends BaseProvider<Agency> {
     String confirmPassword,
     int cityId,
   ) async {
-    var response = await http?.post(Uri.parse("http://127.0.0.1:7100/Agency"),
+    var response = await http?.post(Uri.parse("https://127.0.0.1:7100/Agency"),
         body: jsonEncode(<String, dynamic>{
           "name": name,
           "email": email,

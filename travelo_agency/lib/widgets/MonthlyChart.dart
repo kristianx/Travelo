@@ -31,8 +31,6 @@ class _MonthlyChartState extends State<MonthlyChart> {
     setState(() {
       stats = tmpStats;
     });
-    print(selectedDate.month);
-    print(selectedDate.year);
   }
 
   @override

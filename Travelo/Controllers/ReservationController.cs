@@ -22,5 +22,13 @@ namespace Travelo.Controllers
             return _service.GetDailyReservations(search);
          
         }
+        [HttpGet("~/Reservation/GetBestCustomers/{AgencyId}")]
+        public IEnumerable<BestCustomers> GetBestCustomers(int AgencyId)
+        {
+            return _service.GetBestCustomers(AgencyId);
+
+        }
+    
     }
+
 }

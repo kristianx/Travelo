@@ -21,24 +21,6 @@ class _LoginPageState extends State<LoginPage> {
 
   late AgencyProvider _agencyProvider;
 
-  Future<void> tryLogin() async {
-    await localStorage.ready;
-    print(localStorage.getItem("email"));
-    print(localStorage.getItem("password"));
-    var loginFlag = await _agencyProvider.login(
-        localStorage.getItem("email"), localStorage.getItem("password"));
-    if (loginFlag && context.mounted) {
-      setState(() {
-        progress = false;
-      });
-      context.go("/dashboard");
-    } else {
-      setState(() {
-        progress = false;
-      });
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -46,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       progress = true;
     });
-    tryLogin();
+    // tryLogin();
   }
 
   @override
@@ -82,6 +64,20 @@ class _LoginPageState extends State<LoginPage> {
       ];
     } else {
       return [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 30),
+            child: GestureDetector(
+              onTap: () {
+                context.go("/welcome");
+              },
+              child: const Icon(
+                Icons.arrow_back_ios_rounded,
+              ),
+            ),
+          ),
+        ),
         Center(child: SvgPicture.asset("assets/images/Logo.svg")),
         const SizedBox(height: 50),
         Expanded(

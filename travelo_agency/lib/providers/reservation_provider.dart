@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:travelo_agency/models/dailyStats.dart';
 
+import '../models/bestCustomers.dart';
 import '../models/reservation.dart';
 import 'base_provider.dart';
 
@@ -18,7 +19,7 @@ class ReservationProvider extends BaseProvider<Reservation> {
 
     var response = await http?.get(
         Uri.parse(
-            "http://127.0.0.1:7100/Reservation/GetDailyReservations?Year=$year&Month=$month&AgencyId=$agencyId"),
+            "https://127.0.0.1:7100/Reservation/GetDailyReservations?Year=$year&Month=$month&AgencyId=$agencyId"),
         headers: headers);
 
     if (response!.body.isNotEmpty) {
@@ -29,6 +30,27 @@ class ReservationProvider extends BaseProvider<Reservation> {
           .toList();
     } else {
       return List<DailyStats>.empty();
+    }
+  }
+
+  Future<List<BestCustomers>> getBestCustomers(int agencyId) async {
+    Map<String, String> headers = await createHeaders();
+
+    var response = await http?.get(
+        Uri.parse(
+            "https://127.0.0.1:7100/Reservation/GetBestCustomers/$agencyId"),
+        headers: headers);
+
+    if (response!.body.isNotEmpty) {
+      var data = jsonDecode(response.body);
+
+      return data
+          .map((x) => BestCustomers.fromJson(x))
+          .cast<BestCustomers>()
+          .toList();
+    } else {
+      print("Error here");
+      return List<BestCustomers>.empty();
     }
   }
 }

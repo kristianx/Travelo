@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.ML;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,23 +93,50 @@ namespace Travelo.Services
 
         }
 
+     
 
-        //public override IEnumerable<Model.Reservation> Get(ReservationSearchObject search = null)
-        //{
-        //    var entity = Context.Set<Database.Reservation>().AsQueryable();
+        public List<BestCustomers> GetBestCustomers(int AgencyId)
+        {
+            var usersByReservations = Context.Reservation
+                .Include(r => r.Trip)
+                .Include(r => r.User)
+                .Where(r => r.Trip.AgencyId == AgencyId)
+                .GroupBy(r => r.User.Id)
+                .Select(g => new
+                {
+                    UserId = g.Key,
+                    NumberOfReservations = g.Count()
+                })
+                .OrderByDescending(g => g.NumberOfReservations);
 
-        //    entity = AddFilter(entity, search);
 
-        //    entity = AddInclude(entity, search);
+            var result = from u in Context.User
+                         join r in usersByReservations on u.Id equals r.UserId
+                         orderby r.NumberOfReservations descending
+                         select new
+                         {
+                             u.Id,
+                             u.FirstName,
+                             u.LastName,
+                             u.Image,
+                             r.NumberOfReservations
+                         };
+            List<BestCustomers> bestCustomers = new List<BestCustomers>();
+            foreach (var user in result)
+            {
+                bestCustomers.Add(new BestCustomers
+                {
+                    UserId = user.Id,
+                    Image = user.Image,
+                    CustomerName = user.FirstName + " " + user.LastName,
+                    NumberOfTrips = user.NumberOfReservations
 
-        //    if (search?.Page.HasValue == true && search?.PageSize.HasValue == true)
-        //    {
-        //        entity = entity.Take(search.PageSize.Value).Skip(search.Page.Value * search.PageSize.Value);
-        //    }
+                });
 
-        //    var list = entity.ToList();
+            }
+            return bestCustomers;
+        }
 
-        //    return Mapper.Map<IEnumerable<T>>(list);
-        //}
+
     }
 }
