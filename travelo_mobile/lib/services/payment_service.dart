@@ -88,13 +88,16 @@ class PaymentController extends GetxController {
     try {
       await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
-        customFlow: true,
-        applePay: PaymentSheetApplePay(merchantCountryCode: "US"),
-        merchantDisplayName: 'Travelo',
-        customerId: customer['id'],
-        customerEphemeralKeySecret: ephemeralKey['secret'],
-        paymentIntentClientSecret: clientSecret,
-      ));
+              customFlow: true,
+              merchantDisplayName: 'Travelo',
+              customerId: customer['id'],
+              customerEphemeralKeySecret: ephemeralKey['secret'],
+              paymentIntentClientSecret: clientSecret,
+              appearance: PaymentSheetAppearance(
+                  colors: PaymentSheetAppearanceColors(
+                background: Colors.white,
+                primary: Colors.black,
+              ))));
     } catch (e) {
       print("Error: $e");
       rethrow;
