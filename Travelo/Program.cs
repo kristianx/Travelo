@@ -48,6 +48,8 @@ builder.Services.AddTransient<ICountryService, CountryService>();
 builder.Services.AddTransient<IAccomodationService, AccomodationService>();
 builder.Services.AddTransient<ITripItemService, TripItemService>();
 builder.Services.AddTransient<IReservationService, ReservationService>();
+builder.Services.AddTransient<ITagService, TagService>();
+builder.Services.AddTransient<IPaymentMethodService, PaymentMethodService>();
 
 builder.Services.AddAutoMapper(typeof(IAgencyService));
 

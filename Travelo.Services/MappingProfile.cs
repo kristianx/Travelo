@@ -55,6 +55,12 @@ namespace Travelo.Services
             CreateMap<Database.TripItem, Model.TripItem>().ReverseMap();
             CreateMap<TripItemCreateUpdateRequest, Database.TripItem>().ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null)) ;
 
+            CreateMap<Database.Tag, Model.Tag>().ReverseMap();
+            CreateMap<TagCreateUpdateRequest, Database.Tag>().ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null));
+
+            CreateMap<Database.PaymentMethod, Model.PaymentMethod>().ReverseMap();
+            CreateMap<PaymentMethodCreateUpdateRequest, Database.PaymentMethod>().ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null));
+
 
             CreateMap<Database.City, Model.City>()
                 .ForMember(d => d.CountryName, s => s.MapFrom(_ => _.Country.Name))

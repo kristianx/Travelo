@@ -9,9 +9,9 @@ namespace Travelo.Services.Database
 {
     public class Trip
     {
-        public Trip() {
-
-            this.Tags = new HashSet<Tag>();
+        public Trip()
+        {
+ 
             this.Users = new HashSet<User>();
             this.TripItems = new HashSet<TripItem>();
         }
@@ -26,7 +26,6 @@ namespace Travelo.Services.Database
         public int AccommodationId { get; set; }
         public Accommodation Accommodation { get; set; }
 
-        public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<User> Users { get; set; }
 
 

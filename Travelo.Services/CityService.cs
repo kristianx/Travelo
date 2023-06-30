@@ -64,7 +64,7 @@ namespace Travelo.Services
                 var tg = Context.Tag.FirstOrDefault(x => x.Name == tag);
                 if (tg == null)
                 {
-                    tg = new Tag { Name = tag };
+                    tg = new Database.Tag { Name = tag };
                     Context.Tag.Add(tg);
                     Context.SaveChanges();
 

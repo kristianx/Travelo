@@ -23,10 +23,12 @@ namespace Travelo.Services
         public virtual IEnumerable<T> Get(TSearch search = null)
         {
             var entity = Context.Set<TDb>().AsQueryable();
-            
-            entity = AddFilter(entity, search);
 
             entity = AddInclude(entity, search);
+           
+            entity = AddFilter(entity, search);
+
+            
 
             if(search?.Page.HasValue == true && search?.PageSize.HasValue == true)
             {

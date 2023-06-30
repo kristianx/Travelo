@@ -13,6 +13,7 @@ namespace Travelo.Services.Database
         public User()
         {
             this.Trips = new HashSet<Trip>();
+            this.PaymentMethods = new HashSet<PaymentMethod>();
         }
 
         [Key]
@@ -33,6 +34,7 @@ namespace Travelo.Services.Database
         public virtual City City { get; set; }
 
         public virtual ICollection<Trip> Trips { get; set; }
+        public virtual ICollection<PaymentMethod> PaymentMethods { get; set; }
 
     }
 }

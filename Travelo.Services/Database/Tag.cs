@@ -10,12 +10,11 @@ namespace Travelo.Services.Database
     {
         public Tag() {
             this.cities = new HashSet<City>();
-            this.trips = new HashSet<Trip>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
         public virtual ICollection<City> cities { get; set; }
-        public virtual ICollection<Trip> trips { get; set; }
+
 
     }
 }
