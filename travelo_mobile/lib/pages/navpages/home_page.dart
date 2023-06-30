@@ -7,6 +7,8 @@ import 'package:travelo_mobile/providers/destination_provider.dart';
 import 'package:travelo_mobile/utils/util.dart';
 import 'package:travelo_mobile/widgets/BlogCard.dart';
 import '../../model/destination.dart';
+import '../../model/tag.dart';
+import '../../providers/tag_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,31 +18,37 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late DestinationProvider _destinationProvider;
+  late TagProvider _tagProvider;
 
-  List<String> items = [
-    "Hot",
-    "Summer",
-    "Surfing",
-    "Day-trips",
-  ];
   List<String> icons = [
     "assets/icons/hot.svg",
     "assets/icons/summer.svg",
     "assets/icons/surfing.svg",
     "assets/icons/backpack.svg",
   ];
+
   List<Destination> destinations = [];
+  List<Tag> tags = [];
   int current = 0;
 
   @override
   void initState() {
     super.initState();
     _destinationProvider = context.read<DestinationProvider>();
+    _tagProvider = context.read<TagProvider>();
     loadData();
   }
 
   Future loadData() async {
-    var tmpData = await _destinationProvider.get({'tag': items[current]});
+    var tmpTags = await _tagProvider.get();
+    setState(() {
+      tags = tmpTags;
+    });
+    loadTrips();
+  }
+
+  Future loadTrips() async {
+    var tmpData = await _destinationProvider.get({'tag': tags[current].name});
     setState(() {
       destinations = tmpData;
     });
@@ -55,17 +63,10 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 const SizedBox(height: 70),
-                // InputField(
-                //   controller: _searchController,
-                //   hintText: 'Search trips',
-                //   iconPath: 'assets/icons/Search.svg',
-                // ),
                 SizedBox(
-                  // change your height based on preference
                   height: 170,
                   width: double.infinity,
                   child: ListView(
-                    // set the scroll direction to horizontal
                     scrollDirection: Axis.horizontal,
                     children: const [
                       BlogCard(
@@ -96,11 +97,12 @@ class _HomePageState extends State<HomePage> {
                     height: 45,
                     child: ListView.builder(
                         physics: const BouncingScrollPhysics(),
-                        itemCount: items.length,
+                        itemCount: tags.length,
                         scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.only(right: 20),
+                        padding: const EdgeInsets.only(right: 20, bottom: 20),
                         itemBuilder: (ctx, index) {
                           return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               GestureDetector(
                                 onTap: () async {
@@ -113,19 +115,33 @@ class _HomePageState extends State<HomePage> {
                                   padding: const EdgeInsets.only(left: 20),
                                   child: Row(
                                     children: [
-                                      SvgPicture.asset(
-                                        icons[index],
-                                        height: 25,
-                                        width: 25,
-                                        color: current == index
-                                            ? const Color(0xffEAAD5F)
-                                            : const Color(0xffA8A8A8),
-                                      ),
-                                      const SizedBox(
-                                        width: 7,
-                                      ),
+                                      icons.firstWhere(
+                                                  (string) => string.contains(
+                                                      tags[index]
+                                                          .name!
+                                                          .toLowerCase()),
+                                                  orElse: () => "") !=
+                                              ""
+                                          ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 7),
+                                              child: SvgPicture.asset(
+                                                icons.firstWhere(
+                                                    (string) => string.contains(
+                                                        tags[index]
+                                                            .name!
+                                                            .toLowerCase()),
+                                                    orElse: () => ""),
+                                                height: 25,
+                                                width: 25,
+                                                color: current == index
+                                                    ? const Color(0xffEAAD5F)
+                                                    : const Color(0xffA8A8A8),
+                                              ),
+                                            )
+                                          : Container(),
                                       Text(
-                                        items[index],
+                                        tags[index].name ?? "-",
                                         style: TextStyle(
                                             color: current == index
                                                 ? const Color(0xffEAAD5F)

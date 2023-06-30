@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:travelo_mobile/widgets/InputField.dart';
 import 'package:travelo_mobile/widgets/SimpleButton.dart';
 
+import '../model/city.dart';
+import '../providers/city_provider.dart';
 import '../providers/user_provider.dart';
 // import 'navpages/home_page.dart';
 
@@ -22,7 +24,31 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   late UserProvider _userProvider;
-  var cityId = "-1";
+  late CityProvider _cityProvider;
+  var cityId = -2;
+  List<City> cities = [];
+  List<DropdownMenuItem> citiesDropdown = [
+    const DropdownMenuItem(
+      value: -2,
+      enabled: false,
+      child: Text("Loading..."),
+    ),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _cityProvider = context.read<CityProvider>();
+    loadData();
+  }
+
+  Future loadData() async {
+    var tmpCities = await _cityProvider.get({"hasTrips": false});
+    setState(() {
+      cities = tmpCities;
+    });
+    _updateCitiesDropdown();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,16 +141,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       borderRadius: const BorderRadius.all(Radius.circular(15)),
                       child: DropdownButtonFormField(
                         value: cityId,
-                        items: const [
-                          DropdownMenuItem(
-                              value: "-1", child: Text("Choose city")),
-                          DropdownMenuItem(
-                              value: "1",
-                              child: Text("Bosnia and Herzegovina")),
-                          DropdownMenuItem(value: "2", child: Text("Croatia")),
-                        ],
+                        items: citiesDropdown,
                         onChanged: (v) {
-                          cityId = v.toString();
+                          cityId = v;
                         },
                         decoration: InputDecoration(
                           fillColor: Colors.white,
@@ -191,5 +210,31 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     ));
+  }
+
+  void _updateCitiesDropdown() {
+    if (cities.isNotEmpty) {
+      List<DropdownMenuItem> list = [];
+      list.add(const DropdownMenuItem(
+        value: -2,
+        enabled: false,
+        child: Text(
+          "Choose city",
+          style: TextStyle(color: Color(0xff999999)),
+        ),
+      ));
+      list += cities
+          .map((e) {
+            return DropdownMenuItem(
+              value: e.id,
+              child: Text(e.name ?? ""),
+            );
+          })
+          .cast<DropdownMenuItem>()
+          .toList();
+      setState(() {
+        citiesDropdown = list;
+      });
+    }
   }
 }

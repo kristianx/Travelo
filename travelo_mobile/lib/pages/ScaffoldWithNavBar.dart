@@ -27,17 +27,18 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
     MyCustomBottomNavBarItem(
       initialLocation: "/trips",
       label: "Trips",
-      icon:
-          SvgPicture.asset("assets/icons/Trips.svg", color: const Color(0xffBBBBBB)),
-      activeIcon:
-          SvgPicture.asset("assets/icons/Trips.svg", color: const Color(0xffEAAD5F)),
+      icon: SvgPicture.asset("assets/icons/Trips.svg",
+          color: const Color(0xffBBBBBB)),
+      activeIcon: SvgPicture.asset("assets/icons/Trips.svg",
+          color: const Color(0xffEAAD5F)),
     ),
     MyCustomBottomNavBarItem(
       initialLocation: "/home",
       label: "Home",
-      icon: SvgPicture.asset("assets/icons/Home.svg", color: const Color(0xffBBBBBB)),
-      activeIcon:
-          SvgPicture.asset("assets/icons/Home.svg", color: const Color(0xffEAAD5F)),
+      icon: SvgPicture.asset("assets/icons/Home.svg",
+          color: const Color(0xffBBBBBB)),
+      activeIcon: SvgPicture.asset("assets/icons/Home.svg",
+          color: const Color(0xffEAAD5F)),
     ),
     MyCustomBottomNavBarItem(
       initialLocation: "/notifications",
@@ -84,7 +85,14 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.child,
+      body: GestureDetector(
+        onHorizontalDragEnd: (details) {
+          if (details.primaryVelocity! > 0 && context.canPop()) {
+            context.pop();
+          }
+        },
+        child: widget.child,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 3,
         showSelectedLabels: false,
@@ -113,7 +121,7 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
   }
 
   void _goOtherTab(BuildContext context, int index) {
-    if (index == _currentIndex && index != 2) return;
+    // if (index == _currentIndex && index != 2) return;
     GoRouter router = GoRouter.of(context);
     String location = tabs[index].initialLocation;
 

@@ -19,10 +19,25 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   late UserProvider _userProvider;
 
+  Future<void> tryLogin() async {
+    await localStorage.ready;
+    print(localStorage.getItem("email"));
+    print(localStorage.getItem("password"));
+    var loginFlag = await _userProvider.loginUser(
+      localStorage.getItem("email"),
+      localStorage.getItem("password"),
+    );
+    if (loginFlag && context.mounted) {
+      setState(() {});
+      context.go("/home");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _userProvider = Provider.of<UserProvider>(context, listen: false);
+    tryLogin();
   }
 
   @override

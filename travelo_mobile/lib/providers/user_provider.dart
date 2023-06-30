@@ -21,7 +21,7 @@ class UserProvider extends BaseProvider<User> {
     }
     Map<String, String> headers = await createHeaders();
     var response = await http?.post(
-        Uri.parse("http://127.0.0.1:7100/User/Login"),
+        Uri.parse("https://127.0.0.1:7100/User/Login"),
         body:
             jsonEncode(<String, String>{"email": email, "password": password}),
         headers: headers);
@@ -41,7 +41,7 @@ class UserProvider extends BaseProvider<User> {
     Map<String, String> headers = await createHeaders();
 
     var response = await http?.post(
-        Uri.parse("http://127.0.0.1:7100/uploadImage"),
+        Uri.parse("https://127.0.0.1:7100/uploadImage"),
         body: jsonEncode(<String, dynamic>{
           "userId": userId,
           "image": base64Encode(file.readAsBytesSync())
@@ -56,10 +56,10 @@ class UserProvider extends BaseProvider<User> {
   }
 
   Future<bool> registerUser(String firstName, String lastName, String email,
-      String password, String username, String CityId) async {
+      String password, String username, int CityId) async {
     var response =
-        await http?.post(Uri.parse("http://127.0.0.1:7100/User/Register"),
-            body: jsonEncode(<String, String>{
+        await http?.post(Uri.parse("https://127.0.0.1:7100/User/Register"),
+            body: jsonEncode(<String, dynamic>{
               "firstName": firstName,
               "lastName": lastName,
               "email": email,

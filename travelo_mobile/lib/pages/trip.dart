@@ -404,47 +404,7 @@ class _TripState extends State<Trip> {
                 height: 1,
               ),
             ),
-            SizedBox(
-              height: 75,
-              child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  children: widget.trip.facilities!
-                      .map(
-                        (fac) => Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: Container(
-                            height: 75,
-                            width: 75,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: const Color(0xffF8F8F8),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                    "assets/icons/${fac.toLowerCase()}.svg"),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  fac,
-                                  style: const TextStyle(
-                                    color: Color(0xff6B6B6B),
-                                    fontSize: 14,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
-                      .cast<Widget>()
-                      .toList()),
-            ),
+            SizedBox(height: 75, child: _buildFacilitiesList()),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Text(
@@ -475,27 +435,28 @@ class _TripState extends State<Trip> {
                     amount: (_price * (numberOfAdults + numberOfChildren))
                         .toString(),
                     currency: 'USD');
-                print("Payment Processing Done");
-                var response = "";
-                if (payment) {
-                  response = await _reservationProvider.processReservation(
-                      numberOfAdults,
-                      numberOfChildren,
-                      localStorage.getItem("userId"),
-                      _price,
-                      _value,
-                      widget.trip.id ?? -1,
-                      DateTime.now());
-                }
-                if (response == "") {
-                  context.go('/trips');
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      CustomSnackBar.showSuccessSnackBar(
-                          "You have successfuly booked a trip to Holistika Resort with Travelo Agency."));
-                } else {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(CustomSnackBar.showErrorSnackBar(response));
-                }
+
+                // print("Payment Processing Done");
+                // var response = "";
+                // if (payment == "dfogdfklgjdflkgjfd") {
+                //   response = await _reservationProvider.processReservation(
+                //       numberOfAdults,
+                //       numberOfChildren,
+                //       localStorage.getItem("userId"),
+                //       _price,
+                //       _value,
+                //       widget.trip.id ?? -1,
+                //       DateTime.now());
+                // }
+                // if (response == "") {
+                //   context.go('/trips');
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //       CustomSnackBar.showSuccessSnackBar(
+                //           "You have successfuly booked a trip to Holistika Resort with Travelo Agency."));
+                // } else {
+                //   ScaffoldMessenger.of(context)
+                //       .showSnackBar(CustomSnackBar.showErrorSnackBar(response));
+                // }
               },
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -563,5 +524,48 @@ class _TripState extends State<Trip> {
         .cast<DropdownMenuItem>()
         .toList();
     return list;
+  }
+
+  Widget _buildFacilitiesList() {
+    if (widget.trip.facilities!.isEmpty) {
+      return Center(child: Text("There are no facilities registered."));
+    }
+    return ListView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.only(left: 20, right: 20),
+        children: widget.trip.facilities!
+            .map(
+              (fac) => Padding(
+                padding: const EdgeInsets.only(right: 15),
+                child: Container(
+                  height: 75,
+                  width: 75,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: const Color(0xffF8F8F8),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset("assets/icons/${fac.toLowerCase()}.svg"),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        fac,
+                        style: const TextStyle(
+                          color: Color(0xff6B6B6B),
+                          fontSize: 14,
+                        ),
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )
+            .cast<Widget>()
+            .toList());
   }
 }

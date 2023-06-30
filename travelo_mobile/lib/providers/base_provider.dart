@@ -16,7 +16,7 @@ abstract class BaseProvider<T> with ChangeNotifier {
 
   BaseProvider(String endpoint) {
     _baseUrl = const String.fromEnvironment("baseUrl",
-        defaultValue: "http://127.0.0.1:7100/");
+        defaultValue: "https://127.0.0.1:7100/");
     print("baseurl: $_baseUrl");
 
     if (_baseUrl!.endsWith("/") == false) {
@@ -115,6 +115,21 @@ abstract class BaseProvider<T> with ChangeNotifier {
       return fromJson(data);
     } else {
       return null;
+    }
+  }
+
+  Future<bool> delete(int id) async {
+    var url = "$_baseUrl$_endpoint/$id";
+    var uri = Uri.parse(url);
+
+    Map<String, String> headers = await createHeaders();
+
+    var response = await http!.delete(uri, headers: headers);
+
+    if (isValidResponseCode(response)) {
+      return true;
+    } else {
+      return false;
     }
   }
 

@@ -7,6 +7,7 @@ import 'package:travelo_mobile/pages/navpages/bookmarks_page.dart';
 import 'package:travelo_mobile/pages/navpages/notification_page.dart';
 import 'package:travelo_mobile/pages/navpages/profile_page.dart';
 import 'package:travelo_mobile/pages/navpages/trips_page.dart';
+import 'package:travelo_mobile/pages/new_payment_method.dart';
 import 'package:travelo_mobile/pages/payment_settings.dart';
 import 'package:travelo_mobile/pages/profile/change_password.dart';
 import 'package:travelo_mobile/pages/profile/edit_profile.dart';
@@ -22,6 +23,8 @@ import '../pages/destination.dart';
 import '../pages/navpages/home_page.dart';
 import 'package:travelo_mobile/model/trip.dart' as trip_model;
 
+import 'errorPageBuilder.dart';
+
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -29,11 +32,12 @@ class MyRouter {
   static final GoRouter router = GoRouter(
     initialLocation: '/welcome',
     navigatorKey: _rootNavigatorKey,
+    errorBuilder: errorPageBuilder,
     routes: [
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         pageBuilder: (context, state, child) {
-          return NoTransitionPage(
+          return MaterialPage(
               child: ScaffoldWithNavBar(
             location: state.location,
             child: child,
@@ -44,7 +48,7 @@ class MyRouter {
             path: '/home',
             parentNavigatorKey: _shellNavigatorKey,
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
+              return const MaterialPage(
                 child: HomePage(),
               );
             },
@@ -53,7 +57,7 @@ class MyRouter {
             path: '/bookmarks',
             parentNavigatorKey: _shellNavigatorKey,
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
+              return const MaterialPage(
                 child: BookmarksPage(),
               );
             },
@@ -62,7 +66,7 @@ class MyRouter {
             parentNavigatorKey: _shellNavigatorKey,
             path: '/trips',
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
+              return const MaterialPage(
                 child: TripsPage(),
               );
             },
@@ -71,7 +75,7 @@ class MyRouter {
             parentNavigatorKey: _shellNavigatorKey,
             path: '/notifications',
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
+              return const MaterialPage(
                 child: NotificationsPage(),
               );
             },
@@ -80,7 +84,7 @@ class MyRouter {
             parentNavigatorKey: _shellNavigatorKey,
             path: '/profile',
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
+              return const MaterialPage(
                 child: ProfilePage(),
               );
             },
@@ -98,7 +102,7 @@ class MyRouter {
             parentNavigatorKey: _shellNavigatorKey,
             path: '/invoices',
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
+              return const MaterialPage(
                 child: TripInvoices(),
               );
             },
@@ -107,7 +111,7 @@ class MyRouter {
             parentNavigatorKey: _shellNavigatorKey,
             path: '/payment',
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
+              return const MaterialPage(
                 child: PaymentSettings(),
               );
             },
@@ -123,9 +127,18 @@ class MyRouter {
           ),
           GoRoute(
             parentNavigatorKey: _shellNavigatorKey,
+            path: '/new-payment-method',
+            pageBuilder: (context, state) {
+              return const MaterialPage(
+                child: NewPaymentMethod(),
+              );
+            },
+          ),
+          GoRoute(
+            parentNavigatorKey: _shellNavigatorKey,
             path: '/settings',
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
+              return const MaterialPage(
                 child: Settings(),
               );
             },
@@ -140,7 +153,7 @@ class MyRouter {
                 numberOfTrips: state.queryParameters['numberOfTrips'] as String,
                 countryName: state.queryParameters['countryName'] as String),
             // pageBuilder: (context, state) {
-            //   return NoTransitionPage(
+            //   return MaterialPage(
             //     child: DestinationPage(
             //       city: state.params['city'],
             //       cityImage: '',
@@ -178,15 +191,27 @@ class MyRouter {
       ),
       GoRoute(
         path: '/welcome',
-        builder: (context, state) => const WelcomePage(),
+        pageBuilder: (context, state) {
+          return const MaterialPage(
+            child: WelcomePage(),
+          );
+        },
       ),
       GoRoute(
         path: '/login',
-        builder: (context, state) => const LoginPage(),
+        pageBuilder: (context, state) {
+          return const MaterialPage(
+            child: LoginPage(),
+          );
+        },
       ),
       GoRoute(
         path: '/register',
-        builder: (context, state) => const RegisterPage(),
+        pageBuilder: (context, state) {
+          return const MaterialPage(
+            child: RegisterPage(),
+          );
+        },
       ),
       GoRoute(
         path: '/register2',

@@ -62,13 +62,15 @@ class _InputFieldState extends State<InputField> {
                   borderRadius: BorderRadius.all(Radius.circular(20.0)),
                   borderSide: BorderSide.none,
                 ),
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
-                  child: SvgPicture.asset(
-                    iconPath ?? "",
-                    width: 20,
-                  ),
-                ),
+                prefixIcon: iconPath != null && iconPath != ""
+                    ? Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
+                        child: SvgPicture.asset(
+                          iconPath ?? "",
+                          width: 20,
+                        ),
+                      )
+                    : null,
               )),
         ),
       ),
