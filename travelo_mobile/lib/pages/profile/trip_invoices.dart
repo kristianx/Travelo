@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../widgets/PageHeader.dart';
 
@@ -17,8 +18,30 @@ class _TripInvoicesState extends State<TripInvoices> {
       body: SafeArea(
           child: Column(
         children: [
-          const PageHeader(
-            pageName: "Trip invoices",
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    context.go("/profile");
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                const Text(
+                  "Trip Invoices",
+                  style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                // SvgPicture.asset("assets/icons/Search.svg")
+              ],
+            ),
           ),
           Expanded(
             child: SingleChildScrollView(

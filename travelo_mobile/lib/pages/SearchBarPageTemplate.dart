@@ -10,6 +10,7 @@ import 'package:travelo_mobile/model/trip.dart';
 import 'package:travelo_mobile/providers/agency_provider.dart';
 import 'package:travelo_mobile/providers/destination_provider.dart';
 import 'package:travelo_mobile/utils/util.dart';
+import 'agency.dart';
 import 'destination.dart';
 
 class SearchBarPageTemplate extends StatefulWidget {
@@ -182,7 +183,12 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
           .map((x) {
             return GestureDetector(
               onTap: () {
-                // addSearchTerm(x);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AgencyPage(
+                              agencyId: x.id ?? -1,
+                            )));
               },
               child: Container(
                 margin: const EdgeInsets.only(bottom: 7),

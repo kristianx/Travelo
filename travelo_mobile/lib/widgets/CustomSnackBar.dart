@@ -79,7 +79,7 @@ class CustomSnackBar {
                 ),
                 child: Center(
                   child: SvgPicture.asset(
-                    "assets/icons/trolley.svg",
+                    "assets/icons/error.svg",
                     color: Colors.white,
                     height: 22,
                     width: 22,

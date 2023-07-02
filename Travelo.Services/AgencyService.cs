@@ -53,9 +53,10 @@ namespace Travelo.Services
         {
             return base.Get(search);
         }
+
         public override IQueryable<Database.Agency> AddInclude(IQueryable<Database.Agency> query, AgencySearchObject search = null)
         {
-            query = query.Include("Account");
+            query = query.Include(x => x.Account);
             query = query.Include(x => x.City.Country);
             query = query.Include(x => x.Trips);
 
@@ -106,6 +107,23 @@ namespace Travelo.Services
             return null;
 
         }
+
+        public override Model.Agency GetById(int id)
+        {
+   
+
+           var ag = Context.Agency
+                .Include(x => x.Account)
+                .Include(x => x.City.Country)
+                .Include(x => x.Trips)
+                .First(x => x.Id == id);
+
+ 
+
+            return Mapper.Map<Model.Agency>(ag);
+        }
+
+
         public override Model.Agency Update(int id, AgencyUpdateRequest update)
         {
 

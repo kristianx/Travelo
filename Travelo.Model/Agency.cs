@@ -12,6 +12,7 @@ namespace Travelo.Model
         public string Phone { get; set; }
         public string WebsiteUrl { get; set; } 
         public string About { get; set; }
+
         public byte[] Image { get; set; } = null;
         public bool Status { get; set; }
         public string Address { get; set; }

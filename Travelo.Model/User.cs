@@ -10,9 +10,9 @@ namespace Travelo.Model
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
-        public byte[] Image { get; set; } = null;
+        public byte[] Image { get; set; }
         public int CityId { get; set; }
-        public string Address { get; set; } = null;
-        public string PostalCode { get; set; } = null;
+        public string Address { get; set; } 
+        public string PostalCode { get; set; }
     }
 }

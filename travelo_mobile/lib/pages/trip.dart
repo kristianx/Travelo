@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
@@ -28,25 +31,39 @@ class _TripState extends State<Trip> {
   late TripProvider _tripProvider;
   late TripItemProvider _tripItemProvider;
   late ReservationProvider _reservationProvider;
-
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
   List<TripItem> tripItems = [];
   int numberOfChildren = 0;
   int numberOfAdults = 1;
-
+  double lat = 0;
+  double long = 0;
   @override
   void initState() {
     super.initState();
     _tripItemProvider = context.read<TripItemProvider>();
     _reservationProvider = context.read<ReservationProvider>();
     _tripProvider = context.read<TripProvider>();
+
     loadData();
   }
 
   Future loadData() async {
+    print(widget.trip.location);
     var tmpData = await _tripItemProvider.get({'TripId': widget.trip.id});
+    var tmpLoc = await locationFromAddress(widget.trip.location ?? "");
+    print(tmpLoc.first.latitude);
+    print(tmpLoc.first.longitude);
     setState(() {
       tripItems = tmpData;
+      lat = tmpLoc.first.latitude;
+      long = tmpLoc.first.longitude;
     });
+    final GoogleMapController controller = await _controller.future;
+    await controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+            target: LatLng(tmpLoc.first.latitude, tmpLoc.first.longitude),
+            zoom: 12.5)));
   }
 
   void selectedTrip() {
@@ -64,6 +81,7 @@ class _TripState extends State<Trip> {
     setState(() {
       widget.bookmarked = tmp;
     });
+    loadData();
   }
 
   int _price = 0;
@@ -71,6 +89,7 @@ class _TripState extends State<Trip> {
   @override
   Widget build(BuildContext context) {
     final paymentController = PaymentController();
+
     void openGallery() {
       List<String> imagez = [];
       imagez.add(widget.trip.accomodationImage ?? "");
@@ -84,88 +103,115 @@ class _TripState extends State<Trip> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(children: [
-          GestureDetector(
-            onTap: openGallery,
-            child: Container(
-              height: 380,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: widget.trip.accomodationImage == ""
-                          ? const AssetImage("assets/images/imageHolder.png")
-                          : imageFromBase64String(
-                                  widget.trip.accomodationImage!)
-                              .image,
-                      fit: BoxFit.cover),
-                  borderRadius: const BorderRadius.only(
-                      bottomRight: Radius.circular(30),
-                      bottomLeft: Radius.circular(30))),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, right: 20, bottom: 40),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              widget.trip.accomodationName ?? "Accomodation",
-                              style: const TextStyle(
-                                  fontSize: 22,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            Text(widget.trip.cityName ?? "Destination",
+          Stack(children: [
+            GestureDetector(
+              onTap: openGallery,
+              child: Container(
+                height: 380,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: widget.trip.accomodationImage == ""
+                            ? const AssetImage("assets/images/imageHolder.png")
+                            : imageFromBase64String(
+                                    widget.trip.accomodationImage!)
+                                .image,
+                        fit: BoxFit.cover),
+                    borderRadius: const BorderRadius.only(
+                        bottomRight: Radius.circular(30),
+                        bottomLeft: Radius.circular(30))),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, bottom: 40),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                widget.trip.accomodationName ?? "Accomodation",
                                 style: const TextStyle(
-                                    fontSize: 18,
-                                    color: Color(0xffE7EAEA),
-                                    fontWeight: FontWeight.w400)),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/icons/star.svg",
-                                  width: 20,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text("${widget.trip.rating}.0",
-                                    style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600)),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            Text("${widget.trip.ratingCount} reviews",
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.white.withOpacity(0.9),
-                                    fontWeight: FontWeight.w500)),
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
+                                    fontSize: 22,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Text(widget.trip.cityName ?? "Destination",
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Color(0xffE7EAEA),
+                                      fontWeight: FontWeight.w400)),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/icons/star.svg",
+                                    width: 20,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text("${widget.trip.rating}.0",
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600)),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              Text("${widget.trip.ratingCount} reviews",
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.white.withOpacity(0.9),
+                                      fontWeight: FontWeight.w500)),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
+            Padding(
+              padding: EdgeInsets.only(top: 60, left: 20),
+              child: GestureDetector(
+                onTap: () {
+                  // context.goNamed('Destination', queryParameters: {
+                  //   'city': widget.trip.cityName ?? "City name",
+                  //   'countryName': widget.trip.countryName ?? "Country Name",
+                  // });
+                  Navigator.of(context).pop();
+                },
+                child: const Row(children: [
+                  Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    "BACK",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600),
+                  )
+                ]),
+              ),
+            ),
+          ]),
           Transform.translate(
             offset: const Offset(0, -20),
             child: Padding(
@@ -421,11 +467,7 @@ class _TripState extends State<Trip> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               height: 200,
               width: double.infinity,
-              child: const GoogleMap(
-                initialCameraPosition:
-                    CameraPosition(target: LatLng(43.341584, 17.801163)),
-                myLocationButtonEnabled: false,
-              ),
+              child: getGoogleMap(),
             )
           ]),
           if (_price != 0)
@@ -489,6 +531,32 @@ class _TripState extends State<Trip> {
         ]),
       ),
     );
+  }
+
+  Widget getGoogleMap() {
+    if (lat != 0 && long != 0) {
+      return GoogleMap(
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+        markers: {
+          Marker(
+              markerId: const MarkerId("1"),
+              position: LatLng(lat, long),
+              infoWindow: InfoWindow(title: widget.trip.accomodationName ?? ""))
+        },
+        compassEnabled: false,
+        myLocationEnabled: true,
+        rotateGesturesEnabled: true,
+        scrollGesturesEnabled: true,
+        tiltGesturesEnabled: true,
+        zoomGesturesEnabled: true,
+        initialCameraPosition:
+            CameraPosition(target: LatLng(long, lat), zoom: 3),
+        myLocationButtonEnabled: false,
+      );
+    }
+    return Text("Loading...");
   }
 
   List<DropdownMenuItem> _buildTripItemDropDownList() {

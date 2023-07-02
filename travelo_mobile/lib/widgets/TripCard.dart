@@ -3,6 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/main.dart';
+import 'package:travelo_mobile/pages/agency.dart';
+import 'package:travelo_mobile/pages/navpages/trips_page.dart';
+import 'package:travelo_mobile/pages/trip.dart';
 import 'package:travelo_mobile/widgets/ReviewStars.dart';
 import 'package:travelo_mobile/model/trip.dart' as trip_model;
 import '../providers/trip_provider.dart';
@@ -44,15 +47,22 @@ class _TripCardState extends State<TripCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        context.goNamed(
-          'Trip',
-          queryParameters: {"bookmarked": widget.bookmarked ? 'true' : 'false'},
-          extra: widget.trip,
-        )
+        // context.goNamed(
+        //   'Trip',
+        //   queryParameters: {"bookmarked": widget.bookmarked ? 'true' : 'false'},
+        //   extra: widget.trip,
+        // )
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => Trip(
+                  bookmarked: widget.bookmarked ? true : false,
+                  trip: widget.trip,
+                )))
+
         // Navigator.push(
         //   context,
         //   MaterialPageRoute(
         //       builder: (context) => Trip(
+        //             bookmarked: widget.bookmarked ? true : false,
         //             trip: widget.trip,
         //           )),
         // )
@@ -93,6 +103,10 @@ class _TripCardState extends State<TripCard> {
                   GestureDetector(
                     onTap: () {
                       context.goNamed("Agency", extra: widget.trip.agencyId);
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (_) => AgencyPage(
+                      //           agencyId: widget.trip.agencyId ?? -1,
+                      //         )));
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 20),
@@ -181,8 +195,8 @@ class _TripCardState extends State<TripCard> {
                       ReviewStars(rating: widget.trip.rating!),
                       const SizedBox(height: 5),
                       Text(widget.trip.dates ?? "",
-                          style:
-                              const TextStyle(fontSize: 15, color: Color(0xffA9A9A9)),
+                          style: const TextStyle(
+                              fontSize: 15, color: Color(0xffA9A9A9)),
                           softWrap: false,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
@@ -192,8 +206,8 @@ class _TripCardState extends State<TripCard> {
                       Expanded(
                         child: Text(
                           widget.trip.accomodationDescription ?? "",
-                          style:
-                              const TextStyle(fontSize: 11, color: Color(0xff000000)),
+                          style: const TextStyle(
+                              fontSize: 11, color: Color(0xff000000)),
                           softWrap: true,
                           maxLines: 5,
                           overflow: TextOverflow.ellipsis,
@@ -202,9 +216,9 @@ class _TripCardState extends State<TripCard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("\$1000",
+                          Text("\$${widget.trip.lowestPrice.toString()}/night",
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 15,
                                   color: Color(0xff747474),
                                   fontWeight: FontWeight.w500),
                               softWrap: false,

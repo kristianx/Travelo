@@ -27,9 +27,9 @@ class UserProvider extends BaseProvider<User> {
         headers: headers);
     if (response?.statusCode == 200 && response != null) {
       print("Login success");
-      localStorage.setItem('email', email);
-      localStorage.setItem('password', password);
-      localStorage.setItem('userId', int.parse(response.body));
+      await localStorage.setItem('email', email);
+      await localStorage.setItem('password', password);
+      await localStorage.setItem('userId', int.parse(response.body));
       return true;
     } else {
       print("Login error here");
@@ -79,8 +79,8 @@ class UserProvider extends BaseProvider<User> {
       // await storage.write(key: 'password', value: password);
       // Authorization.email = email;
       // Authorization.password = password;
-      localStorage.setItem('email', email);
-      localStorage.setItem('password', password);
+      await localStorage.setItem('email', email);
+      await localStorage.setItem('password', password);
       return true;
     } else {
       print("Registration error here");
@@ -91,8 +91,6 @@ class UserProvider extends BaseProvider<User> {
   // bool checkLoginStatus() {
   //   String? email = localStorage.getItem('email');
   //   String? password = localStorage.getItem('password');
-  //   print("email: " + email.toString());
-  //   print("password: " + password.toString());
   //   if (email != null && email != "" && password != null && password != "") {
   //     return true;
   //   }
@@ -104,8 +102,8 @@ class UserProvider extends BaseProvider<User> {
     localStorage.deleteItem("password");
   }
 
-  void logOut() {
-    localStorage.setItem('email', null);
-    localStorage.setItem('password', null);
+  void logOut() async {
+    await localStorage.setItem('email', null);
+    await localStorage.setItem('password', null);
   }
 }

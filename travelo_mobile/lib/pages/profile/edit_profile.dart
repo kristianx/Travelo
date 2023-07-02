@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/main.dart';
 import 'package:travelo_mobile/pages/navpages/profile_page.dart';
@@ -10,6 +11,7 @@ import '../../model/user.dart';
 import '../../providers/destination_provider.dart';
 import '../../providers/user_provider.dart';
 import '../../utils/util.dart';
+import '../../widgets/CustomSnackBar.dart';
 import '../../widgets/InputField.dart';
 import '../../widgets/PageHeader.dart';
 import '../../widgets/SimpleButton.dart';
@@ -86,8 +88,31 @@ class _EditProfileState extends State<EditProfile> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const PageHeader(
-                      pageName: "Edit profile",
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              context.go("/profile");
+                            },
+                            child: const Icon(
+                              Icons.arrow_back_ios_rounded,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          const Text(
+                            "Edit profile",
+                            style: TextStyle(
+                                color: Color(0xff000000),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          // SvgPicture.asset("assets/icons/Search.svg")
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
@@ -174,8 +199,7 @@ class _EditProfileState extends State<EditProfile> {
                   child: Material(
                     elevation: 3,
                     shadowColor: Colors.grey.shade300,
-                    borderRadius:
-                        const BorderRadius.all(Radius.circular(20)),
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
                     child: DropdownButtonFormField(
                       value: cityId,
                       items: citiesDropdown,
@@ -222,7 +246,6 @@ class _EditProfileState extends State<EditProfile> {
             // ),
             SimpleButton(
               onTap: () async {
-                print(localStorage.getItem("userId"));
                 if (localStorage.getItem("userId") != null) {
                   User? usr = await _userProvider
                       .update(localStorage.getItem("userId") as int, {
@@ -232,17 +255,27 @@ class _EditProfileState extends State<EditProfile> {
                     "lastName": _lastNameController.text,
                     "address": _addressController.text,
                     "postalCode": _postalCodeController.text,
-                    "cityId": cityId
+                    "cityId": cityId,
                   });
                   if (usr != null) {
                     setState(() {
                       widget.user = usr;
                     });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ProfilePage()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => const ProfilePage()),
+                    // );
+                    context.go("/profile");
+                    // Navigator.of(context).push(
+                    //     MaterialPageRoute(builder: (_) => const ProfilePage()));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        CustomSnackBar.showSuccessSnackBar(
+                            "Profile information updated."));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        CustomSnackBar.showErrorSnackBar(
+                            "Please check the details."));
                   }
                 }
               },

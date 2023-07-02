@@ -18,9 +18,7 @@ namespace Travelo.Services
 
             CreateMap<Database.User, Model.User>().ForMember(d => d.Email, s => s.MapFrom(_ => _.Account.Email)).ReverseMap().ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null));
             CreateMap<UserCreateRequest, Database.User>().ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null));
-            CreateMap<UserUpdateRequest, Database.User>()
-                //.ForMember(d => d.CityId, s => s.MapFrom(_ => _.CityId))
-                .ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null));
+            CreateMap<UserUpdateRequest, Database.User>().ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null));
 
             CreateMap<Database.Agency, Model.Agency>()
                 .ForMember(d => d.Email, s => s.MapFrom(_ => _.Account.Email))
@@ -36,7 +34,7 @@ namespace Travelo.Services
                 .ForMember(d => d.AccomodationImage, s => s.MapFrom(_ => _.Accommodation.Images))
                 .ForMember(d => d.AccomodationDescription, s => s.MapFrom(_ => _.Accommodation.Description))
                 .ForMember(d => d.Facilities, s => s.MapFrom(_ => _.Accommodation.Facilities.Select(f => f.Name).ToList()))
-                .ForMember(d => d.Location, s => s.MapFrom(_ => _.Accommodation.LocationMap))
+                .ForMember(d => d.Location, s => s.MapFrom(_ => _.Accommodation.Address + ", " + _.Accommodation.City.Name + ", " + _.Accommodation.City.Country.Name))
                 .ForMember(d => d.AgencyId, s => s.MapFrom(_ => _.Agency.Id))
                 .ForMember(d => d.AgencyName, s => s.MapFrom(_ => _.Agency.Name))
                 .ForMember(d => d.AgencyImage, s => s.MapFrom(_ => _.Agency.Image))

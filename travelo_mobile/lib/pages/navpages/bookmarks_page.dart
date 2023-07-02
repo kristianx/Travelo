@@ -39,7 +39,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
       body: SafeArea(
           child: Column(
         children: [
-          const PageHeader(
+          PageHeader(
             pageName: "Bookmarks",
           ),
           Expanded(

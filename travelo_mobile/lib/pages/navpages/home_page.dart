@@ -9,6 +9,8 @@ import 'package:travelo_mobile/widgets/BlogCard.dart';
 import '../../model/destination.dart';
 import '../../model/tag.dart';
 import '../../providers/tag_provider.dart';
+import '../../widgets/CustomSnackBar.dart';
+import '../destination.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -194,25 +196,25 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(bottom: 20),
               child: GestureDetector(
                 onTap: () => {
-                  context.goNamed('Destination', queryParameters: {
-                    'city': x.name ?? "City name",
-                    'cityImage': x.image ?? "",
-                    'countryName': x.countryName ?? "Country Name",
-                    'numberOfTrips': x.numberOfTrips.toString() == ""
-                        ? "0"
-                        : x.numberOfTrips.toString(),
-                  })
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => DestinationPage(
-                  //           city: x.name ?? "City name",
-                  //           cityImage: x.image ?? "",
-                  //           countryName: x.countryName ?? "Country Name",
-                  //           numberOfTrips: x.numberOfTrips.toString() == ""
-                  //               ? "0"
-                  //               : x.numberOfTrips.toString())),
-                  // )
+                  // context.goNamed('Destination', queryParameters: {
+                  //   'city': x.name ?? "City name",
+                  //   'cityImage': x.image ?? "",
+                  //   'countryName': x.countryName ?? "Country Name",
+                  //   'numberOfTrips': x.numberOfTrips.toString() == ""
+                  //       ? "0"
+                  //       : x.numberOfTrips.toString(),
+                  // })
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DestinationPage(
+                            city: x.name ?? "City name",
+                            cityImage: x.image ?? "",
+                            countryName: x.countryName ?? "Country Name",
+                            numberOfTrips: x.numberOfTrips.toString() == ""
+                                ? "0"
+                                : x.numberOfTrips.toString())),
+                  )
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),

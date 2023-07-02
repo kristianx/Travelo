@@ -114,6 +114,7 @@ abstract class BaseProvider<T> with ChangeNotifier {
       var data = jsonDecode(response.body);
       return fromJson(data);
     } else {
+      print(response.body);
       return null;
     }
   }

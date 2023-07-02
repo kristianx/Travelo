@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:travelo_mobile/pages/payment_settings.dart';
 import 'package:travelo_mobile/providers/paymentMethod_provider.dart';
 import '../main.dart';
 import '../services/payment_service.dart';
@@ -50,8 +51,30 @@ class _NewPaymentMethodState extends State<NewPaymentMethod> {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-            const PageHeader(
-              pageName: "New Payment Method",
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      context.go("/payment");
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios_rounded,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    "New Payment Method",
+                    style: TextStyle(
+                        color: Color(0xff000000),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  // SvgPicture.asset("assets/icons/Search.svg")
+                ],
+              ),
             ),
             const SizedBox(
               height: 50,
@@ -136,6 +159,8 @@ class _NewPaymentMethodState extends State<NewPaymentMethod> {
                     });
 
                     if (flag != null) {
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (_) => const PaymentSettings()));
                       context.go('/payment');
                     }
                   } catch (e) {

@@ -13,7 +13,7 @@ namespace Travelo.Model.Requests
 
         [StringLength(50, MinimumLength = 4)]
         [DataType(DataType.Password)]
-        //[RegularExpression(@"^[^\s\,]+$", ErrorMessage = "Username Cannot Have Spaces")]
+        [RegularExpression(@"^[^\s\,]+$", ErrorMessage = "Username Cannot Have Spaces")]
         [Required(AllowEmptyStrings = false)]
         public string OldPassword { get; set; }
 
@@ -21,6 +21,7 @@ namespace Travelo.Model.Requests
         public int CityId { get; set; }
 
         [StringLength(50, MinimumLength = 4)]
+
         public string FirstName { get; set; }
 
         [StringLength(50, MinimumLength = 4)]
@@ -34,8 +35,8 @@ namespace Travelo.Model.Requests
 
         [StringLength(50, MinimumLength = 4)]
         [DataType(DataType.Password)]
-        //[RegularExpression(@"^[^\s\,]+$", ErrorMessage = "Username Cannot Have Spaces")]
-        public string NewPassword { get; set; }
-   
+        [RegularExpression(@"^[^\s\,]+$", ErrorMessage = "Username Cannot Have Spaces")]
+        public string NewPassword { get; set; } = null;
+
     }
 }

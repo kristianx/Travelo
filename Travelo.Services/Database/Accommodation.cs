@@ -25,10 +25,7 @@ namespace Travelo.Services.Database
 
         public virtual ICollection<Facility> Facilities { get; set; }
 
-        //Check this
-        public string LocationMap { get; set; }
 
-        //Check this
         public byte[]? Images { get; set; }
     }
 }

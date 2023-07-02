@@ -20,10 +20,6 @@ namespace Travelo.Model
 
         public ICollection<string> Facilities { get; set; }
 
-        //Check this
-        public string LocationMap { get; set; }
-
-        //Check this
         public byte[] Images { get; set; }
     }
 }

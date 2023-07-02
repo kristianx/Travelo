@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:travelo_mobile/pages/welcome.dart';
 import 'package:travelo_mobile/providers/user_provider.dart';
 
 import '../../widgets/PageHeader.dart';
@@ -30,8 +31,30 @@ class _SettingsState extends State<Settings> {
       body: SafeArea(
           child: Column(
         children: [
-          const PageHeader(
-            pageName: "Settings",
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    context.go("/profile");
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                const Text(
+                  "Settings",
+                  style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                // SvgPicture.asset("assets/icons/Search.svg")
+              ],
+            ),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -139,21 +162,6 @@ class _SettingsState extends State<Settings> {
                         ],
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(25, 7, 20, 7),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Change password",
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Color(0xff797979),
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 7, 20, 7),
                       child: Row(
@@ -181,6 +189,8 @@ class _SettingsState extends State<Settings> {
                         _userProvider!.logOut();
                         // Navigator.pushNamed(context, "/welcome");
                         context.go('/welcome');
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (_) => const WelcomePage()));
                       },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(25, 7, 20, 7),

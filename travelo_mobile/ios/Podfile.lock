@@ -4,9 +4,11 @@ PODS:
   - Flutter (1.0.0)
   - flutter_secure_storage (6.0.0):
     - Flutter
+  - geocoding_ios (1.0.5):
+    - Flutter
   - google_maps_flutter_ios (0.0.1):
     - Flutter
-    - GoogleMaps
+    - GoogleMaps (< 8.0)
   - GoogleMaps (7.4.0):
     - GoogleMaps/Maps (= 7.4.0)
   - GoogleMaps/Base (7.4.0)
@@ -19,42 +21,42 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - Stripe (23.6.0):
-    - StripeApplePay (= 23.6.0)
-    - StripeCore (= 23.6.0)
-    - StripePayments (= 23.6.0)
-    - StripePaymentsUI (= 23.6.0)
-    - StripeUICore (= 23.6.0)
+  - Stripe (23.7.1):
+    - StripeApplePay (= 23.7.1)
+    - StripeCore (= 23.7.1)
+    - StripePayments (= 23.7.1)
+    - StripePaymentsUI (= 23.7.1)
+    - StripeUICore (= 23.7.1)
   - stripe_ios (0.0.1):
     - Flutter
-    - Stripe (= 23.6.0)
-    - StripeApplePay (= 23.6.0)
-    - StripeFinancialConnections (= 23.6.0)
-    - StripePayments (= 23.6.0)
-    - StripePaymentSheet (= 23.6.0)
-    - StripePaymentsUI (= 23.6.0)
-  - StripeApplePay (23.6.0):
-    - StripeCore (= 23.6.0)
-  - StripeCore (23.6.0)
-  - StripeFinancialConnections (23.6.0):
-    - StripeCore (= 23.6.0)
-    - StripeUICore (= 23.6.0)
-  - StripePayments (23.6.0):
-    - StripeCore (= 23.6.0)
-    - StripePayments/Stripe3DS2 (= 23.6.0)
-  - StripePayments/Stripe3DS2 (23.6.0):
-    - StripeCore (= 23.6.0)
-  - StripePaymentSheet (23.6.0):
-    - StripeApplePay (= 23.6.0)
-    - StripeCore (= 23.6.0)
-    - StripePayments (= 23.6.0)
-    - StripePaymentsUI (= 23.6.0)
-  - StripePaymentsUI (23.6.0):
-    - StripeCore (= 23.6.0)
-    - StripePayments (= 23.6.0)
-    - StripeUICore (= 23.6.0)
-  - StripeUICore (23.6.0):
-    - StripeCore (= 23.6.0)
+    - Stripe (~> 23.7.0)
+    - StripeApplePay (~> 23.7.0)
+    - StripeFinancialConnections (~> 23.7.0)
+    - StripePayments (~> 23.7.0)
+    - StripePaymentSheet (~> 23.7.0)
+    - StripePaymentsUI (~> 23.7.0)
+  - StripeApplePay (23.7.1):
+    - StripeCore (= 23.7.1)
+  - StripeCore (23.7.1)
+  - StripeFinancialConnections (23.7.1):
+    - StripeCore (= 23.7.1)
+    - StripeUICore (= 23.7.1)
+  - StripePayments (23.7.1):
+    - StripeCore (= 23.7.1)
+    - StripePayments/Stripe3DS2 (= 23.7.1)
+  - StripePayments/Stripe3DS2 (23.7.1):
+    - StripeCore (= 23.7.1)
+  - StripePaymentSheet (23.7.1):
+    - StripeApplePay (= 23.7.1)
+    - StripeCore (= 23.7.1)
+    - StripePayments (= 23.7.1)
+    - StripePaymentsUI (= 23.7.1)
+  - StripePaymentsUI (23.7.1):
+    - StripeCore (= 23.7.1)
+    - StripePayments (= 23.7.1)
+    - StripeUICore (= 23.7.1)
+  - StripeUICore (23.7.1):
+    - StripeCore (= 23.7.1)
   - url_launcher_ios (0.0.1):
     - Flutter
 
@@ -62,6 +64,7 @@ DEPENDENCIES:
   - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - local_auth_ios (from `.symlinks/plugins/local_auth_ios/ios`)
@@ -88,6 +91,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  geocoding_ios:
+    :path: ".symlinks/plugins/geocoding_ios/ios"
   google_maps_flutter_ios:
     :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   image_picker_ios:
@@ -105,20 +110,21 @@ SPEC CHECKSUMS:
   awesome_notifications: 04530aafec8dac4635244ed4b4072f4aea6cc938
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
-  google_maps_flutter_ios: 3e0b99383a8003b8169d06e7e324170bd0424105
+  geocoding_ios: a389ea40f6f548de6e63006a2e31bf66ff80769a
+  google_maps_flutter_ios: abdac20d6ce8931f6ebc5f46616df241bfaa2cfd
   GoogleMaps: 032f676450ba0779bd8ce16840690915f84e57ac
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
   local_auth_ios: c6cf091ded637a88f24f86a8875d8b0f526e2605
-  path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
-  Stripe: 097f76ce332ff7dcb8a29ec2a8379bb4f34aa14d
-  stripe_ios: dfb96f1e36a0feb24596e280dfdc33d4106e9e77
-  StripeApplePay: 484761d4760ddb8af8c1510b8735cd9aee94515f
-  StripeCore: 0e83ad26d508e5a8e9eb04d6ddd3cbb08a3f7816
-  StripeFinancialConnections: eb303783458a7e5bd4380cbbf0a6cf44246473f4
-  StripePayments: cdd5222052d541f4daf1d84515f0b9cd18720534
-  StripePaymentSheet: 835aabcac7946d6b6b341055d021428b96894b70
-  StripePaymentsUI: 835b9422f86ceb2ca02b4146db9d3f7bf1acb0d9
-  StripeUICore: 81bac0f54df659ab7c5dd4f5a57719a5fecdcdc9
+  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
+  Stripe: fbe3d1d61cba70ac7a920c6097222ba9525352c4
+  stripe_ios: 8e0be46c31e1758756e5fdc1613f751d4d945ae0
+  StripeApplePay: 06e3899c9db102567804b77c41cec2861b5e2c39
+  StripeCore: 9b331e5f9d4067ef7296718c680a73ad6f2d1066
+  StripeFinancialConnections: 7d8116c4dcd3b034f13a181b4d96e6991b594cfc
+  StripePayments: 46fbd561312cb300c93dd855b9c896285c8eb1fb
+  StripePaymentSheet: 016fd1c6053efff1f348fc6f44babecacda9d0af
+  StripePaymentsUI: cb06c01d3c9efde91ebce218f9e4e94e902dd676
+  StripeUICore: a9db3f2a82c932d5ca58dd8fc4ac0a6b72f1ccee
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3

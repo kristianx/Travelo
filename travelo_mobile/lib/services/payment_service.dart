@@ -5,12 +5,10 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:travelo_mobile/.env';
 import 'package:travelo_mobile/main.dart';
-
 import '../model/city.dart';
 import '../model/user.dart';
 import '../providers/city_provider.dart';
 import '../providers/user_provider.dart';
-import '../widgets/CustomSnackBar.dart';
 
 class PaymentController extends GetxController {
   Map<String, dynamic>? paymentIntentData;
@@ -28,28 +26,21 @@ class PaymentController extends GetxController {
       }
     } catch (e, s) {
       print('exception:$e$s');
-      return false;
     }
     return false;
   }
 
   Future<Map<String, dynamic>> _createPaymentIntents(
       String amount, String currency, String customerId) async {
-    final String url = 'https://api.stripe.com/v1/payment_intents';
-
-    Map<String, dynamic> body = {
+    var response = await http
+        .post(Uri.parse('https://api.stripe.com/v1/payment_intents'), headers: {
+      'Authorization': 'Bearer $stripPrivateKey',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    }, body: {
       'amount': calculateAmount(amount),
       'currency': currency,
-      'payment_method_types[]': 'card',
       'customer': customerId
-    };
-
-    var response = await http.post(Uri.parse(url),
-        headers: {
-          'Authorization': 'Bearer $stripPrivateKey',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: body);
+    });
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -57,14 +48,14 @@ class PaymentController extends GetxController {
     }
   }
 
-  Future<void> subscriptions() async {
-    // final _customer = await createCustomer();
-    // final _paymentMethod = await createPaymentMethod(
-    //     number: '4242424242424242', expMonth: '03', expYear: '23', cvc: '123');
-    // await _attachPaymentMethod(_paymentMethod['id'], _customer['id']);
-    // await _updateCustomer(_paymentMethod['id'], _customer['id']);
-    // await _createSubscriptions(_customer['id']);
-  }
+  // Future<void> subscriptions() async {
+  // final _customer = await createCustomer();
+  // final _paymentMethod = await createPaymentMethod(
+  //     number: '4242424242424242', expMonth: '03', expYear: '23', cvc: '123');
+  // await _attachPaymentMethod(_paymentMethod['id'], _customer['id']);
+  // await _updateCustomer(_paymentMethod['id'], _customer['id']);
+  // await _createSubscriptions(_customer['id']);
+  // }
 
   // Future<bool> makePayment(
   //     {required String amount, required String currency}) async {
@@ -88,21 +79,27 @@ class PaymentController extends GetxController {
     try {
       await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
-              customFlow: true,
-              merchantDisplayName: 'Travelo',
-              customerId: customer['id'],
-              customerEphemeralKeySecret: ephemeralKey['secret'],
-              paymentIntentClientSecret: clientSecret,
-              appearance: PaymentSheetAppearance(
-                  colors: PaymentSheetAppearanceColors(
-                background: Colors.white,
-                primary: Colors.black,
-              ))));
+        customFlow: true,
+        merchantDisplayName: 'Travelo',
+        customerId: customer['id'],
+        customerEphemeralKeySecret: ephemeralKey['secret'],
+        paymentIntentClientSecret: clientSecret,
+        // appearance: const PaymentSheetAppearance(
+        //     colors: PaymentSheetAppearanceColors(
+        //       background: Colors.white,
+        //       primary: Colors.black,
+        //     ),
+        //     primaryButton: PaymentSheetPrimaryButtonAppearance(
+        //         colors: PaymentSheetPrimaryButtonTheme(
+        //             dark: PaymentSheetPrimaryButtonThemeColors(
+        //       background: Colors.white,
+        //       text: Colors.black,
+        //     )))),
+      ));
     } catch (e) {
       print("Error: $e");
       rethrow;
     }
-
     await Stripe.instance.presentPaymentSheet();
   }
 
@@ -159,17 +156,17 @@ class PaymentController extends GetxController {
     }
   }
 
-  Future<void> _createCreditCard(
-      String customerId, String paymentIntentClientSecret) async {
-    await Stripe.instance.initPaymentSheet(
-        paymentSheetParameters: SetupPaymentSheetParameters(
-      merchantDisplayName: 'Travelo',
-      customerId: customerId,
-      paymentIntentClientSecret: paymentIntentClientSecret,
-    ));
+  // Future<void> _createCreditCard(
+  //     String customerId, String paymentIntentClientSecret) async {
+  //   await Stripe.instance.initPaymentSheet(
+  //       paymentSheetParameters: SetupPaymentSheetParameters(
+  //     merchantDisplayName: 'Travelo',
+  //     customerId: customerId,
+  //     paymentIntentClientSecret: paymentIntentClientSecret,
+  //   ));
 
-    await Stripe.instance.presentPaymentSheet();
-  }
+  //   await Stripe.instance.presentPaymentSheet();
+  // }
 
   // Future<void> payment(
   //     {required String amount, required String currency}) async {

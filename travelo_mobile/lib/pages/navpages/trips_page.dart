@@ -44,7 +44,7 @@ class _TripsPageState extends State<TripsPage> {
       body: SafeArea(
         child: Column(
           children: [
-            const PageHeader(
+            PageHeader(
               pageName: "My Trips",
             ),
             Padding(
@@ -178,7 +178,8 @@ class _TripsPageState extends State<TripsPage> {
                               bottomLeft: Radius.circular(15)),
                           image: DecorationImage(
                               image: r.destinationImage == ""
-                                  ? const AssetImage("assets/images/imageHolder.png")
+                                  ? const AssetImage(
+                                      "assets/images/imageHolder.png")
                                   : imageFromBase64String(r.destinationImage!)
                                       .image,
                               fit: BoxFit.cover)),

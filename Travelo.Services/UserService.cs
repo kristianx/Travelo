@@ -84,26 +84,26 @@ namespace Travelo.Services
             return null;
 
         }
-        private string CreateToken(Model.Account user)
-        {
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role.ToString()),
+        //private string CreateToken(Model.Account user)
+        //{
+        //    List<Claim> claims = new List<Claim>
+        //    {
+        //        new Claim(ClaimTypes.Email, user.Email),
+        //        new Claim(ClaimTypes.Role, user.Role.ToString()),
        
-            };
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+        //    };
+        //    var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
 
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        //    var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddDays(10),
-                signingCredentials: credentials
-                );
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-            return jwt;
-        }
+        //    var token = new JwtSecurityToken(
+        //        claims: claims,
+        //        expires: DateTime.Now.AddDays(10),
+        //        signingCredentials: credentials
+        //        );
+        //    var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+        //    return jwt;
+        //}
 
         public Model.User UploadImage(UserUploadImageRequest request)
         {
@@ -145,8 +145,8 @@ namespace Travelo.Services
                 }
 
                 
-
-                return Mapper.Map<Model.User>(user);
+                var newUser = Context.User.Include(x => x.Account).FirstOrDefault(x => x.Id == id);
+                return Mapper.Map<Model.User>(newUser);
             }
 
             return null;

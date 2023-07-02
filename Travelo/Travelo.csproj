@@ -25,11 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Travelo.Model\Travelo.Model.csproj" />
     <ProjectReference Include="..\Travelo.Services\Travelo.Services.csproj" />
+    <ProjectReference Include="..\Travelo.Model\Travelo.Model.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="SQLite" />
   </ItemGroup>
+
 </Project>

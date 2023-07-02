@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travelo_mobile/pages/login.dart';
+import 'package:travelo_mobile/pages/register.dart';
 import 'package:travelo_mobile/widgets/SimpleButton.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -37,11 +39,10 @@ class _WelcomePageState extends State<WelcomePage> {
               SimpleButton(
                 onTap: () {
                   Future.delayed(Duration.zero, () async {
-                    // var authenticate = await LocalAuth.authenticate();
-                    // if (authenticate) {
-                    //   context.go("/login");
-                    // }
                     context.go("/login");
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (_) => LoginPage()));
+                    // Navigator.of(context).pushNamed("Login");
                   });
                 },
                 bgColor: const Color(0xffEAAD5F),
@@ -53,8 +54,9 @@ class _WelcomePageState extends State<WelcomePage> {
               const SizedBox(height: 20),
               SimpleButton(
                 onTap: () {
-                  // Navigator.pushNamed(context, "/register");
-
+                  // Navigator.of(context).pushNamed("/register");
+                  // Navigator.of(context)
+                  //     .push(MaterialPageRoute(builder: (_) => RegisterPage()));
                   context.go("/register");
                 },
                 bgColor: Colors.white,

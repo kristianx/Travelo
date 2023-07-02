@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:travelo_mobile/pages/navpages/home_page.dart';
 import '../main.dart';
 import '../providers/user_provider.dart';
 import '../widgets/InputField.dart';
@@ -28,8 +29,9 @@ class _LoginPageState extends State<LoginPage> {
       localStorage.getItem("password"),
     );
     if (loginFlag && context.mounted) {
-      setState(() {});
       context.go("/home");
+      // Navigator.of(context)
+      // .push(MaterialPageRoute(builder: (_) => const HomePage()));
     }
   }
 
@@ -43,48 +45,44 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(0, 120, 0, 80),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/Background.png"),
-              fit: BoxFit.cover),
+        body: Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.fromLTRB(0, 120, 0, 80),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/Background.png"),
+                fit: BoxFit.cover),
+          ),
         ),
-        child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: _buildLoginPage()),
-      ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20, top: 100),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: GestureDetector(
+              onTap: () {
+                context.go("/welcome");
+              },
+              child: const Icon(
+                Icons.arrow_back_ios_rounded,
+              ),
+            ),
+          ),
+        ),
+        SafeArea(
+          child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: _buildLoginPage()),
+        )
+      ],
     ));
   }
 
   List<Widget> _buildLoginPage() {
     return [
-      Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 20,
-            ),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: GestureDetector(
-                onTap: () {
-                  context.go("/welcome");
-                },
-                child: const Icon(
-                  Icons.arrow_back_ios_rounded,
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
+      const SizedBox(height: 50),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -113,10 +111,8 @@ class _LoginPageState extends State<LoginPage> {
             var loginFlag = await _userProvider.loginUser(
                 _usernameController.text, _passwordController.text);
             if (loginFlag) {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => const MainPage()),
-              // );
+              // Navigator.of(context)
+              //     .push(MaterialPageRoute(builder: (_) => const HomePage()));
               context.go("/home");
             }
           } catch (e) {
@@ -140,6 +136,7 @@ class _LoginPageState extends State<LoginPage> {
         width: 300,
         height: 70,
       ),
+      const SizedBox(height: 20),
     ];
   }
 }

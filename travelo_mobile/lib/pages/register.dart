@@ -8,6 +8,7 @@ import 'package:travelo_mobile/widgets/SimpleButton.dart';
 import '../model/city.dart';
 import '../providers/city_provider.dart';
 import '../providers/user_provider.dart';
+import 'navpages/home_page.dart';
 // import 'navpages/home_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -184,6 +185,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     //   MaterialPageRoute(builder: (context) => const HomePage()),
                     // );
                     context.go('/home');
+                    // Navigator.of(context).push(
+                    //     MaterialPageRoute(builder: (_) => const HomePage()));
                   }
                 } catch (e) {
                   showDialog(

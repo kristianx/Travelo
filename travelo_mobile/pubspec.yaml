@@ -51,6 +51,7 @@ dependencies:
   get: ^4.6.5
   material_floating_search_bar_2: ^0.5.0
   url_launcher: ^6.1.11
+  geocoding: ^2.1.0
 
 dev_dependencies:
   flutter_test:

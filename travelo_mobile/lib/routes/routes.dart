@@ -25,8 +25,8 @@ import 'package:travelo_mobile/model/trip.dart' as trip_model;
 
 import 'errorPageBuilder.dart';
 
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
-final _shellNavigatorKey = GlobalKey<NavigatorState>();
+final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+final _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 class MyRouter {
   static final GoRouter router = GoRouter(
@@ -37,36 +37,30 @@ class MyRouter {
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         pageBuilder: (context, state, child) {
-          return MaterialPage(
+          return CupertinoPage(
+              key: state.pageKey,
               child: ScaffoldWithNavBar(
-            location: state.location,
-            child: child,
-          ));
+                key: state.pageKey,
+                location: state.location,
+                child: child,
+              ));
         },
         routes: [
           GoRoute(
             path: '/home',
             parentNavigatorKey: _shellNavigatorKey,
-            pageBuilder: (context, state) {
-              return const MaterialPage(
-                child: HomePage(),
-              );
-            },
+            builder: (context, state) => const HomePage(),
           ),
           GoRoute(
             path: '/bookmarks',
             parentNavigatorKey: _shellNavigatorKey,
-            pageBuilder: (context, state) {
-              return const MaterialPage(
-                child: BookmarksPage(),
-              );
-            },
+            builder: (context, state) => const BookmarksPage(),
           ),
           GoRoute(
             parentNavigatorKey: _shellNavigatorKey,
             path: '/trips',
             pageBuilder: (context, state) {
-              return const MaterialPage(
+              return const CupertinoPage(
                 child: TripsPage(),
               );
             },
@@ -191,31 +185,40 @@ class MyRouter {
       ),
       GoRoute(
         path: '/welcome',
+        // builder: (context, state) => const WelcomePage(),
         pageBuilder: (context, state) {
-          return const MaterialPage(
-            child: WelcomePage(),
+          return CupertinoPage(
+            key: state.pageKey,
+            child: WelcomePage(
+              key: state.pageKey,
+            ),
           );
         },
       ),
       GoRoute(
+        name: 'Login',
         path: '/login',
+        // builder: (context, state) => const LoginPage(),
         pageBuilder: (context, state) {
-          return const MaterialPage(
-            child: LoginPage(),
+          return CupertinoPage(
+            key: state.pageKey,
+            child: LoginPage(
+              key: state.pageKey,
+            ),
           );
         },
       ),
       GoRoute(
         path: '/register',
+        // builder: (context, state) => const RegisterPage(),
         pageBuilder: (context, state) {
-          return const MaterialPage(
-            child: RegisterPage(),
+          return CupertinoPage(
+            key: state.pageKey,
+            child: RegisterPage(
+              key: state.pageKey,
+            ),
           );
         },
-      ),
-      GoRoute(
-        path: '/register2',
-        builder: (context, state) => const RegisterPageStep2(),
       ),
     ],
   );

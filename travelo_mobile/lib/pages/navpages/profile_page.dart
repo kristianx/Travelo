@@ -3,6 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/main.dart';
+import 'package:travelo_mobile/pages/payment_settings.dart';
+import 'package:travelo_mobile/pages/profile/change_password.dart';
+import 'package:travelo_mobile/pages/profile/edit_profile.dart';
+import 'package:travelo_mobile/pages/profile/settings.dart';
+import 'package:travelo_mobile/pages/profile/trip_invoices.dart';
 import 'package:travelo_mobile/providers/user_provider.dart';
 import 'package:travelo_mobile/widgets/PageHeader.dart';
 
@@ -19,6 +24,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   late UserProvider _userProvider;
   late User? _user;
+  ImageProvider<Object>? userImage;
 
   Future loadData() async {
     User user =
@@ -26,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _user = user;
     });
+    userImage = imageFromBase64String(_user?.image ?? "").image;
   }
 
   @override
@@ -52,7 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const PageHeader(
+                PageHeader(
                   pageName: "Profile",
                 ),
                 const SizedBox(
@@ -65,9 +72,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       borderRadius: BorderRadius.circular(100),
                       color: const Color(0xffE5F0F5),
                       image: DecorationImage(
-                          image: _user!.image == ""
+                          image: userImage == null
                               ? const AssetImage("assets/images/user-image.png")
-                              : imageFromBase64String(_user?.image ?? "").image,
+                              : userImage!,
                           fit: BoxFit.cover),
                       boxShadow: const [
                         BoxShadow(color: Color(0xffFFE9CC), spreadRadius: 20),
@@ -92,6 +99,8 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               GestureDetector(
                 onTap: () {
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //     builder: (_) => EditProfile(user: _user)));
                   context.goNamed("EditProfile", extra: _user);
                 },
                 child: Padding(
@@ -134,6 +143,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               GestureDetector(
                 onTap: () {
+                  // Navigator.of(context).push(
+                  //     MaterialPageRoute(builder: (_) => const TripInvoices()));
                   context.go("/invoices");
                 },
                 child: Padding(
@@ -174,6 +185,8 @@ class _ProfilePageState extends State<ProfilePage> {
               GestureDetector(
                 onTap: () {
                   context.go("/payment");
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //     builder: (_) => const PaymentSettings()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -213,6 +226,8 @@ class _ProfilePageState extends State<ProfilePage> {
               GestureDetector(
                 onTap: () {
                   context.goNamed("ChangePassword", extra: _user);
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //     builder: (_) => ChangePassword(user: _user)));
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -255,6 +270,8 @@ class _ProfilePageState extends State<ProfilePage> {
               GestureDetector(
                 onTap: () {
                   context.go('/settings');
+                  // Navigator.of(context).push(
+                  //     MaterialPageRoute(builder: (_) => const Settings()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),

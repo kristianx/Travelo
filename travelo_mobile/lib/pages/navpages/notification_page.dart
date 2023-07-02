@@ -11,7 +11,7 @@ class NotificationsPage extends StatelessWidget {
       body: SafeArea(
           child: Column(
         children: [
-          const PageHeader(
+          PageHeader(
             pageName: "Notifications",
           ),
           Expanded(
