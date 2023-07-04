@@ -124,7 +124,7 @@ namespace Travelo.Services
 
             Model.Account acc = _accountService.Login(update.Email, update.OldPassword, Role.Traveler);
 
-            if(acc != null && acc.Id == id)
+            if(acc != null)
             {
 
                 var user = Context.User.Include(x => x.Account).FirstOrDefault(x=> x.Id == id);
@@ -135,7 +135,7 @@ namespace Travelo.Services
                     Context.SaveChanges();
                     if (update.NewPassword != null)
                     {
-                        _accountService.updatePassword(id, update.NewPassword);
+                        _accountService.updatePassword(acc.Id, update.NewPassword);
                     }
                 }
                 else

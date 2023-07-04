@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -156,25 +155,6 @@ class PaymentController extends GetxController {
     }
   }
 
-  // Future<void> _createCreditCard(
-  //     String customerId, String paymentIntentClientSecret) async {
-  //   await Stripe.instance.initPaymentSheet(
-  //       paymentSheetParameters: SetupPaymentSheetParameters(
-  //     merchantDisplayName: 'Travelo',
-  //     customerId: customerId,
-  //     paymentIntentClientSecret: paymentIntentClientSecret,
-  //   ));
-
-  //   await Stripe.instance.presentPaymentSheet();
-  // }
-
-  // Future<void> payment(
-  //     {required String amount, required String currency}) async {
-  //   final _customer = await createCustomer();
-  //   final _paymentIntent = await _createPaymentIntents(amount, currency);
-  //   await _createCreditCard(_customer['id'], _paymentIntent['client_secret']);
-  // }
-
   Future<Map<String, dynamic>> createPaymentMethod(
       {required String number,
       required String expMonth,
@@ -249,6 +229,24 @@ class PaymentController extends GetxController {
     }
   }
 
+  Future<Map<String, String>> createHeaders() async {
+    var headers = {
+      'Authorization': 'Bearer $stripPrivateKey',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    };
+    return headers;
+  }
+
+  Future<dynamic> doesCustomerExist(String email) async {
+    final customerList = await http.get(
+        Uri.parse('https://api.stripe.com/v1/customers?email=$email'),
+        headers: {
+          'Authorization': 'Bearer $stripPrivateKey',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        });
+    return json.decode(customerList.body)['data'];
+  }
+
   // Future<Map<String, dynamic>?> createPaymentIntent(
   //     String amount, String currency) async {
   //   try {
@@ -271,21 +269,23 @@ class PaymentController extends GetxController {
   //     return null;
   //   }
   // }
-  Future<Map<String, String>> createHeaders() async {
-    var headers = {
-      'Authorization': 'Bearer $stripPrivateKey',
-      'Content-Type': 'application/x-www-form-urlencoded'
-    };
-    return headers;
-  }
 
-  Future<dynamic> doesCustomerExist(String email) async {
-    final customerList = await http.get(
-        Uri.parse('https://api.stripe.com/v1/customers?email=$email'),
-        headers: {
-          'Authorization': 'Bearer $stripPrivateKey',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        });
-    return json.decode(customerList.body)['data'];
-  }
+  // Future<void> _createCreditCard(
+  //     String customerId, String paymentIntentClientSecret) async {
+  //   await Stripe.instance.initPaymentSheet(
+  //       paymentSheetParameters: SetupPaymentSheetParameters(
+  //     merchantDisplayName: 'Travelo',
+  //     customerId: customerId,
+  //     paymentIntentClientSecret: paymentIntentClientSecret,
+  //   ));
+
+  //   await Stripe.instance.presentPaymentSheet();
+  // }
+
+  // Future<void> payment(
+  //     {required String amount, required String currency}) async {
+  //   final _customer = await createCustomer();
+  //   final _paymentIntent = await _createPaymentIntents(amount, currency);
+  //   await _createCreditCard(_customer['id'], _paymentIntent['client_secret']);
+  // }
 }

@@ -23,8 +23,8 @@ namespace Travelo.Services.Database
 
         public virtual ICollection<TripItem> TripItems {get;set; }
 
-        public int AccommodationId { get; set; }
-        public Accommodation Accommodation { get; set; }
+        public int AccomodationId { get; set; }
+        public Accomodation Accomodation { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
 

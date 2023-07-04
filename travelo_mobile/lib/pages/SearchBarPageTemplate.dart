@@ -88,11 +88,6 @@ class _SearchBarPageTemplateState extends State<SearchBarPageTemplate> {
             .map<Destination>((dynamic i) => Destination.fromJson(i)));
         _searchHistory = _searchHistory.reversed.toList();
       });
-      // json.decode(localStorage.getItem("searchHistory"));
-      // json.decode(localStorage.getItem("searchHistory"));
-      // print(json.decode(localStorage.getItem("searchHistory")));
-      // _searchHistory = json.decode(localStorage.getItem("searchHistory"))
-      //     as List<Destination>;
     }
   }
 

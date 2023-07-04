@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.ML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Trainers;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,42 @@ namespace Travelo.Services
         {
         }
 
+        public override Model.Trip Create(TripCreateRequest create)
+        {
+
+            var trip = base.Create(create);
+
+            if(trip != null) {
+
+                try {
+                    var factory = new ConnectionFactory { HostName = "localhost" };
+                    using var connection = factory.CreateConnection();
+                    using var channel = connection.CreateModel();
+
+
+                    string message = "New trip:";
+
+
+                    var body = Encoding.UTF8.GetBytes(message);
+
+                    channel.BasicPublish(exchange: string.Empty,
+                                         routingKey: "trip_added",
+                                         basicProperties: null,
+                                         body: body);
+                }
+                catch (Exception ex) {
+                    Console.WriteLine($"An error occurred while sending message to RabbitMQ: {ex.Message}");
+                    return null;
+                }
+
+               
+
+            }
+         
+
+            return trip;
+        }
+
         public override IQueryable<Database.Trip> AddFilter(IQueryable<Database.Trip> query, TripSearchObject search = null)
         {
             var filteredQuery = base.AddFilter(query, search);
@@ -33,12 +70,12 @@ namespace Travelo.Services
             }
             if (!string.IsNullOrWhiteSpace(search.City))
             {
-                filteredQuery = filteredQuery.Where(x => x.Accommodation.City.Name == search.City);
+                filteredQuery = filteredQuery.Where(x => x.Accomodation.City.Name == search.City);
             }
 
             if (!string.IsNullOrWhiteSpace(search.Country))
             {
-                filteredQuery = filteredQuery.Where(x => x.Accommodation.City.Country.Name == search.Country);
+                filteredQuery = filteredQuery.Where(x => x.Accomodation.City.Country.Name == search.Country);
             }
             //if (!string.IsNullOrWhiteSpace(search.TagName))
             //{
@@ -53,9 +90,9 @@ namespace Travelo.Services
         }
         public override IQueryable<Database.Trip> AddInclude(IQueryable<Database.Trip> query, TripSearchObject search = null)
         {
-            query = query.Include("Accommodation");
-            query = query.Include(x => x.Accommodation.City.Country);
-            query = query.Include(x => x.Accommodation.Facilities);
+            query = query.Include("Accomodation");
+            query = query.Include(x => x.Accomodation.City.Country);
+            query = query.Include(x => x.Accomodation.Facilities);
             query = query.Include("Agency");
             return base.AddInclude(query, search);
         }
@@ -95,7 +132,7 @@ namespace Travelo.Services
                 .Include(u => u.Trips)
                     .ThenInclude(c => c.Agency)
                 .Include(u => u.Trips)
-                    .ThenInclude(c => c.Accommodation.City.Country)
+                    .ThenInclude(c => c.Accomodation.City.Country)
                 .Include(u => u.Trips)
                     .ThenInclude(c => c.TripItems)
                 .FirstOrDefault(u => u.Id == userId);
@@ -114,10 +151,10 @@ namespace Travelo.Services
         {
             Database.Trip trip = Context.Trip
                .Include(x => x.TripItems)
-               .Include(x => x.Accommodation)
+               .Include(x => x.Accomodation)
                .Include(x => x.Agency)
-               .Include(x => x.Accommodation.Facilities)
-               .Include(x => x.Accommodation.City.Country)
+               .Include(x => x.Accomodation.Facilities)
+               .Include(x => x.Accomodation.City.Country)
                .FirstOrDefault(t => t.Id == id);
 
 
@@ -197,9 +234,9 @@ namespace Travelo.Services
             //prediction
 
             var trips = Context.Trip
-                .Include(t => t.Accommodation.City.Country)
+                .Include(t => t.Accomodation.City.Country)
                 .Include(t => t.Agency)
-                .Include(t => t.Accommodation.Facilities)
+                .Include(t => t.Accomodation.Facilities)
                 .Where(t => t.Id != id);
 
             var predictionResult = new List<Tuple<Database.Trip, float>>();
@@ -229,6 +266,7 @@ namespace Travelo.Services
     {
         public float Score { get; set; }
     }
+
     public class TripEntry
     {
         [KeyType(count:10)]

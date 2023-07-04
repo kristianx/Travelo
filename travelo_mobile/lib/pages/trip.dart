@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:go_router/go_router.dart';
@@ -49,11 +48,8 @@ class _TripState extends State<Trip> {
   }
 
   Future loadData() async {
-    print(widget.trip.location);
     var tmpData = await _tripItemProvider.get({'TripId': widget.trip.id});
     var tmpLoc = await locationFromAddress(widget.trip.location ?? "");
-    print(tmpLoc.first.latitude);
-    print(tmpLoc.first.longitude);
     setState(() {
       tripItems = tmpData;
       lat = tmpLoc.first.latitude;

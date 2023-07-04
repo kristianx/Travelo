@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace Travelo.Services
             }
             if (search.HasTrips)
             {
-                filteredQuery = filteredQuery.Where(c => Context.TripItem.Any(x => x.Trip.Accommodation.CityId == c.Id));
+                filteredQuery = filteredQuery.Where(c => Context.TripItem.Any(x => x.Trip.Accomodation.CityId == c.Id));
             }
 
             return filteredQuery;
@@ -80,9 +81,7 @@ namespace Travelo.Services
         }
         public IEnumerable<Model.City> GetDestinations(CitySearchObject search = null)
         {
-
-            //IQueryable<Database.City> entity =
-            //    Context.City.Where(c => Context.TripItem.Any(x => x.Trip.Accommodation.CityId == c.Id)).AsQueryable();
+           
             var entity = Context.Set<Database.City>().AsQueryable();
             entity = AddFilter(entity, search);
             entity = entity.Include("Country");
@@ -99,7 +98,7 @@ namespace Travelo.Services
 
             foreach(var city in cities)
             {
-                IList<Database.TripItem> trips = Context.TripItem.Include(x => x.Trip).Include(x => x.Trip.Accommodation).Where(x => x.Trip.Accommodation.CityId == city.Id).ToList();
+                IList<Database.TripItem> trips = Context.TripItem.Include(x => x.Trip).Include(x => x.Trip.Accomodation).Where(x => x.Trip.Accomodation.CityId == city.Id).ToList();
                 if(trips.Count != 0)
                 {
                     city.LowestTripPrice = trips.Min(x => x.PricePerPerson);

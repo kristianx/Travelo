@@ -7,18 +7,18 @@ using Travelo.Services.Database;
 
 namespace Travelo.Services
 {
-	public class AccomodationService : BaseCRUDService<Model.Accomodation, Database.Accommodation, AccomodationSearchObject, AccomodationCreateRequest, AccomodationUpdateRequest>, IAccomodationService
+	public class AccomodationService : BaseCRUDService<Model.Accomodation, Database.Accomodation, AccomodationSearchObject, AccomodationCreateRequest, AccomodationUpdateRequest>, IAccomodationService
 	{
 		public AccomodationService(TraveloContext context, IMapper mapper) : base(context,mapper)
 		{ 
 
         }
-        public bool UpdateImage(AccommodationUpdateImageRequest update)
+        public bool UpdateImage(AccomodationUpdateImageRequest update)
         {
-            Database.Accommodation accomodation  = Context.Accommodations.FirstOrDefault(a => a.Id == update.AccomodationId);
+            Database.Accomodation accomodation  = Context.Accomodations.FirstOrDefault(a => a.Id == update.AccomodationId);
             if (accomodation != null)
             {
-                Context.Accommodations.FirstOrDefault(a => a.Id == update.AccomodationId).Images = update.Image;
+                Context.Accomodations.FirstOrDefault(a => a.Id == update.AccomodationId).Images = update.Image;
                 Context.SaveChanges();
                 return true;
             }

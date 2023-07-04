@@ -27,7 +27,7 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   late File? _file;
-
+  final formKey = GlobalKey<FormState>();
   late UserProvider _userProvider;
   List<Destination> cities = [];
   List<DropdownMenuItem> citiesDropdown = [
@@ -124,11 +124,12 @@ class _EditProfileState extends State<EditProfile> {
                           User tmpUser = await _userProvider.uploadImage(
                               localStorage.getItem("userId") as int,
                               _file as File);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ProfilePage()),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => const ProfilePage()),
+                          // );
+                          context.go("/profile");
                           setState(() {
                             widget.user = tmpUser;
                           });
@@ -158,132 +159,140 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ],
                 )),
-            InputField(
-              controller: _firstNameController,
-              hintText: widget.user!.firstName ?? 'First name',
-              iconPath: 'assets/icons/User.svg',
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            InputField(
-              controller: _lastNameController,
-              hintText: widget.user!.lastName ?? 'Last name',
-              iconPath: 'assets/icons/User.svg',
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-
-            InputField(
-              controller: _addressController,
-              hintText: 'Address',
-              iconPath: 'assets/icons/Planet.svg',
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            InputField(
-              controller: _postalCodeController,
-              hintText: 'Postal code',
-              iconPath: 'assets/icons/Planet.svg',
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Container(
-                  height: 60,
-                  alignment: Alignment.center,
-                  child: Material(
-                    elevation: 3,
-                    shadowColor: Colors.grey.shade300,
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    child: DropdownButtonFormField(
-                      value: cityId,
-                      items: citiesDropdown,
-                      onChanged: (v) {
-                        cityId = v;
-                      },
-                      decoration: InputDecoration(
-                        fillColor: Colors.white,
-                        filled: true,
-                        border: const OutlineInputBorder(
-                          // width: 0.0 produces a thin "hairline" border
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          borderSide: BorderSide.none,
-                        ),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
-                          child: SvgPicture.asset(
-                            "assets/icons/Planet.svg",
-                            width: 20,
+            Form(
+              key: formKey,
+              child: Column(children: [
+                InputField(
+                  controller: _firstNameController,
+                  hintText: widget.user!.firstName ?? 'First name',
+                  iconPath: 'assets/icons/User.svg',
+                  validator: (value) {
+                    if (value!.isEmpty ||
+                        !RegExp(r'^[A-Z][A-Za-z]{4,}$').hasMatch(value)) {
+                      return 'First name should be at least 5 characters long\n and start with a capital letter';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                InputField(
+                  controller: _lastNameController,
+                  hintText: widget.user!.lastName ?? 'Last name',
+                  iconPath: 'assets/icons/User.svg',
+                  validator: (value) {
+                    if (value!.isEmpty ||
+                        !RegExp(r'^[A-Z][A-Za-z]{4,}$').hasMatch(value)) {
+                      return 'Last name should be at least 5 characters long\n and start with a capital letter';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                InputField(
+                  controller: _addressController,
+                  hintText: 'Address',
+                  iconPath: 'assets/icons/Planet.svg',
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                InputField(
+                  controller: _postalCodeController,
+                  hintText: 'Postal code',
+                  iconPath: 'assets/icons/Planet.svg',
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Container(
+                      height: 60,
+                      alignment: Alignment.center,
+                      child: Material(
+                        elevation: 3,
+                        shadowColor: Colors.grey.shade300,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20)),
+                        child: DropdownButtonFormField(
+                          value: cityId,
+                          items: citiesDropdown,
+                          onChanged: (v) {
+                            cityId = v;
+                          },
+                          decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: const OutlineInputBorder(
+                              // width: 0.0 produces a thin "hairline" border
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0)),
+                              borderSide: BorderSide.none,
+                            ),
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
+                              child: SvgPicture.asset(
+                                "assets/icons/Planet.svg",
+                                width: 20,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                )),
-            const SizedBox(
-              height: 30,
-            ),
-            // InputField(
-            //   controller: _dummyController,
-            //   hintText: 'Email',
-            //   iconPath: 'assets/icons/Email.svg',
-            // ),
-            // SizedBox(
-            //   height: 15,
-            // ),
-            // InputField(
-            //   controller: _dummyController,
-            //   hintText: 'Password',
-            //   iconPath: 'assets/icons/Password.svg',
-            // ),
-            // SizedBox(
-            //   height: 15,
-            // ),
-            SimpleButton(
-              onTap: () async {
-                if (localStorage.getItem("userId") != null) {
-                  User? usr = await _userProvider
-                      .update(localStorage.getItem("userId") as int, {
-                    "email": localStorage.getItem("email"),
-                    "oldPassword": localStorage.getItem("password"),
-                    "firstName": _firstNameController.text,
-                    "lastName": _lastNameController.text,
-                    "address": _addressController.text,
-                    "postalCode": _postalCodeController.text,
-                    "cityId": cityId,
-                  });
-                  if (usr != null) {
-                    setState(() {
-                      widget.user = usr;
-                    });
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => const ProfilePage()),
-                    // );
-                    context.go("/profile");
-                    // Navigator.of(context).push(
-                    //     MaterialPageRoute(builder: (_) => const ProfilePage()));
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        CustomSnackBar.showSuccessSnackBar(
-                            "Profile information updated."));
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        CustomSnackBar.showErrorSnackBar(
-                            "Please check the details."));
-                  }
-                }
-              },
-              bgColor: const Color(0xffEAAD5F),
-              textColor: Colors.white,
-              text: "Save",
-              width: 300,
-              height: 70,
+                    )),
+                const SizedBox(
+                  height: 30,
+                ),
+                SimpleButton(
+                  onTap: () async {
+                    if (localStorage.getItem("userId") != null &&
+                        cityId != null &&
+                        cityId != -1 &&
+                        cityId != -2 &&
+                        formKey.currentState!.validate()) {
+                      User? usr = await _userProvider
+                          .update(localStorage.getItem("userId") as int, {
+                        "email": localStorage.getItem("email"),
+                        "oldPassword": localStorage.getItem("password"),
+                        "firstName": _firstNameController.text,
+                        "lastName": _lastNameController.text,
+                        "address": _addressController.text,
+                        "postalCode": _postalCodeController.text,
+                        "cityId": cityId,
+                      });
+                      if (usr != null) {
+                        setState(() {
+                          widget.user = usr;
+                        });
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => const ProfilePage()),
+                        // );
+                        context.go("/profile");
+                        // Navigator.of(context).push(
+                        //     MaterialPageRoute(builder: (_) => const ProfilePage()));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            CustomSnackBar.showSuccessSnackBar(
+                                "Profile information updated."));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            CustomSnackBar.showErrorSnackBar(
+                                "Please check the details."));
+                      }
+                    }
+                  },
+                  bgColor: const Color(0xffEAAD5F),
+                  textColor: Colors.white,
+                  text: "Save",
+                  width: 300,
+                  height: 70,
+                ),
+              ]),
             ),
           ],
         ),

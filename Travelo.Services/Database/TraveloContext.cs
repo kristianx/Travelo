@@ -14,7 +14,7 @@ namespace Travelo.Services.Database
         }
         
 
-        public virtual DbSet<Accommodation> Accommodations { get; set; } = null!;
+        public virtual DbSet<Accomodation> Accomodations { get; set; } = null!;
         public virtual DbSet<Address> Address { get; set; } = null!;
         public virtual DbSet<Agency> Agency { get; set; } = null!;
         public virtual DbSet<City> City { get; set; } = null!;
@@ -28,6 +28,7 @@ namespace Travelo.Services.Database
         public virtual DbSet<TripItem> TripItem { get; set; } = null!;
         public virtual DbSet<User> User { get; set; } = null!;
         public virtual DbSet<Account> Account { get; set; } = null!;
+        public virtual DbSet<PaymentMethod> PaymentMethod { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,7 +36,7 @@ namespace Travelo.Services.Database
 
             base.OnModelCreating(modelBuilder);
             foreach (var foreignKey in modelBuilder.Model.GetEntityTypes()
-        .SelectMany(e => e.GetForeignKeys()))
+                .SelectMany(e => e.GetForeignKeys()))
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.NoAction;
             }

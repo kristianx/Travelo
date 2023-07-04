@@ -26,6 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordController = TextEditingController();
   late UserProvider _userProvider;
   late CityProvider _cityProvider;
+  final formKey = GlobalKey<FormState>();
   var cityId = -2;
   List<City> cities = [];
   List<DropdownMenuItem> citiesDropdown = [
@@ -98,109 +99,154 @@ class _RegisterPageState extends State<RegisterPage> {
               ],
             ),
             const SizedBox(height: 50),
-            Column(children: [
-              InputField(
-                controller: _firstNameController,
-                hintText: 'First name',
-                iconPath: 'assets/icons/User.svg',
-              ),
-              const SizedBox(height: 15),
-              InputField(
-                controller: _lastNameController,
-                hintText: 'Lase name',
-                iconPath: 'assets/icons/User.svg',
-              ),
-              const SizedBox(height: 15),
-              InputField(
-                controller: _emailController,
-                hintText: 'Email',
-                iconPath: 'assets/icons/Email.svg',
-              ),
-              const SizedBox(height: 15),
-              InputField(
-                controller: _userNameController,
-                hintText: 'Username',
-                iconPath: 'assets/icons/User.svg',
-              ),
-              const SizedBox(height: 15),
-              InputField(
-                controller: _passwordController,
-                hintText: 'Password',
-                iconPath: 'assets/icons/Password.svg',
-                obscure: true,
-              ),
-              const SizedBox(height: 15),
-              Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                  child: Container(
-                    height: 60,
-                    alignment: Alignment.center,
-                    child: Material(
-                      elevation: 5,
-                      shadowColor: Colors.grey.shade300,
-                      borderRadius: const BorderRadius.all(Radius.circular(15)),
-                      child: DropdownButtonFormField(
-                        value: cityId,
-                        items: citiesDropdown,
-                        onChanged: (v) {
-                          cityId = v;
-                        },
-                        decoration: InputDecoration(
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: const OutlineInputBorder(
-                            // width: 0.0 produces a thin "hairline" border
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                            borderSide: BorderSide.none,
-                          ),
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
-                            child: SvgPicture.asset(
-                              "assets/icons/Planet.svg",
-                              width: 20,
+            Form(
+              key: formKey,
+              child: Column(children: [
+                InputField(
+                  controller: _firstNameController,
+                  hintText: 'First name',
+                  iconPath: 'assets/icons/User.svg',
+                  validator: (value) {
+                    if (value!.isEmpty ||
+                        !RegExp(r'^[A-Z][A-Za-z]{4,}$').hasMatch(value)) {
+                      return 'First name should be at least 5 characters long\n and start with a capital letter';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 15),
+                InputField(
+                  controller: _lastNameController,
+                  hintText: 'Lase name',
+                  iconPath: 'assets/icons/User.svg',
+                  validator: (value) {
+                    if (value!.isEmpty ||
+                        !RegExp(r'^[A-Z][A-Za-z]{4,}$').hasMatch(value)) {
+                      return 'Last name should be at least 5 characters long\n and start with a capital letter';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 15),
+                InputField(
+                  controller: _emailController,
+                  hintText: 'Email',
+                  iconPath: 'assets/icons/Email.svg',
+                  validator: (value) {
+                    if (value!.isEmpty ||
+                        !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value)) {
+                      return 'Please use a valid email';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 15),
+                InputField(
+                  controller: _userNameController,
+                  hintText: 'Username',
+                  iconPath: 'assets/icons/User.svg',
+                  validator: (value) {
+                    if (value!.isEmpty ||
+                        !RegExp(r'^[A-Za-z0-9]{5,}$').hasMatch(value)) {
+                      return 'Username should be at least 5 characters long\n and not have special characters';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 15),
+                InputField(
+                  controller: _passwordController,
+                  hintText: 'Password',
+                  iconPath: 'assets/icons/Password.svg',
+                  obscure: true,
+                  validator: (value) {
+                    if (value!.isEmpty ||
+                        !RegExp(r'^(?=.*?[!@#\$\-&*~]).{5,}$')
+                            .hasMatch(value)) {
+                      return 'Password should be longer then 5 characters.\nPassword should contain at least one special character';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 15),
+                Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                    child: Container(
+                      height: 60,
+                      alignment: Alignment.center,
+                      child: Material(
+                        elevation: 5,
+                        shadowColor: Colors.grey.shade300,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(15)),
+                        child: DropdownButtonFormField(
+                          value: cityId,
+                          items: citiesDropdown,
+                          onChanged: (v) {
+                            cityId = v;
+                          },
+                          decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: const OutlineInputBorder(
+                              // width: 0.0 produces a thin "hairline" border
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0)),
+                              borderSide: BorderSide.none,
+                            ),
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
+                              child: SvgPicture.asset(
+                                "assets/icons/Planet.svg",
+                                width: 20,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  )),
-            ]),
+                    )),
+              ]),
+            ),
             const SizedBox(height: 50),
             SimpleButton(
               onTap: () async {
-                try {
-                  var registerFlag = await _userProvider.registerUser(
-                      _firstNameController.text,
-                      _lastNameController.text,
-                      _emailController.text,
-                      _passwordController.text,
-                      _userNameController.text,
-                      cityId);
+                if (formKey.currentState!.validate() &&
+                    cityId != -1 &&
+                    cityId != -2) {
+                  try {
+                    var registerFlag = await _userProvider.registerUser(
+                        _firstNameController.text,
+                        _lastNameController.text,
+                        _emailController.text,
+                        _passwordController.text,
+                        _userNameController.text,
+                        cityId);
 
-                  if (registerFlag) {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => const HomePage()),
-                    // );
-                    context.go('/home');
-                    // Navigator.of(context).push(
-                    //     MaterialPageRoute(builder: (_) => const HomePage()));
+                    if (registerFlag) {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => const HomePage()),
+                      // );
+                      context.go('/home');
+                      // Navigator.of(context).push(
+                      //     MaterialPageRoute(builder: (_) => const HomePage()));
+                    }
+                  } catch (e) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              title: const Text("Error"),
+                              content: Text(e.toString()),
+                              actions: [
+                                TextButton(
+                                  child: const Text("Ok"),
+                                  onPressed: () => Navigator.pop(context),
+                                )
+                              ],
+                            ));
                   }
-                } catch (e) {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                            title: const Text("Error"),
-                            content: Text(e.toString()),
-                            actions: [
-                              TextButton(
-                                child: const Text("Ok"),
-                                onPressed: () => Navigator.pop(context),
-                              )
-                            ],
-                          ));
                 }
               },
               bgColor: const Color(0xffEAAD5F),

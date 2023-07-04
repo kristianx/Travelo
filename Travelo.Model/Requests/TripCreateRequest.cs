@@ -7,6 +7,6 @@ namespace Travelo.Model.Requests
     public class TripCreateRequest
     {
         public int AgencyId { get; set; }
-        public int AccommodationId { get; set; }
+        public int AccomodationId { get; set; }
     }
 }

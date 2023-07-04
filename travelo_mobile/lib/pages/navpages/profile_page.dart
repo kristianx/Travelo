@@ -31,8 +31,12 @@ class _ProfilePageState extends State<ProfilePage> {
         await _userProvider.getById(localStorage.getItem("userId") as int);
     setState(() {
       _user = user;
+      if (_user!.image.toString() != "") {
+        userImage = imageFromBase64String(_user?.image ?? "").image;
+      } else {
+        userImage = null;
+      }
     });
-    userImage = imageFromBase64String(_user?.image ?? "").image;
   }
 
   @override

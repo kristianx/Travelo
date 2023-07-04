@@ -30,21 +30,21 @@ namespace Travelo.Services
 
 
             CreateMap<Database.Trip, Model.Trip>()
-                .ForMember(d => d.AccomodationName, s => s.MapFrom(_ => _.Accommodation.Name))
-                .ForMember(d => d.AccomodationImage, s => s.MapFrom(_ => _.Accommodation.Images))
-                .ForMember(d => d.AccomodationDescription, s => s.MapFrom(_ => _.Accommodation.Description))
-                .ForMember(d => d.Facilities, s => s.MapFrom(_ => _.Accommodation.Facilities.Select(f => f.Name).ToList()))
-                .ForMember(d => d.Location, s => s.MapFrom(_ => _.Accommodation.Address + ", " + _.Accommodation.City.Name + ", " + _.Accommodation.City.Country.Name))
+                .ForMember(d => d.AccomodationName, s => s.MapFrom(_ => _.Accomodation.Name))
+                .ForMember(d => d.AccomodationImage, s => s.MapFrom(_ => _.Accomodation.Images))
+                .ForMember(d => d.AccomodationDescription, s => s.MapFrom(_ => _.Accomodation.Description))
+                .ForMember(d => d.Facilities, s => s.MapFrom(_ => _.Accomodation.Facilities.Select(f => f.Name).ToList()))
+                .ForMember(d => d.Location, s => s.MapFrom(_ => _.Accomodation.Address + ", " + _.Accomodation.City.Name + ", " + _.Accomodation.City.Country.Name))
                 .ForMember(d => d.AgencyId, s => s.MapFrom(_ => _.Agency.Id))
                 .ForMember(d => d.AgencyName, s => s.MapFrom(_ => _.Agency.Name))
                 .ForMember(d => d.AgencyImage, s => s.MapFrom(_ => _.Agency.Image))
                 .ForMember(d => d.LowestPrice, s => s.MapFrom(_ => _.TripItems.OrderBy(t => t.PricePerPerson).FirstOrDefault()!.PricePerPerson))
                 .ForMember(d => d.HighestPrice, s => s.MapFrom(_ => _.TripItems.OrderBy(t => t.PricePerPerson).LastOrDefault()!.PricePerPerson))
                 .ForMember(d => d.Dates, s => s.MapFrom(_ => _.TripItems.OrderBy(t => t.PricePerPerson).FirstOrDefault()!.Dates))
-                .ForMember(d => d.CityName, s => s.MapFrom(_ => _.Accommodation.City.Name))
+                .ForMember(d => d.CityName, s => s.MapFrom(_ => _.Accomodation.City.Name))
                 .ForMember(d => d.AllDates, s => s.MapFrom(_ => _.TripItems.Select(x=> x.Dates).ToList()))
-                .ForMember(d => d.AccomodationId, s => s.MapFrom(_ => _.Accommodation.Id))
-                .ForMember(d => d.CountryName, s => s.MapFrom(_ => _.Accommodation.City.Country.Name))
+                .ForMember(d => d.AccomodationId, s => s.MapFrom(_ => _.Accomodation.Id))
+                .ForMember(d => d.CountryName, s => s.MapFrom(_ => _.Accomodation.City.Country.Name))
                 .ReverseMap();
             CreateMap<TripCreateRequest, Database.Trip>();
             CreateMap<TripUpdateRequest, Database.Trip> ();
@@ -76,19 +76,19 @@ namespace Travelo.Services
 
 
             //Get facilities and populate
-            CreateMap<Database.Accommodation, Model.Accomodation>().ReverseMap();
-            CreateMap<AccomodationCreateRequest, Database.Accommodation>()
+            CreateMap<Database.Accomodation, Model.Accomodation>().ReverseMap();
+            CreateMap<AccomodationCreateRequest, Database.Accomodation>()
                  .ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null));
-            CreateMap<AccomodationUpdateRequest, Database.Accommodation>()
+            CreateMap<AccomodationUpdateRequest, Database.Accomodation>()
                 .ForAllMembers(m => m.Condition((source, target, sourceValue, targetValue) => sourceValue != null)); 
 
             CreateMap<Database.Reservation, Model.Reservation>()
                 .ForMember(d => d.AgencyName, s => s.MapFrom(_ => _.Trip.Agency.Name))
-                .ForMember(d => d.DestinationName, s => s.MapFrom(_ => _.Trip.Accommodation.City.Name))
-                .ForMember(d => d.DestinationImage, s => s.MapFrom(_ => _.Trip.Accommodation.Images))
-                .ForMember(d => d.CountryName, s => s.MapFrom(_ => _.Trip.Accommodation.City.Country.Name))
+                .ForMember(d => d.DestinationName, s => s.MapFrom(_ => _.Trip.Accomodation.City.Name))
+                .ForMember(d => d.DestinationImage, s => s.MapFrom(_ => _.Trip.Accomodation.Images))
+                .ForMember(d => d.CountryName, s => s.MapFrom(_ => _.Trip.Accomodation.City.Country.Name))
                 .ForMember(d => d.Date, s => s.MapFrom(_ => _.TripItem.Dates))
-                .ForMember(d => d.AccomodationName, s => s.MapFrom(_ => _.Trip.Accommodation.Name))
+                .ForMember(d => d.AccomodationName, s => s.MapFrom(_ => _.Trip.Accomodation.Name))
                 .ForMember(d => d.CheckIn, s => s.MapFrom(_ => _.TripItem.CheckIn))
                 .ForMember(d => d.CheckOut, s => s.MapFrom(_ => _.TripItem.CheckOut))
                 .ReverseMap();

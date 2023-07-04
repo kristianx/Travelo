@@ -46,7 +46,7 @@ namespace Travelo.Services
         }
         public override IQueryable<Database.Reservation> AddInclude(IQueryable<Database.Reservation> query, ReservationSearchObject search = null)
         {
-            query = query.Include(a => a.Trip.Accommodation.City.Country);
+            query = query.Include(a => a.Trip.Accomodation.City.Country);
             query = query.Include(a => a.Trip.Agency);
             query = query.Include(a => a.TripItem);
             return base.AddInclude(query, search);

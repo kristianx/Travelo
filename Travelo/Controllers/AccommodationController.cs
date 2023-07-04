@@ -12,15 +12,15 @@ namespace Travelo.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AccommodationController : BaseCRUDController<Model.Accomodation, AccomodationSearchObject, AccomodationCreateRequest, AccomodationUpdateRequest>
+    public class AccomodationController : BaseCRUDController<Model.Accomodation, AccomodationSearchObject, AccomodationCreateRequest, AccomodationUpdateRequest>
     {
         IAccomodationService _service;
-        public AccommodationController(IAccomodationService service) : base(service)
+        public AccomodationController(IAccomodationService service) : base(service)
         {
             _service = service;
         }
-        [HttpPost("~/Accommodation/UpdateImage")]
-        public ActionResult UpdateImage([FromBody] AccommodationUpdateImageRequest update)
+        [HttpPost("~/Accomodation/UpdateImage")]
+        public ActionResult UpdateImage([FromBody] AccomodationUpdateImageRequest update)
         {
             if (_service.UpdateImage(update))
             {

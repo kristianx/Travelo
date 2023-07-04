@@ -58,7 +58,7 @@ namespace Travelo.Services
             if(account != null)
             {
                 var salt = GenerateSalt();
-                //account.PasswordSalt = salt;
+                account.PasswordSalt = salt;
                 account.PasswordHash = GenerateHash(salt, newPassword);
                 Context.SaveChanges();
             }

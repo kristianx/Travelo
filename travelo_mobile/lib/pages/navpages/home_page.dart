@@ -1,6 +1,6 @@
+import 'package:dart_amqp/dart_amqp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/pages/SearchBarPageTemplate.dart';
 import 'package:travelo_mobile/providers/destination_provider.dart';
@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   List<Destination> destinations = [];
   List<Tag> tags = [];
   int current = 0;
+  Client client = Client();
 
   @override
   void initState() {
@@ -47,6 +48,18 @@ class _HomePageState extends State<HomePage> {
       tags = tmpTags;
     });
     loadTrips();
+    checkNotifications();
+  }
+
+  Future<void> checkNotifications() async {
+    Channel channel = await client
+        .channel(); // auto-connect to localhost:5672 using guest credentials
+    Queue queue = await channel.queue("trip_added");
+    var consumer = await queue.consume();
+    consumer.listen((AmqpMessage message) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackBar.showSuccessSnackBar(message.payloadAsString));
+    });
   }
 
   Future loadTrips() async {
@@ -111,6 +124,7 @@ class _HomePageState extends State<HomePage> {
                                   setState(() {
                                     current = index;
                                   });
+
                                   loadData();
                                 },
                                 child: Padding(

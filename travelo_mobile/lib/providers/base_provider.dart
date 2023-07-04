@@ -148,8 +148,6 @@ abstract class BaseProvider<T> with ChangeNotifier {
     // String? username = await storage.read(key: 'username');
     // String? password = await storage.read(key: 'password');
 
-    // print("Auth: " + username.toString() + " " + password.toString());
-
     String basicAuth =
         "Basic ${base64Encode(utf8.encode('$email:$password:traveler'))}";
 

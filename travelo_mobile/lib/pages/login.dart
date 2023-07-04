@@ -19,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   late UserProvider _userProvider;
+  final formKey = GlobalKey<FormState>();
 
   Future<void> tryLogin() async {
     await localStorage.ready;
@@ -90,53 +91,86 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
       const SizedBox(height: 50),
-      Column(children: [
-        InputField(
-          controller: _usernameController,
-          hintText: 'Email',
-          iconPath: 'assets/icons/Email.svg',
-        ),
-        const SizedBox(height: 15),
-        InputField(
-          controller: _passwordController,
-          hintText: 'Password',
-          iconPath: 'assets/icons/Password.svg',
-          obscure: true,
-        ),
-      ]),
-      const SizedBox(height: 50),
-      SimpleButton(
-        onTap: () async {
-          try {
-            var loginFlag = await _userProvider.loginUser(
-                _usernameController.text, _passwordController.text);
-            if (loginFlag) {
-              // Navigator.of(context)
-              //     .push(MaterialPageRoute(builder: (_) => const HomePage()));
-              context.go("/home");
-            }
-          } catch (e) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                      title: const Text("Error"),
-                      content: Text(e.toString()),
-                      actions: [
-                        TextButton(
-                          child: const Text("Ok"),
-                          onPressed: () => Navigator.pop(context),
-                        )
-                      ],
-                    ));
-          }
-        },
-        bgColor: const Color(0xffEAAD5F),
-        textColor: Colors.white,
-        text: "Log in",
-        width: 300,
-        height: 70,
+      Form(
+        key: formKey,
+        child: Column(children: [
+          InputField(
+            controller: _usernameController,
+            hintText: 'Email',
+            iconPath: 'assets/icons/Email.svg',
+            validator: (value) {
+              if (value!.isEmpty ||
+                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value)) {
+                return 'Please use a valid email';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 15),
+          InputField(
+            controller: _passwordController,
+            hintText: 'Password',
+            iconPath: 'assets/icons/Password.svg',
+            obscure: true,
+            validator: (value) {
+              if (value!.isEmpty ||
+                  !RegExp(r'^(?=.*?[!@#\$\-&*~]).{5,}$').hasMatch(value)) {
+                return 'Password should be longer then 5 characters.\nPassword should contain at least one special character';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 50),
+          SimpleButton(
+            onTap: () async {
+              if (formKey.currentState!.validate()) {
+                try {
+                  var loginFlag = await _userProvider.loginUser(
+                      _usernameController.text, _passwordController.text);
+                  if (loginFlag) {
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (_) => const HomePage()));
+                    context.go("/home");
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              title: const Text("Error"),
+                              content: Text("Invalid email or password."),
+                              actions: [
+                                TextButton(
+                                  child: const Text("Ok"),
+                                  onPressed: () => Navigator.pop(context),
+                                )
+                              ],
+                            ));
+                  }
+                } catch (e) {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                            title: const Text("Error"),
+                            content: Text(e.toString()),
+                            actions: [
+                              TextButton(
+                                child: const Text("Ok"),
+                                onPressed: () => Navigator.pop(context),
+                              )
+                            ],
+                          ));
+                }
+              }
+            },
+            bgColor: const Color(0xffEAAD5F),
+            textColor: Colors.white,
+            text: "Log in",
+            width: 300,
+            height: 70,
+          ),
+          const SizedBox(height: 20),
+        ]),
       ),
-      const SizedBox(height: 20),
     ];
   }
 }
