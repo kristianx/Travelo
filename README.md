@@ -23,17 +23,23 @@ Desktop version:
 
     Email: travelo@gmail.com
   
-    Lozinka: Tester
+    Lozinka: Testing-123
+
+
+
+    Email: nova@gmail.com
+  
+    Lozinka: Testing-123
   
 Mobile version:
 
     Email: test@gmail.com
   
-    Lozinka: Tester
+    Lozinka: Testing-123
 
 Test card number:
 
-    4242 4242 4242 4242, date od issuing the card and CVC number are provisional, and ZIP code is also provisional, but you need to enter 5         digits.
+    4242 4242 4242 4242, date of issuing the card and CVC number are provisional, and ZIP code is also provisional, but you need to enter 5         digits.
 
 Using android emulator:
 
