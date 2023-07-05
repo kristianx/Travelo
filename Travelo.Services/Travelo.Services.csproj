@@ -22,14 +22,10 @@
 
   <ItemGroup>
     <Folder Include="bin\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Travelo.Model\Travelo.Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Migrations\" />
-  </ItemGroup>
 </Project>

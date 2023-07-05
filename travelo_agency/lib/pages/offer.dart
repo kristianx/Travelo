@@ -37,10 +37,12 @@ class _OfferPageState extends State<OfferPage> {
       TextEditingController();
   final TextEditingController _accomodationPostalCodeController =
       TextEditingController();
-  final TextEditingController _nightsStayController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final DateRangePickerController _datePickerController =
       DateRangePickerController();
+  var formKey = GlobalKey<FormState>();
+  final formKeyEdit = GlobalKey<FormState>();
+  final formKeyAdd = GlobalKey<FormState>();
 
   late CityProvider _cityProvider;
   late AccomodationProvider _accomodationProvider;
@@ -50,6 +52,7 @@ class _OfferPageState extends State<OfferPage> {
   List<City> cities = [];
   int cityId = -2;
   List<TripItem> tripItems = [];
+  ImageProvider<Object>? accomodationImage;
   late Accomodation accomodation = Accomodation();
   // bool showPicker = false;
   List<DropdownMenuItem> citiesDropdown = [
@@ -70,20 +73,26 @@ class _OfferPageState extends State<OfferPage> {
   }
 
   Future loadData() async {
-    var tmpCities = await _cityProvider.get({"hasTrips": false});
     var tmpAccomodation =
         await _accomodationProvider.getById(widget.trip!.accomodationId as int);
+    var tmpCities = await _cityProvider.get({"hasTrips": false});
     var tmpTripItems = await _tripItemProvider.get({"tripId": widget.trip!.id});
     setState(() {
-      cities = tmpCities;
       accomodation = tmpAccomodation;
+      cities = tmpCities;
       tripItems = tmpTripItems;
       _accomodationNameController.text = accomodation.name!;
       _accomodationDescription.text = accomodation.description!;
-      _accomodationLocation.text = accomodation.locationMap!;
       _accomodationAddressController.text = accomodation.address!;
       _accomodationPostalCodeController.text = accomodation.postalCode!;
       cityId = accomodation.cityId!;
+
+      if (accomodation.images.toString() != "") {
+        accomodationImage =
+            imageFromBase64String(accomodation.images ?? "").image;
+      } else {
+        accomodationImage = null;
+      }
     });
     _updateCitiesDropdown();
   }
@@ -92,75 +101,76 @@ class _OfferPageState extends State<OfferPage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
-      child: Form(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: SizedBox(
-                width: 1000,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey.withOpacity(0.2),
-                        width: 1,
-                      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: SizedBox(
+              width: 1000,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey.withOpacity(0.2),
+                      width: 1,
                     ),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.all(30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Accomodation information",
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff747474),
-                          ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Accomodation information",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff747474),
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            bool flag = await _tripProvider
-                                .delete(widget.trip!.id as int);
-                            await _accomodationProvider
-                                .delete(widget.trip!.accomodationId as int);
-                            if (flag) {
-                              context.go('/offers');
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackBar.showSuccessSnackBar(
-                                      "Offer deleted."));
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackBar.showErrorSnackBar(
-                                      "There was an error ."));
-                            }
-                          },
-                          child: Row(
-                            children: [
-                              SvgPicture.asset('assets/icons/Trash.svg'),
-                              const SizedBox(width: 5),
-                              Text("Delete offer",
-                                  style: TextStyle(
-                                    color: Color(0xffE28888),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  )),
-                            ],
-                          ),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          bool flag = await _tripProvider
+                              .delete(widget.trip!.id as int);
+                          await _accomodationProvider
+                              .delete(widget.trip!.accomodationId as int);
+                          if (flag) {
+                            context.go('/offers');
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackBar.showSuccessSnackBar(
+                                    "Offer deleted."));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackBar.showErrorSnackBar(
+                                    "There was an error ."));
+                          }
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset('assets/icons/Trash.svg'),
+                            const SizedBox(width: 5),
+                            Text("Delete offer",
+                                style: TextStyle(
+                                  color: Color(0xffE28888),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-            SizedBox(
-              width: 1000,
+          ),
+          SizedBox(
+            width: 1000,
+            child: Form(
+              key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -190,13 +200,10 @@ class _OfferPageState extends State<OfferPage> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             image: DecorationImage(
-                                image: accomodation.images == null ||
-                                        accomodation.images == ""
+                                image: accomodationImage == null
                                     ? const AssetImage(
                                         'assets/images/imageHolder.png')
-                                    : imageFromBase64String(
-                                            accomodation.images ?? "")
-                                        .image,
+                                    : accomodationImage!,
                                 fit: BoxFit.cover,
                                 alignment: Alignment.center)),
                       ),
@@ -207,30 +214,49 @@ class _OfferPageState extends State<OfferPage> {
                     controller: _accomodationNameController,
                     hintText: 'Accomodation Name',
                     iconPath: 'assets/icons/Planet.svg',
+                    validator: (value) {
+                      if (value!.isEmpty ||
+                          !RegExp(r'^[A-Z][A-Za-z ]{4,}$').hasMatch(value)) {
+                        return 'Accomodation name should be at least 5 characters long\n Accomodation name should start with a capital letter';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 15),
                   InputField(
                     controller: _accomodationDescription,
                     hintText: 'Accomodation Description',
                     iconPath: 'assets/icons/Planet.svg',
-                  ),
-                  const SizedBox(height: 15),
-                  InputField(
-                    controller: _accomodationLocation,
-                    hintText: 'Accomodation Location',
-                    iconPath: 'assets/icons/Planet.svg',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Accomodation description should not be empty';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 15),
                   InputField(
                     controller: _accomodationAddressController,
                     hintText: 'Accomodation Address',
                     iconPath: 'assets/icons/Planet.svg',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Accomodation address should not be empty';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 15),
                   InputField(
                     controller: _accomodationPostalCodeController,
                     hintText: 'Accomodation Postal Code',
                     iconPath: 'assets/icons/Planet.svg',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Accomodation Postal Code should not be empty';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 15),
                   Padding(
@@ -276,23 +302,44 @@ class _OfferPageState extends State<OfferPage> {
                   Center(
                     child: SimpleButton(
                       onTap: () async {
-                        Accomodation? acc = await _accomodationProvider
-                            .update(accomodation.id as int, {
-                          'name': _accomodationNameController.text,
-                          'description': _accomodationDescription.text,
-                          'locationMap': _accomodationLocation.text,
-                          'address': _accomodationAddressController.text,
-                          'postalCode': _accomodationPostalCodeController.text,
-                          'cityId': cityId,
-                        });
-                        if (acc != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              CustomSnackBar.showSuccessSnackBar(
-                                  "You have successfuly changed accomodation information."));
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              CustomSnackBar.showErrorSnackBar(
-                                  "There was an error changing your information."));
+                        if (formKey.currentState!.validate() &&
+                            cityId != -1 &&
+                            cityId != -2) {
+                          try {
+                            Accomodation? acc = await _accomodationProvider
+                                .update(accomodation.id as int, {
+                              'name': _accomodationNameController.text,
+                              'description': _accomodationDescription.text,
+                              'locationMap': _accomodationLocation.text,
+                              'address': _accomodationAddressController.text,
+                              'postalCode':
+                                  _accomodationPostalCodeController.text,
+                              'cityId': cityId,
+                            });
+                            if (acc != null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  CustomSnackBar.showSuccessSnackBar(
+                                      "You have successfuly changed accomodation information."));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  CustomSnackBar.showErrorSnackBar(
+                                      "There was an error changing your information."));
+                            }
+                          } catch (e) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                      title: const Text("Error"),
+                                      content: Text(e.toString()),
+                                      actions: [
+                                        TextButton(
+                                          child: const Text("Ok"),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                        )
+                                      ],
+                                    ));
+                          }
                         }
                       },
                       bgColor: const Color(0xffEAAD5F),
@@ -305,78 +352,80 @@ class _OfferPageState extends State<OfferPage> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: SizedBox(
-                width: 1000,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey.withOpacity(0.2),
-                        width: 1,
-                      ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: SizedBox(
+              width: 1000,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey.withOpacity(0.2),
+                      width: 1,
                     ),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Trip Items",
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff747474),
-                          ),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Trip Items",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff747474),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-            SizedBox(
-              width: 1000,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    children: _buildTripItems(),
-                  ),
-                ],
-              ),
+          ),
+          SizedBox(
+            width: 1000,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  children: _buildTripItems(),
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 40,
-            ),
-            GestureDetector(
-              onTap: () {
-                _nightsStayController.text = '';
-                _priceController.text = '';
-                showDialog(
-                    context: context,
-                    builder: (context) => Dialog(
-                          insetPadding: EdgeInsets.symmetric(
-                              vertical: 50, horizontal: 30),
-                          child: Container(
-                            width: 1000,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    spreadRadius: 0,
-                                    blurRadius: 5,
-                                    offset: const Offset(
-                                        0, 4), // changeon of shadow
-                                  )
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 50, vertical: 50),
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          GestureDetector(
+            onTap: () {
+              _priceController.text = '';
+              showDialog(
+                  context: context,
+                  builder: (context) => Dialog(
+                        insetPadding:
+                            EdgeInsets.symmetric(vertical: 50, horizontal: 30),
+                        child: Container(
+                          width: 1000,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  spreadRadius: 0,
+                                  blurRadius: 5,
+                                  offset:
+                                      const Offset(0, 4), // changeon of shadow
+                                )
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 50),
+                            child: Form(
+                              key: formKeyAdd,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -402,17 +451,15 @@ class _OfferPageState extends State<OfferPage> {
                                       SizedBox(
                                         width: 250,
                                         child: InputField(
-                                          controller: _nightsStayController,
-                                          hintText: 'Nights stay',
-                                          iconPath: 'assets/icons/night.svg',
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 250,
-                                        child: InputField(
                                           controller: _priceController,
                                           hintText: 'Price per person',
                                           iconPath: 'assets/icons/dollar.svg',
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Please enter price per person.';
+                                            }
+                                            return null;
+                                          },
                                         ),
                                       ),
                                     ],
@@ -421,32 +468,58 @@ class _OfferPageState extends State<OfferPage> {
                                   Center(
                                     child: SimpleButton(
                                       onTap: () async {
-                                        TripItem? ti =
-                                            await _tripItemProvider.insert({
-                                          "checkIn": _datePickerController
-                                              .selectedRange!.startDate
-                                              .toString(),
-                                          "checkOut": _datePickerController
-                                              .selectedRange!.endDate
-                                              .toString(),
-                                          "pricePerPerson":
-                                              _priceController.text,
-                                          "nightsStay":
-                                              _nightsStayController.text,
-                                          "tripId": widget.trip!.id,
-                                        });
-                                        if (ti != null) {
-                                          loadData();
-                                          context.pop();
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(CustomSnackBar
-                                                  .showSuccessSnackBar(
-                                                      "You have successfuly created a new trip item."));
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(CustomSnackBar
-                                                  .showErrorSnackBar(
-                                                      "There was an error creating new trip item."));
+                                        if (formKeyAdd.currentState!
+                                                .validate() &&
+                                            _datePickerController
+                                                    .selectedRange !=
+                                                null) {
+                                          try {
+                                            TripItem? ti =
+                                                await _tripItemProvider.insert({
+                                              "checkIn": _datePickerController
+                                                  .selectedRange!.startDate
+                                                  .toString(),
+                                              "checkOut": _datePickerController
+                                                  .selectedRange!.endDate
+                                                  .toString(),
+                                              "pricePerPerson":
+                                                  _priceController.text,
+                                              "tripId": widget.trip!.id,
+                                            });
+                                            if (ti != null) {
+                                              loadData();
+                                              context.pop();
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(CustomSnackBar
+                                                      .showSuccessSnackBar(
+                                                          "You have successfuly created a new trip item."));
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(CustomSnackBar
+                                                      .showErrorSnackBar(
+                                                          "There was an error creating new trip item."));
+                                            }
+                                          } catch (e) {
+                                            showDialog(
+                                                context: context,
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    AlertDialog(
+                                                      title:
+                                                          const Text("Error"),
+                                                      content:
+                                                          Text(e.toString()),
+                                                      actions: [
+                                                        TextButton(
+                                                          child:
+                                                              const Text("Ok"),
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context),
+                                                        )
+                                                      ],
+                                                    ));
+                                          }
                                         }
                                       },
                                       bgColor: const Color(0xffEAAD5F),
@@ -460,49 +533,49 @@ class _OfferPageState extends State<OfferPage> {
                               ),
                             ),
                           ),
-                        ));
-              },
-              child: Center(
-                child: Container(
-                  width: 220,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 0,
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        )
-                      ]),
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 20),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/icons/plus.svg',
-                            color: Color(0xffEAAD5F),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            "Add new Trip item",
-                            style: TextStyle(
-                                color: Color(0xff747474),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16),
-                          ),
-                        ],
-                      )),
-                ),
+                        ),
+                      ));
+            },
+            child: Center(
+              child: Container(
+                width: 220,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 0,
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      )
+                    ]),
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 20),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/plus.svg',
+                          color: Color(0xffEAAD5F),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          "Add new Trip item",
+                          style: TextStyle(
+                              color: Color(0xff747474),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16),
+                        ),
+                      ],
+                    )),
               ),
             ),
-            const SizedBox(
-              height: 100,
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(
+            height: 100,
+          ),
+        ],
       ),
     );
   }
@@ -655,7 +728,6 @@ class _OfferPageState extends State<OfferPage> {
                     const SizedBox(width: 20),
                     GestureDetector(
                       onTap: () {
-                        _nightsStayController.text = e.nightsStay.toString();
                         _priceController.text = e.pricePerPerson.toString();
                         showDialog(
                             context: context,
@@ -692,74 +764,102 @@ class _OfferPageState extends State<OfferPage> {
                                                 fontWeight: FontWeight.w500),
                                           ),
                                           const SizedBox(height: 60),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Expanded(
-                                                  child: CustomDatePicker(
-                                                      controller:
-                                                          _datePickerController)),
-                                              const SizedBox(width: 20),
-                                              SizedBox(
-                                                width: 250,
-                                                child: InputField(
-                                                  controller:
-                                                      _nightsStayController,
-                                                  hintText: 'Nights stay',
-                                                  iconPath:
-                                                      'assets/icons/night.svg',
+                                          Form(
+                                            key: formKeyEdit,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                    child: CustomDatePicker(
+                                                        controller:
+                                                            _datePickerController)),
+                                                const SizedBox(width: 20),
+                                                SizedBox(
+                                                  width: 250,
+                                                  child: InputField(
+                                                    controller:
+                                                        _priceController,
+                                                    hintText:
+                                                        'Price per person',
+                                                    iconPath:
+                                                        'assets/icons/dollar.svg',
+                                                    validator: (value) {
+                                                      if (value!.isEmpty) {
+                                                        return 'Please enter price per person.';
+                                                      }
+                                                      return null;
+                                                    },
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                width: 250,
-                                                child: InputField(
-                                                  controller: _priceController,
-                                                  hintText: 'Price per person',
-                                                  iconPath:
-                                                      'assets/icons/dollar.svg',
-                                                ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                           const SizedBox(height: 40),
                                           Center(
                                             child: SimpleButton(
                                               onTap: () async {
-                                                TripItem? ti =
-                                                    await _tripItemProvider
-                                                        .update(e.id as int, {
-                                                  "checkIn":
-                                                      _datePickerController
-                                                          .selectedRange!
-                                                          .startDate
-                                                          .toString(),
-                                                  "checkOut":
-                                                      _datePickerController
-                                                          .selectedRange!
-                                                          .endDate
-                                                          .toString(),
-                                                  "pricePerPerson":
-                                                      _priceController.text,
-                                                  "nightsStay":
-                                                      _nightsStayController
-                                                          .text,
-                                                  "tripId": widget.trip!.id,
-                                                });
-                                                if (ti != null) {
-                                                  loadData();
-                                                  context.pop();
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(CustomSnackBar
-                                                          .showSuccessSnackBar(
-                                                              "You have successfuly changed trip item information."));
-                                                } else {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(CustomSnackBar
-                                                          .showErrorSnackBar(
-                                                              "There was an error changing your information."));
+                                                if (formKeyEdit.currentState!
+                                                    .validate()) {
+                                                  try {
+                                                    TripItem? ti =
+                                                        await _tripItemProvider
+                                                            .update(
+                                                                e.id as int, {
+                                                      "checkIn":
+                                                          _datePickerController
+                                                              .selectedRange!
+                                                              .startDate
+                                                              .toString(),
+                                                      "checkOut":
+                                                          _datePickerController
+                                                              .selectedRange!
+                                                              .endDate
+                                                              .toString(),
+                                                      "pricePerPerson":
+                                                          _priceController.text,
+                                                      "tripId": widget.trip!.id,
+                                                    });
+                                                    if (ti != null) {
+                                                      loadData();
+                                                      context.pop();
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(CustomSnackBar
+                                                              .showSuccessSnackBar(
+                                                                  "You have successfuly changed trip item information."));
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(CustomSnackBar
+                                                              .showErrorSnackBar(
+                                                                  "There was an error changing your information."));
+                                                    }
+                                                  } catch (e) {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (BuildContext
+                                                                    context) =>
+                                                                AlertDialog(
+                                                                  title: const Text(
+                                                                      "Error"),
+                                                                  content: Text(
+                                                                      e.toString()),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                      child: const Text(
+                                                                          "Ok"),
+                                                                      onPressed:
+                                                                          () =>
+                                                                              Navigator.pop(context),
+                                                                    )
+                                                                  ],
+                                                                ));
+                                                  }
                                                 }
                                               },
                                               bgColor: const Color(0xffEAAD5F),

@@ -19,8 +19,6 @@ namespace Travelo.Model.Requests
 
         public string Description { get; set; }
 
-        public string LocationMap { get; set; }
-
         public byte[] Images { get; set; }
         
     }

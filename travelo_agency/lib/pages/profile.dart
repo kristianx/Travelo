@@ -26,6 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
   late CityProvider _cityProvider;
   Agency _agency = Agency();
   List<City> cities = [];
+  final formKey = GlobalKey<FormState>();
   List<DropdownMenuItem> citiesDropdown = [
     const DropdownMenuItem(
       value: -2,
@@ -73,110 +74,111 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
-      child: Form(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 60),
-              child: SizedBox(
-                width: 1000,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey.withOpacity(0.2),
-                        width: 1,
-                      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 60),
+            child: SizedBox(
+              width: 1000,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey.withOpacity(0.2),
+                      width: 1,
                     ),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.all(30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Account information",
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff747474),
-                          ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Account information",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff747474),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            _agencyProvider.logOut();
-                            context.go('/welcome');
-                          },
-                          child: Text("Logout",
-                              style: TextStyle(
-                                color: Color(0xffEAAD5F),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              )),
-                        ),
-                      ],
-                    ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _agencyProvider.logOut();
+                          context.go('/welcome');
+                        },
+                        child: Text("Logout",
+                            style: TextStyle(
+                              color: Color(0xffEAAD5F),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            )),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-            Container(
-                height: 150,
-                width: double.infinity,
-                // decoration: const BoxDecoration(
-                //     image: DecorationImage(
-                //         image: AssetImage("assets/images/spain.png"),
-                //         fit: BoxFit.cover,
-                //         alignment: Alignment.topCenter)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () async {
-                        _file = await pickImage();
-                        if (_file != null) {
-                          bool flag = await _agencyProvider.uploadImage(
-                              localStorage.getItem("agencyId") as int,
-                              _file as File);
-                          if (flag) {
-                            loadData();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                CustomSnackBar.showSuccessSnackBar(
-                                    "You have changed your image."));
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                CustomSnackBar.showErrorSnackBar(
-                                    "There was an error changing your image."));
-                          }
+          ),
+          Container(
+              height: 150,
+              width: double.infinity,
+              // decoration: const BoxDecoration(
+              //     image: DecorationImage(
+              //         image: AssetImage("assets/images/spain.png"),
+              //         fit: BoxFit.cover,
+              //         alignment: Alignment.topCenter)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      _file = await pickImage();
+                      if (_file != null) {
+                        bool flag = await _agencyProvider.uploadImage(
+                            localStorage.getItem("agencyId") as int,
+                            _file as File);
+                        if (flag) {
+                          loadData();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              CustomSnackBar.showSuccessSnackBar(
+                                  "You have changed your image."));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              CustomSnackBar.showErrorSnackBar(
+                                  "There was an error changing your image."));
                         }
-                      },
-                      child: Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: const Color(0xffE5F0F5),
-                            image: DecorationImage(
-                                image: _agency.image == ""
-                                    ? const AssetImage(
-                                        "assets/images/user-image.png")
-                                    : imageFromBase64String(_agency.image ?? "")
-                                        .image,
-                                fit: BoxFit.cover),
-                            boxShadow: const [
-                              BoxShadow(
-                                  color: Color(0xffFFE9CC), spreadRadius: 20),
-                              BoxShadow(
-                                  color: Color(0xffffffff), spreadRadius: 7),
-                            ]),
-                      ),
+                      }
+                    },
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: const Color(0xffE5F0F5),
+                          image: DecorationImage(
+                              image: _agency.image == ""
+                                  ? const AssetImage(
+                                      "assets/images/user-image.png")
+                                  : imageFromBase64String(_agency.image ?? "")
+                                      .image,
+                              fit: BoxFit.cover),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Color(0xffFFE9CC), spreadRadius: 20),
+                            BoxShadow(
+                                color: Color(0xffffffff), spreadRadius: 7),
+                          ]),
                     ),
-                  ],
-                )),
-            SizedBox(
-              width: 1000,
+                  ),
+                ],
+              )),
+          SizedBox(
+            width: 1000,
+            child: Form(
+              key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -187,6 +189,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           controller: _nameController,
                           hintText: 'Name',
                           iconPath: 'assets/icons/User.svg',
+                          validator: (value) {
+                            if (value!.isEmpty ||
+                                !RegExp(r'^[A-Z][A-Za-z ]{4,}$')
+                                    .hasMatch(value)) {
+                              return 'Agency name should be at least 5 characters long\n Agency name should start with a capital letter';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       Expanded(
@@ -194,6 +204,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           controller: _emailController,
                           hintText: 'Email',
                           iconPath: 'assets/icons/User.svg',
+                          validator: (value) {
+                            if (value!.isEmpty ||
+                                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(value)) {
+                              return 'Please use a valid email';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ],
@@ -208,6 +226,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           controller: _phoneNumberController,
                           hintText: 'Phone number',
                           iconPath: 'assets/icons/Planet.svg',
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter a phone number.';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       Expanded(
@@ -215,6 +239,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           controller: _websiteController,
                           hintText: 'Website',
                           iconPath: 'assets/icons/Planet.svg',
+                          validator: (value) {
+                            if (value!.isEmpty ||
+                                !RegExp(r"^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})")
+                                    .hasMatch(value)) {
+                              return 'Please use a valid website URL.';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ],
@@ -226,6 +258,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     controller: _overviewController,
                     hintText: 'Overview',
                     iconPath: 'assets/icons/Planet.svg',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter agency description.';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(
                     height: 15,
@@ -403,30 +441,34 @@ class _ProfilePageState extends State<ProfilePage> {
                   Center(
                     child: SimpleButton(
                       onTap: () async {
-                        if (localStorage.getItem("agencyId") != null) {
-                          Agency? ag = await _agencyProvider
-                              .update(localStorage.getItem("agencyId") as int, {
-                            "email": _emailController.text,
-                            "oldPassword": localStorage.getItem("password"),
-                            "name": _nameController.text,
-                            "about": _overviewController.text,
-                            "phone": _phoneNumberController.text,
-                            "websiteUrl": _websiteController.text,
-                            "address": _addressController.text,
-                            "postalCode": _postalCodeController.text,
-                            "cityId": cityId,
-                          });
-                          if (ag != null) {
-                            setState(() {
-                              _agency = ag;
+                        if (formKey.currentState!.validate() &&
+                            cityId != -1 &&
+                            cityId != -2) {
+                          if (localStorage.getItem("agencyId") != null) {
+                            Agency? ag = await _agencyProvider.update(
+                                localStorage.getItem("agencyId") as int, {
+                              "email": _emailController.text,
+                              "oldPassword": localStorage.getItem("password"),
+                              "name": _nameController.text,
+                              "about": _overviewController.text,
+                              "phone": _phoneNumberController.text,
+                              "websiteUrl": _websiteController.text,
+                              "address": _addressController.text,
+                              "postalCode": _postalCodeController.text,
+                              "cityId": cityId,
                             });
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                CustomSnackBar.showSuccessSnackBar(
-                                    "You have successfuly updated your profile."));
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                CustomSnackBar.showErrorSnackBar(
-                                    "Your profile has not been updated."));
+                            if (ag != null) {
+                              setState(() {
+                                _agency = ag;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  CustomSnackBar.showSuccessSnackBar(
+                                      "You have successfuly updated your profile."));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  CustomSnackBar.showErrorSnackBar(
+                                      "Your profile has not been updated."));
+                            }
                           }
                         }
                       },
@@ -440,11 +482,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 60,
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(
+            height: 60,
+          ),
+        ],
       ),
     );
   }

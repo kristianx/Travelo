@@ -41,7 +41,11 @@ class SimpleButton extends StatelessWidget {
             child: Text(
           text,
           style: TextStyle(
-              color: textColor, fontWeight: FontWeight.w600, fontSize: 18),
+            decoration: TextDecoration.none,
+            color: textColor,
+            fontWeight: FontWeight.w600,
+            fontSize: 18,
+          ),
         )),
       ),
     );

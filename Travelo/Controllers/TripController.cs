@@ -32,22 +32,24 @@ namespace Travelo.Controllers
             return Ok(_service.ToggleBookmark(tripId, userId));
         }
 
-        [HttpGet("/{id}/recommend")]
-        public async Task<IEnumerable<Model.Trip>> RecommendAsync(int id)
+        [HttpPost("~/Trip/AddRating")]
+        public ActionResult AddRating(int userId, int tripId, double rating)
         {
-            return await _service.Recommend(id);
+            if (_service.AddRating(userId, tripId, rating))
+            {
+                return Ok();
+            }
+            return BadRequest();
+
+
+        }
+
+        [HttpGet("~/Trip/{id}/recommend")]
+        public async Task<IEnumerable<Model.Trip>> RecommendAsync(int id, int userId)
+        {
+            return await _service.Recommend( userId,  id);
         }
 
 
-
-        //public override IEnumerable<Model.Trip> Get([FromQuery] TripSearchObject search = null)
-        //{
-        //    //IEnumerable <Model.Trip> trips =  base.Get(search);
-        //    //foreach (var trip in trips)
-        //    //{
-        //    //    trip.Tags = _service.GetTags(trip.Id);
-        //    //}
-        //    //return trips;
-        //}
     }
 }

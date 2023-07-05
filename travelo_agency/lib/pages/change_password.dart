@@ -22,6 +22,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final TextEditingController _newPassword = TextEditingController();
   final TextEditingController _confirmNewPassword = TextEditingController();
 
+  final formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -35,52 +37,62 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
-      child: Form(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 60),
-              child: SizedBox(
-                width: 1000,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey.withOpacity(0.2),
-                        width: 1,
-                      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 60),
+            child: SizedBox(
+              width: 1000,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey.withOpacity(0.2),
+                      width: 1,
                     ),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Change password",
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff747474),
-                          ),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Change password",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff747474),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-            SizedBox(
-              width: 1000,
+          ),
+          SizedBox(
+            width: 1000,
+            child: Form(
+              key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InputField(
                     controller: _oldPassword,
-                    hintText: 'Old password',
+                    hintText: 'Current password',
                     iconPath: 'assets/icons/Password.svg',
+                    obscure: true,
+                    validator: (value) {
+                      if (value!.isEmpty ||
+                          !RegExp(r'^(?=.*?[!@#\$\-&*~]).{5,}$')
+                              .hasMatch(value)) {
+                        return 'Password should be longer then 5 characters.\nPassword should contain at least one special character';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(
                     height: 15,
@@ -89,6 +101,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     controller: _newPassword,
                     hintText: 'New password',
                     iconPath: 'assets/icons/Password.svg',
+                    obscure: true,
+                    validator: (value) {
+                      if (value!.isEmpty ||
+                          !RegExp(r'^(?=.*?[!@#\$\-&*~]).{5,}$')
+                              .hasMatch(value)) {
+                        return 'Password should be longer then 5 characters.\nPassword should contain at least one special character';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(
                     height: 15,
@@ -97,6 +118,19 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     controller: _confirmNewPassword,
                     hintText: 'Confirm new password',
                     iconPath: 'assets/icons/Password.svg',
+                    obscure: true,
+                    validator: (value) {
+                      if (value!.isEmpty ||
+                          !RegExp(r'^(?=.*?[!@#\$\-&*~]).{5,}$')
+                              .hasMatch(value)) {
+                        return 'Password should be longer then 5 characters.\nPassword should contain at least one special character';
+                      }
+                      if (value.isEmpty ||
+                          _confirmNewPassword.text != _newPassword.text) {
+                        return 'Passwords should match.';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(
                     height: 40,
@@ -104,7 +138,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   Center(
                     child: SimpleButton(
                       onTap: () async {
-                        if (localStorage.getItem("agencyId") != null &&
+                        if (formKey.currentState!.validate() &&
+                            localStorage.getItem("agencyId") != null &&
                             _newPassword.text == _confirmNewPassword.text &&
                             _newPassword.text.isNotEmpty &&
                             _oldPassword.text.isNotEmpty &&
@@ -138,11 +173,11 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 60,
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(
+            height: 60,
+          ),
+        ],
       ),
     );
   }

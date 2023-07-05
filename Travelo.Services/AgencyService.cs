@@ -12,6 +12,7 @@ using Travelo.Model;
 using Travelo.Model.Requests;
 using Travelo.Model.SearchObjects;
 using Travelo.Services.Database;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Travelo.Services
 {
@@ -58,7 +59,8 @@ namespace Travelo.Services
         {
             query = query.Include(x => x.Account);
             query = query.Include(x => x.City.Country);
-            query = query.Include(x => x.Trips);
+            query = query.Include(x => x.Trips).ThenInclude(t => t.Ratings);
+
 
             return base.AddInclude(query, search);
         }
@@ -116,7 +118,8 @@ namespace Travelo.Services
                 .Include(x => x.Account)
                 .Include(x => x.City.Country)
                 .Include(x => x.Trips)
-                .First(x => x.Id == id);
+                .ThenInclude(t => t.Ratings)
+                .FirstOrDefault(x => x.Id == id);
 
  
 
@@ -160,5 +163,7 @@ namespace Travelo.Services
 
             return null;
         }
+
+    
     }
 }

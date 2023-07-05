@@ -44,6 +44,18 @@ namespace Travelo.Services
 
             return filteredQuery;
         }
+        public override IEnumerable<Model.Reservation> Get(ReservationSearchObject search = null)
+        {
+            if(search.UserId != null) {
+                IEnumerable<Model.Reservation> reservations = base.Get(search);
+                foreach(var res in reservations) {
+                    var review = Context.Rating.Where(r => r.UserId == search.UserId && r.TripId == res.TripId).FirstOrDefault();
+                    res.reviewLeaved = review != null ? review.RatingScore : -1.0;
+                }
+                return reservations;
+            }
+            return base.Get(search);
+        }
         public override IQueryable<Database.Reservation> AddInclude(IQueryable<Database.Reservation> query, ReservationSearchObject search = null)
         {
             query = query.Include(a => a.Trip.Accomodation.City.Country);
@@ -137,6 +149,20 @@ namespace Travelo.Services
             return bestCustomers;
         }
 
-
+        public List<BestAccomodations> GetBestAccomodations(int AgencyId)
+        {
+            return Context.Reservation
+                 .Include(a => a.Trip.Accomodation)
+                 .Where(r => r.Trip.AgencyId == AgencyId)
+                 .GroupBy(r => r.Trip.AccomodationId)
+                 .Select(g => new BestAccomodations
+                 {
+                     AccommodationName = g.FirstOrDefault().Trip.Accomodation.Name,
+                     TripId = g.Key,
+                     TotalPrice = g.Sum(r => r.Price)
+                 })
+                 .OrderByDescending(a => a.TotalPrice)
+                 .ToList();
+        }
     }
 }

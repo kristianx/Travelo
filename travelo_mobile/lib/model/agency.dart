@@ -14,7 +14,8 @@ class Agency {
   bool? status;
   String? location;
   int? numberOfTrips;
-  int? rating;
+  double? rating;
+  int? ratingCount;
 
   Agency();
 
@@ -28,6 +29,8 @@ class Agency {
         "websiteUrl": websiteUrl,
         "about": about,
         "image": image,
-        "status": status
+        "status": status,
+        "rating": rating,
+        "ratingCount": ratingCount
       };
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Travelo.Model.SearchObjects;
 using Travelo.Services.Database;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Travelo.Services
 {
@@ -27,12 +28,18 @@ namespace Travelo.Services
 
             Context.SaveChanges();
 
-            return Mapper.Map<T>(entity);
+            T mappedEntity = Mapper.Map<T>(entity);
+
+            return mappedEntity;
         }
 
         public virtual void BeforeCreate(TCreate create, TDb entity)
         {
 
+        }
+        public override IQueryable<TDb> AddInclude(IQueryable<TDb> query, TSearch search = null)
+        {
+            return base.AddInclude(query, search);
         }
 
         public virtual T Update(int id, TUpdate update)

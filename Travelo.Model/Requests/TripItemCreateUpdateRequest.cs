@@ -14,8 +14,6 @@ namespace Travelo.Model.Requests
 
         public int? PricePerPerson { get; set; } = null;
 
-        public int? NightsStay { get; set; } = null;
-
         public int? TripId { get; set; } = null;
     }
 }

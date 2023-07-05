@@ -91,6 +91,7 @@ namespace Travelo.Services
                 .ForMember(d => d.AccomodationName, s => s.MapFrom(_ => _.Trip.Accomodation.Name))
                 .ForMember(d => d.CheckIn, s => s.MapFrom(_ => _.TripItem.CheckIn))
                 .ForMember(d => d.CheckOut, s => s.MapFrom(_ => _.TripItem.CheckOut))
+                .ForMember(d => d.Rating, s => s.MapFrom(_ => _.Trip.Rating))
                 .ReverseMap();
             CreateMap<ReservationCreateRequest, Database.Reservation>();
         }    

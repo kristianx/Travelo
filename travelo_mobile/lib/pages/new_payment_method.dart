@@ -137,16 +137,16 @@ class _NewPaymentMethodState extends State<NewPaymentMethod> {
                     _monthController.text != "" &&
                     _yearController.text != "") {
                   try {
-                    final _customer = await paymentController
-                        .createCustomer(_holderNameController.text);
-                    final _paymentMethod =
-                        await paymentController.createPaymentMethod(
-                            cvc: _cvvController.text,
-                            expMonth: _monthController.text,
-                            expYear: _yearController.text,
-                            number: _cardNumberController.text);
-                    await paymentController.attachPaymentMethod(
-                        _paymentMethod['id'], _customer!['id']);
+                    // final _customer = await paymentController
+                    //     .createCustomer(_holderNameController.text);
+                    // final _paymentMethod =
+                    //     await paymentController.createPaymentMethod(
+                    //         cvc: _cvvController.text,
+                    //         expMonth: _monthController.text,
+                    //         expYear: _yearController.text,
+                    //         number: _cardNumberController.text);
+                    // await paymentController.attachPaymentMethod(
+                    //     _paymentMethod['id'], _customer!['id']);
 
                     var flag = await _paymentMethodProvider.insert({
                       "CardNumber": _cardNumberController.text,

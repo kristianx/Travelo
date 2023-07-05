@@ -18,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   bool progress = false;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   late AgencyProvider _agencyProvider;
 
@@ -70,43 +71,76 @@ class _LoginPageState extends State<LoginPage> {
         flex: 1,
         child: SizedBox(
           width: 500,
-          child: Column(children: [
-            InputField(
-              controller: _usernameController,
-              hintText: 'Email',
-              iconPath: 'assets/icons/Email.svg',
-            ),
-            const SizedBox(height: 15),
-            InputField(
-              controller: _passwordController,
-              hintText: 'Password',
-              iconPath: 'assets/icons/Password.svg',
-              obscure: true,
-            ),
-          ]),
+          child: Form(
+            key: formKey,
+            child: Column(children: [
+              InputField(
+                controller: _usernameController,
+                hintText: 'Email',
+                iconPath: 'assets/icons/Email.svg',
+                validator: (value) {
+                  if (value!.isEmpty ||
+                      !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)) {
+                    return 'Please use a valid email';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 15),
+              InputField(
+                controller: _passwordController,
+                hintText: 'Password',
+                iconPath: 'assets/icons/Password.svg',
+                obscure: true,
+                validator: (value) {
+                  if (value!.isEmpty ||
+                      !RegExp(r'^(?=.*?[!@#\$\-&*~]).{5,}$').hasMatch(value)) {
+                    return 'Password should be longer then 5 characters.\nPassword should contain at least one special character';
+                  }
+                  return null;
+                },
+              ),
+            ]),
+          ),
         ),
       ),
       SimpleButton(
         onTap: () async {
-          try {
-            var loginFlag = await _agencyProvider.login(
-                _usernameController.text, _passwordController.text);
-            if (loginFlag) {
-              context.go("/dashboard");
+          if (formKey.currentState!.validate()) {
+            try {
+              var loginFlag = await _agencyProvider.login(
+                  _usernameController.text, _passwordController.text);
+              if (loginFlag) {
+                context.go("/dashboard");
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                          title: const Text("Error"),
+                          content: Text("Invalid email or password."),
+                          actions: [
+                            TextButton(
+                              child: const Text("Ok"),
+                              onPressed: () => Navigator.pop(context),
+                            )
+                          ],
+                        ));
+              }
+            } catch (e) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                        title: const Text("Error"),
+                        content: Text(e.toString()),
+                        actions: [
+                          TextButton(
+                            child: const Text("Ok"),
+                            onPressed: () => Navigator.pop(context),
+                          )
+                        ],
+                      ));
             }
-          } catch (e) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                      title: const Text("Error"),
-                      content: Text(e.toString()),
-                      actions: [
-                        TextButton(
-                          child: const Text("Ok"),
-                          onPressed: () => Navigator.pop(context),
-                        )
-                      ],
-                    ));
           }
         },
         bgColor: const Color(0xffEAAD5F),

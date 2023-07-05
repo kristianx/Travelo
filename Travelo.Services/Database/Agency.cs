@@ -13,6 +13,7 @@ namespace Travelo.Services.Database
         {
             this.Trips = new HashSet<Trip>();
             this.Reservations = new HashSet<Reservation>();
+            
         }
 
         [Key]
@@ -23,7 +24,7 @@ namespace Travelo.Services.Database
         public string? About { get; set; } = null;
         public byte[]? Image { get; set; } = null;
         public string? WebsiteUrl { get; set; } = null;
-        public int Rating { get; set; }
+        
 
         public int AccountId { get; set; }
         public virtual Account Account { get; set; }
@@ -36,6 +37,12 @@ namespace Travelo.Services.Database
 
 
         public virtual ICollection<Trip> Trips { get; set; } 
-        public virtual ICollection<Reservation> Reservations { get; set; } 
+        public virtual ICollection<Reservation> Reservations { get; set; }
+
+
+        public double Rating => Trips.Count > 0 ? (double)Trips.Sum(x => x.Rating) / Trips.Count : 0.0;
+        public int RatingCount => Trips.Count > 0 ?  Trips.Sum(x => x.RatingCount) : 0;
+
+
     }
 }

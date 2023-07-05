@@ -25,6 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _postCodeController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   late CityProvider _cityProvider;
   late AgencyProvider _agencyProvider;
@@ -96,130 +97,181 @@ class _RegisterPageState extends State<RegisterPage> {
             const SizedBox(height: 50),
             SizedBox(
               width: 500,
-              child: Column(children: [
-                InputField(
-                  controller: _nameController,
-                  hintText: 'Name',
-                  iconPath: 'assets/icons/User.svg',
-                ),
-                const SizedBox(height: 15),
-                InputField(
-                  controller: _emailController,
-                  hintText: 'Email',
-                  iconPath: 'assets/icons/User.svg',
-                ),
-                const SizedBox(height: 15),
-                InputField(
-                  controller: _phoneController,
-                  hintText: 'Phone',
-                  iconPath: 'assets/icons/Email.svg',
-                ),
-                const SizedBox(height: 15),
-                InputField(
-                  controller: _websiteController,
-                  hintText: 'Website URL',
-                  iconPath: 'assets/icons/User.svg',
-                ),
-                const SizedBox(height: 15),
-                InputField(
-                  controller: _aboutController,
-                  hintText: 'About',
-                  iconPath: 'assets/icons/User.svg',
-                ),
-                const SizedBox(height: 15),
-                InputField(
-                  controller: _addressController,
-                  hintText: 'Address',
-                  iconPath: 'assets/icons/User.svg',
-                ),
-                const SizedBox(height: 15),
-                InputField(
-                  controller: _postCodeController,
-                  hintText: 'Postal Code',
-                  iconPath: 'assets/icons/User.svg',
-                ),
-                const SizedBox(height: 15),
-                InputField(
-                  controller: _passwordController,
-                  hintText: 'Password',
-                  iconPath: 'assets/icons/Password.svg',
-                  obscure: true,
-                ),
-                const SizedBox(height: 15),
-                Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Container(
-                      height: 60,
-                      alignment: Alignment.center,
-                      child: Material(
-                        elevation: 3,
-                        shadowColor: Colors.grey.shade300,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(20)),
-                        child: DropdownButtonFormField(
-                          value: cityId,
-                          items: citiesDropdown,
-                          onChanged: (v) {
-                            cityId = v;
-                          },
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            border: const OutlineInputBorder(
-                              // width: 0.0 produces a thin "hairline" border
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                              borderSide: BorderSide.none,
-                            ),
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
-                              child: SvgPicture.asset(
-                                "assets/icons/Planet.svg",
-                                width: 20,
+              child: Form(
+                key: formKey,
+                child: Column(children: [
+                  InputField(
+                    controller: _nameController,
+                    hintText: 'Name',
+                    iconPath: 'assets/icons/User.svg',
+                    validator: (value) {
+                      if (value!.isEmpty ||
+                          !RegExp(r'^[A-Z][A-Za-z ]{4,}$').hasMatch(value)) {
+                        return 'Agency name should be at least 5 characters long\n Agency name should start with a capital letter';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  InputField(
+                    controller: _emailController,
+                    hintText: 'Email',
+                    iconPath: 'assets/icons/User.svg',
+                    validator: (value) {
+                      if (value!.isEmpty ||
+                          !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value)) {
+                        return 'Please use a valid email';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  InputField(
+                    controller: _phoneController,
+                    hintText: 'Phone',
+                    iconPath: 'assets/icons/Email.svg',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a phone number.';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  InputField(
+                    controller: _websiteController,
+                    hintText: 'Website URL',
+                    iconPath: 'assets/icons/User.svg',
+                    validator: (value) {
+                      if (value!.isEmpty ||
+                          !RegExp(r"^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})")
+                              .hasMatch(value)) {
+                        return 'Please use a valid website URL.';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  InputField(
+                    controller: _aboutController,
+                    hintText: 'About',
+                    iconPath: 'assets/icons/User.svg',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter agency description.';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  InputField(
+                    controller: _addressController,
+                    hintText: 'Address',
+                    iconPath: 'assets/icons/User.svg',
+                  ),
+                  const SizedBox(height: 15),
+                  InputField(
+                    controller: _postCodeController,
+                    hintText: 'Postal Code',
+                    iconPath: 'assets/icons/User.svg',
+                  ),
+                  const SizedBox(height: 15),
+                  InputField(
+                    controller: _passwordController,
+                    hintText: 'Password',
+                    iconPath: 'assets/icons/Password.svg',
+                    obscure: true,
+                    validator: (value) {
+                      if (value!.isEmpty ||
+                          !RegExp(r'^(?=.*?[!@#\$\-&*~]).{5,}$')
+                              .hasMatch(value)) {
+                        return 'Password should be longer then 5 characters.\nPassword should contain at least one special character';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Container(
+                        height: 60,
+                        alignment: Alignment.center,
+                        child: Material(
+                          elevation: 3,
+                          shadowColor: Colors.grey.shade300,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20)),
+                          child: DropdownButtonFormField(
+                            value: cityId,
+                            items: citiesDropdown,
+                            onChanged: (v) {
+                              cityId = v;
+                            },
+                            decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              border: const OutlineInputBorder(
+                                // width: 0.0 produces a thin "hairline" border
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                borderSide: BorderSide.none,
+                              ),
+                              prefixIcon: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 0, 15, 0),
+                                child: SvgPicture.asset(
+                                  "assets/icons/Planet.svg",
+                                  width: 20,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    )),
-              ]),
+                      )),
+                ]),
+              ),
             ),
             const SizedBox(height: 30),
             SimpleButton(
               onTap: () async {
-                try {
-                  var registerFlag = await _agencyProvider.register(
-                    _nameController.text,
-                    _emailController.text,
-                    _phoneController.text,
-                    _websiteController.text,
-                    _aboutController.text,
-                    _addressController.text,
-                    _postCodeController.text,
-                    _passwordController.text,
-                    _passwordController.text,
-                    cityId,
-                  );
+                if (formKey.currentState!.validate() &&
+                    cityId != -1 &&
+                    cityId != -2) {
+                  try {
+                    var registerFlag = await _agencyProvider.register(
+                      _nameController.text,
+                      _emailController.text,
+                      _phoneController.text,
+                      _websiteController.text,
+                      _aboutController.text,
+                      _addressController.text,
+                      _postCodeController.text,
+                      _passwordController.text,
+                      _passwordController.text,
+                      cityId,
+                    );
 
-                  if (registerFlag != null) {
-                    context.go('/dashboard');
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        CustomSnackBar.showSuccessSnackBar(
-                            "You have created a new account."));
+                    if (registerFlag != null) {
+                      context.go('/dashboard');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          CustomSnackBar.showSuccessSnackBar(
+                              "You have created a new account."));
+                    }
+                  } catch (e) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              title: const Text("Error"),
+                              content: Text(e.toString()),
+                              actions: [
+                                TextButton(
+                                  child: const Text("Ok"),
+                                  onPressed: () => Navigator.pop(context),
+                                )
+                              ],
+                            ));
                   }
-                } catch (e) {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                            title: const Text("Error"),
-                            content: Text(e.toString()),
-                            actions: [
-                              TextButton(
-                                child: const Text("Ok"),
-                                onPressed: () => Navigator.pop(context),
-                              )
-                            ],
-                          ));
                 }
               },
               bgColor: const Color(0xffEAAD5F),

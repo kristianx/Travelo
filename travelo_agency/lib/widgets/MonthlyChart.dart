@@ -182,12 +182,6 @@ class _MonthlyChartState extends State<MonthlyChart> {
                           ),
                         )),
                     barGroups: _generateBarGroups(),
-                    // [
-                    //   generateGroupData(1, 10),
-                    //   generateGroupData(2, 18),
-                    //   generateGroupData(3, 4),
-                    //   generateGroupData(4, 11),
-                    // ],
                     barTouchData: BarTouchData(
                         enabled: true,
                         handleBuiltInTouches: false,

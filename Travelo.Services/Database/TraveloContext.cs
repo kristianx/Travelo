@@ -29,6 +29,7 @@ namespace Travelo.Services.Database
         public virtual DbSet<User> User { get; set; } = null!;
         public virtual DbSet<Account> Account { get; set; } = null!;
         public virtual DbSet<PaymentMethod> PaymentMethod { get; set; } = null!;
+        public virtual DbSet<Rating> Rating { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

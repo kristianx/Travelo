@@ -13,7 +13,8 @@ namespace Travelo.Services
     {
         IEnumerable<Model.Trip> GetBookmarks(int userId);
         bool ToggleBookmark(int tripId, int id);
-        Task<List<Model.Trip>> Recommend(int id);
+        Task<List<Model.Trip>> Recommend(int userId, int tripId);
+        public bool AddRating(int userId, int tripId, double rating);
     }
 }
     

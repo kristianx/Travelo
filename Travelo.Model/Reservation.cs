@@ -23,5 +23,6 @@ namespace Travelo.Model
         public string Date { get; set; }
         public DateTime CheckIn { get; set; }
         public DateTime CheckOut { get; set; }
+        public double reviewLeaved { get; set; }
     }
 }

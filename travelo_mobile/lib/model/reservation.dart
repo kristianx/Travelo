@@ -13,13 +13,15 @@ class Reservation {
   int? tripItemId;
   int? tripId;
   String? agencyName;
+  String? accomodationName;
   String? destinationName;
   String? countryName;
-  int? rating;
+  double? rating;
   String? destinationImage;
   String? date;
   DateTime? checkIn;
   DateTime? checkOut;
+  double? reviewLeaved;
 
   Reservation();
 

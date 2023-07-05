@@ -21,6 +21,8 @@ namespace Travelo.Model
         public string PostalCode { get; set; }
         public string Location { get; set; }
         public int numberOfTrips { get; set; }
-        public int rating { get; set; } = 5;
+        public double Rating { get; set; }
+        public int RatingCount { get; set; }
+        
     }
 }

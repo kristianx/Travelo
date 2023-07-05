@@ -14,7 +14,7 @@ namespace Travelo.Services.Database
         public DateTime CheckIn { get; set; }
         public DateTime CheckOut { get; set; }
         public int PricePerPerson { get; set; }
-        public int NightsStay {get;set;}
+        
      
 
         public int TripId { get; set; }
@@ -24,6 +24,7 @@ namespace Travelo.Services.Database
         public bool Expired { get; set; } = false;
         public int TotalPrice => NightsStay * PricePerPerson;
         public string Dates => $"{CheckIn:dd. MMM} - {CheckOut:dd. MMM yyyy}";
+        public int NightsStay => (CheckOut.Date - CheckIn.Date).Days;
 
     }
 }

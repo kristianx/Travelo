@@ -49,7 +49,7 @@ namespace Travelo.Services
                 }
                 catch (Exception ex) {
                     Console.WriteLine($"An error occurred while sending message to RabbitMQ: {ex.Message}");
-                    return null;
+                   
                 }
 
                
@@ -88,12 +88,16 @@ namespace Travelo.Services
 
             return filteredQuery;
         }
+
+
         public override IQueryable<Database.Trip> AddInclude(IQueryable<Database.Trip> query, TripSearchObject search = null)
         {
             query = query.Include("Accomodation");
             query = query.Include(x => x.Accomodation.City.Country);
             query = query.Include(x => x.Accomodation.Facilities);
             query = query.Include("Agency");
+            query = query.Include(x => x.Ratings);
+
             return base.AddInclude(query, search);
         }
      
@@ -149,17 +153,57 @@ namespace Travelo.Services
 
         public override Model.Trip GetById(int id)
         {
-            Database.Trip trip = Context.Trip
+            Database.Trip? trip = Context.Trip
                .Include(x => x.TripItems)
                .Include(x => x.Accomodation)
                .Include(x => x.Agency)
                .Include(x => x.Accomodation.Facilities)
                .Include(x => x.Accomodation.City.Country)
+                   .Include(x => x.Ratings)
                .FirstOrDefault(t => t.Id == id);
 
 
 
             return Mapper.Map<Model.Trip>(trip);
+        }
+
+        public bool AddRating(int userId, int tripId, double rating)
+        {
+
+            var user = Context.User.FirstOrDefault(x => x.Id == userId);
+            var trip = Context.Trip.FirstOrDefault(x => x.Id == tripId);
+
+            if (user != null && trip != null)
+            {
+                var rat = Context.Rating.Where(r => r.UserId == userId && r.TripId == tripId).FirstOrDefault();
+                if (rat == null) {
+                    Context.Rating.Add(
+                 new Rating
+                 {
+
+                     TripId = tripId,
+                     RatingScore = rating,
+                     TimeOfRating = DateTime.Now,
+                     UserId = userId
+                 }
+                );
+                    Context.SaveChanges();
+                    return true;
+                }
+                else {
+                    return false;
+                }
+              
+            }
+            else
+            {
+                return false;
+            }
+
+
+
+
+
         }
 
         public bool ToggleBookmark(int tripId, int userId)
@@ -191,30 +235,27 @@ namespace Travelo.Services
         static object isLocked = new object();
         static ITransformer model = null;
 
-        public async Task<List<Model.Trip>> Recommend(int id)
+        public async Task<List<Model.Trip>> Recommend(int userId, int tripId)
         {
             lock (isLocked)
             {
                 if (mlContext == null)
                 {
                     mlContext = new MLContext();
-                    var tmpData = Context.Reservation.Include(r => r.Trip).Include(r => r.User).ToList();
-                    var data = new List<TripEntry>();
 
-                    foreach(var x in tmpData)
-                    {
-                        data.Add(new TripEntry()
-                        {
-                            UserId = (uint)x.User.Id,
-                            AgencyId = (uint)x.Trip.AgencyId
-                        });
-                    }
+                    var data = Context.Rating.Select(r => new TripEntry {
+                        TripId = (uint)r.TripId,
+                        UserId = (uint)r.UserId,
+                        Label = (float)r.RatingScore,
+                    }).ToList();
+
 
                     var traindata = mlContext.Data.LoadFromEnumerable(data);
 
+
                     MatrixFactorizationTrainer.Options options = new MatrixFactorizationTrainer.Options();
-                    options.MatrixColumnIndexColumnName = nameof(TripEntry.UserId);
-                    options.MatrixRowIndexColumnName = nameof(TripEntry.AgencyId);
+                    options.MatrixColumnIndexColumnName = nameof(TripEntry.TripId);
+                    options.MatrixRowIndexColumnName = nameof(TripEntry.UserId);
                     options.LabelColumnName = "Label";
                     options.LossFunction = MatrixFactorizationTrainer.LossFunctionType.SquareLossOneClass;
                     options.Alpha = 0.01;
@@ -230,25 +271,30 @@ namespace Travelo.Services
 
                 
             }
-
             //prediction
 
-            var trips = Context.Trip
-                .Include(t => t.Accomodation.City.Country)
-                .Include(t => t.Agency)
-                .Include(t => t.Accomodation.Facilities)
-                .Where(t => t.Id != id);
+
+
+            List<Database.Trip> trips = Context.Trip
+               .Include(x => x.TripItems)
+               .Include(x => x.Agency)
+               .Include(x => x.Accomodation.Facilities)
+               .Include(x => x.Accomodation.City.Country)
+               .Include(x => x.Ratings)
+               .Where(t => t.Id != tripId)
+               .ToList();
 
             var predictionResult = new List<Tuple<Database.Trip, float>>();
 
-            foreach(var t in trips)
+            foreach(Database.Trip t in trips)
             {
-                var predictionengine = mlContext.Model.CreatePredictionEngine<TripEntry, Purchase_prediction>(model);
+                var predictionengine = mlContext.Model.CreatePredictionEngine<TripEntry, TripRatingPrediction>(model);
                 var prediction = predictionengine.Predict(
                                          new TripEntry()
                                          {
-                                             UserId = (uint)id,
-                                             AgencyId = (uint)t.AgencyId
+                                             UserId = (uint)userId,
+                                             TripId = (uint)t.Id,
+                                           
                                          });
                 predictionResult.Add(new Tuple<Database.Trip, float>(t, prediction.Score));
 
@@ -262,9 +308,10 @@ namespace Travelo.Services
 
     }
 
-    public class Purchase_prediction
+    public class TripRatingPrediction
     {
         public float Score { get; set; }
+        public float Label { get; set; }
     }
 
     public class TripEntry
@@ -273,11 +320,13 @@ namespace Travelo.Services
         public uint UserId { get; set; }
 
         [KeyType(count: 10)]
-        public uint AgencyId { get; set; }
+        public uint TripId { get; set; }
 
         public float Label { get; set; }
 
 
     }
+
+
 
 }

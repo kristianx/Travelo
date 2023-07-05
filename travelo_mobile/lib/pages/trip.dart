@@ -16,6 +16,7 @@ import '../providers/tripitem_provider.dart';
 import '../utils/util.dart';
 import '../widgets/CustomSnackBar.dart';
 import '../widgets/GalleryWidget.dart';
+import '../widgets/TripCard.dart';
 
 class Trip extends StatefulWidget {
   final trip_model.Trip trip;
@@ -33,10 +34,14 @@ class _TripState extends State<Trip> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
   List<TripItem> tripItems = [];
+  List<trip_model.Trip> recommendedTrips = [];
+  List<trip_model.Trip> bookmarkedTrips = [];
   int numberOfChildren = 0;
   int numberOfAdults = 1;
   double lat = 0;
   double long = 0;
+  int _price = 0;
+  int _value = -1;
   @override
   void initState() {
     super.initState();
@@ -49,25 +54,34 @@ class _TripState extends State<Trip> {
 
   Future loadData() async {
     var tmpData = await _tripItemProvider.get({'TripId': widget.trip.id});
-    var tmpLoc = await locationFromAddress(widget.trip.location ?? "");
+    var recTr = await _tripProvider.getRecommendation(
+        localStorage.getItem("userId"), widget.trip.id ?? -1);
+    var bookmarks =
+        await _tripProvider.getBookmarks(localStorage.getItem("userId"));
+    try {
+      var tmpLoc = await locationFromAddress(widget.trip.location ?? "");
+      setState(() {
+        lat = tmpLoc.first.latitude;
+        long = tmpLoc.first.longitude;
+      });
+    } catch (e) {
+      lat = 43.35534735959737;
+      long = 17.80946738000773;
+    }
+
     setState(() {
       tripItems = tmpData;
-      lat = tmpLoc.first.latitude;
-      long = tmpLoc.first.longitude;
+      recommendedTrips = recTr;
+      bookmarkedTrips = bookmarks;
     });
     final GoogleMapController controller = await _controller.future;
     await controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-            target: LatLng(tmpLoc.first.latitude, tmpLoc.first.longitude),
-            zoom: 12.5)));
+        CameraPosition(target: LatLng(lat, long), zoom: 12.5)));
   }
 
   void selectedTrip() {
     setState(() {
       _price = tripItems.firstWhere((e) => e.id == _value).totalPrice ?? 0;
-      // TripItem tr =
-      //     tripItems.where((element) => element.id == _value) as TripItem;
-      // _price = tr.totalPrice!;
     });
   }
 
@@ -80,8 +94,6 @@ class _TripState extends State<Trip> {
     loadData();
   }
 
-  int _price = 0;
-  int _value = -1;
   @override
   Widget build(BuildContext context) {
     final paymentController = PaymentController();
@@ -158,7 +170,7 @@ class _TripState extends State<Trip> {
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  Text("${widget.trip.rating}.0",
+                                  Text("${widget.trip.rating}",
                                       style: const TextStyle(
                                           fontSize: 20,
                                           color: Colors.white,
@@ -168,11 +180,20 @@ class _TripState extends State<Trip> {
                               const SizedBox(
                                 height: 3,
                               ),
-                              Text("${widget.trip.ratingCount} reviews",
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.white.withOpacity(0.9),
-                                      fontWeight: FontWeight.w500)),
+                              GestureDetector(
+                                onTap: () async {
+                                  var flag = await _tripProvider.AddRating(
+                                      localStorage.getItem("userId"),
+                                      widget.trip.agencyId as int,
+                                      5);
+                                },
+                                child: Text(
+                                    "${widget.trip.ratingCount} reviews",
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.white.withOpacity(0.9),
+                                        fontWeight: FontWeight.w500)),
+                              ),
                             ],
                           )
                         ],
@@ -347,6 +368,7 @@ class _TripState extends State<Trip> {
                                   onTap: () {
                                     setState(() {
                                       //Check for left places
+
                                       numberOfChildren = numberOfChildren + 1;
                                     });
                                   },
@@ -473,28 +495,27 @@ class _TripState extends State<Trip> {
                     amount: (_price * (numberOfAdults + numberOfChildren))
                         .toString(),
                     currency: 'USD');
-
-                // print("Payment Processing Done");
-                // var response = "";
-                // if (payment == "dfogdfklgjdflkgjfd") {
-                //   response = await _reservationProvider.processReservation(
-                //       numberOfAdults,
-                //       numberOfChildren,
-                //       localStorage.getItem("userId"),
-                //       _price,
-                //       _value,
-                //       widget.trip.id ?? -1,
-                //       DateTime.now());
-                // }
-                // if (response == "") {
-                //   context.go('/trips');
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //       CustomSnackBar.showSuccessSnackBar(
-                //           "You have successfuly booked a trip to Holistika Resort with Travelo Agency."));
-                // } else {
-                //   ScaffoldMessenger.of(context)
-                //       .showSnackBar(CustomSnackBar.showErrorSnackBar(response));
-                // }
+                print("Payment Processing Done");
+                var response = "";
+                if (payment) {
+                  response = await _reservationProvider.processReservation(
+                      numberOfAdults,
+                      numberOfChildren,
+                      localStorage.getItem("userId"),
+                      _price,
+                      _value,
+                      widget.trip.id ?? -1,
+                      DateTime.now());
+                }
+                if (response == "") {
+                  context.go('/trips');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      CustomSnackBar.showSuccessSnackBar(
+                          "You have successfuly booked a trip to Holistika Resort with Travelo Agency."));
+                } else {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(CustomSnackBar.showErrorSnackBar(response));
+                }
               },
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -523,10 +544,68 @@ class _TripState extends State<Trip> {
                   ),
                 ),
               ),
-            )
+            ),
+          const SizedBox(
+            height: 40,
+          ),
+          Center(
+              child: Text(
+            "Recommended trips",
+            style: const TextStyle(
+                color: Color(0xff000000),
+                fontSize: 20,
+                fontWeight: FontWeight.w500),
+          )),
+          const SizedBox(
+            height: 20,
+          ),
+          SizedBox(
+            height: 270,
+            width: double.infinity,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: _buildTripCardList(),
+            ),
+          ),
+          const SizedBox(
+            height: 60,
+          ),
         ]),
       ),
     );
+  }
+
+  List<Widget> _buildTripCardList() {
+    if (recommendedTrips.isEmpty) {
+      //Add loading for few seconds and if no data then text.
+      return [
+        const Padding(
+          padding: EdgeInsets.only(top: 20),
+          child: Text("There are no trips."),
+        )
+      ];
+    }
+    List<Widget> list = [];
+    list.add(const SizedBox(
+      height: 10,
+    ));
+
+    list += recommendedTrips
+        .map((trip) => SizedBox(
+              width: 450,
+              child: TripCard(
+                trip: trip,
+                bookmarked:
+                    bookmarkedTrips.where(((e) => e.id == trip.id)).isNotEmpty,
+              ),
+            ))
+        .cast<Widget>()
+        .toList();
+
+    list.add(const SizedBox(
+      height: 20,
+    ));
+    return list;
   }
 
   Widget getGoogleMap() {
@@ -577,7 +656,7 @@ class _TripState extends State<Trip> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
-                  "${DateFormat('dd. MMMM yyyy').format(trip.checkIn!)} - ${DateFormat('dd. MMMM yyyy').format(trip.checkOut!)}",
+                  "${DateFormat('dd. MMM yyyy').format(trip.checkIn!)} - ${DateFormat('dd. MMM yyyy').format(trip.checkOut!)}",
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontWeight: FontWeight.w400,

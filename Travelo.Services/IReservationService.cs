@@ -13,5 +13,6 @@ namespace Travelo.Services
     {
         public List<DailyReservationInfo> GetDailyReservations(GetReservationDaily search);
         public List<BestCustomers> GetBestCustomers(int AgencyId);
+        public List<BestAccomodations> GetBestAccomodations(int AgencyId);
     }
 }

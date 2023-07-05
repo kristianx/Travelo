@@ -7,13 +7,15 @@ class InputField extends StatefulWidget {
   final bool obscure;
   final TextEditingController controller;
   final int height;
+  final String? Function(String?)? validator;
   const InputField(
       {super.key,
       required this.hintText,
       this.iconPath,
       required this.controller,
       this.height = -1,
-      this.obscure = false});
+      this.obscure = false,
+      this.validator});
 
   @override
   // ignore: no_logic_in_create_state
@@ -50,10 +52,11 @@ class _InputFieldState extends State<InputField> {
               offset: const Offset(0, 4), // changes position of shadow
             ),
           ]),
-          child: TextField(
+          child: TextFormField(
               maxLines: 1,
               obscureText: obscure,
               textAlignVertical: TextAlignVertical.center,
+              validator: widget.validator,
               controller: controller,
               decoration: InputDecoration(
                 hoverColor: Colors.white54,

@@ -13,5 +13,6 @@ namespace Travelo.Services
     {
         public bool UpdateImage(AgencyUpdateImageRequest update);
         public int? Login(AgencyLogin agencylogin);
+        
     }
 }

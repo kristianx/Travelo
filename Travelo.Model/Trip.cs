@@ -10,8 +10,8 @@ namespace Travelo.Model
         public byte[] AccomodationImage { get; set; }
         public string AccomodationName { get; set; }
         public string AccomodationDescription { get; set; }
-        public int Rating { get; set; } = 5;
-        public int RatingCount { get; set; } = 115;
+        public double Rating { get; set; }
+        public int RatingCount { get; set; }
         public List<string> Facilities { get; set; }
         public List<string> AllDates { get; set; }
         public string Location { get; set; }

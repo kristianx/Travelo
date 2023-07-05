@@ -447,24 +447,24 @@ namespace Travelo.Services.Migrations
                         {
                             Id = 1,
                             Email = "test@gmail.com",
-                            PasswordHash = "GX/ZW3ulqYszCzr4xVUSPBHRkgg=",
-                            PasswordSalt = "IfdyQbiEDFO2ZgspcjwNLg==",
+                            PasswordHash = "Mb3xwhZo+rxBspxLceGrYNXQDl8=",
+                            PasswordSalt = "9rT9FTnj0y1PDoTwG1zkmg==",
                             Role = 0
                         },
                         new
                         {
                             Id = 2,
                             Email = "travelo@gmail.com",
-                            PasswordHash = "GX/ZW3ulqYszCzr4xVUSPBHRkgg=",
-                            PasswordSalt = "IfdyQbiEDFO2ZgspcjwNLg==",
+                            PasswordHash = "Mb3xwhZo+rxBspxLceGrYNXQDl8=",
+                            PasswordSalt = "9rT9FTnj0y1PDoTwG1zkmg==",
                             Role = 1
                         },
                         new
                         {
                             Id = 3,
                             Email = "nova@gmail.com",
-                            PasswordHash = "8y8tG6A1fNIOEHvSlaQsn2CTyGo=",
-                            PasswordSalt = "tPkc03NWSL8hAjRpLQuz7w==",
+                            PasswordHash = "Mb3xwhZo+rxBspxLceGrYNXQDl8=",
+                            PasswordSalt = "9rT9FTnj0y1PDoTwG1zkmg==",
                             Role = 1
                         });
                 });
@@ -536,9 +536,6 @@ namespace Travelo.Services.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
@@ -564,7 +561,6 @@ namespace Travelo.Services.Migrations
                             Name = "Travelo",
                             Phone = "+38761234567",
                             PostalCode = "88000",
-                            Rating = 0,
                             Status = true,
                             WebsiteUrl = "travelo.ba"
                         },
@@ -578,7 +574,6 @@ namespace Travelo.Services.Migrations
                             Name = "Nova Agencija",
                             Phone = "+38761234567",
                             PostalCode = "71000",
-                            Rating = 0,
                             Status = true,
                             WebsiteUrl = "nova.ba"
                         });
@@ -805,6 +800,35 @@ namespace Travelo.Services.Migrations
                     b.ToTable("PaymentMethod");
                 });
 
+            modelBuilder.Entity("Travelo.Services.Database.Rating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("RatingScore")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("TimeOfRating")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TripId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TripId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Rating");
+                });
+
             modelBuilder.Entity("Travelo.Services.Database.Reservation", b =>
                 {
                     b.Property<int>("Id")
@@ -1007,9 +1031,6 @@ namespace Travelo.Services.Migrations
                     b.Property<int>("AgencyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("TravelTypes")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AccomodationId");
@@ -1068,9 +1089,6 @@ namespace Travelo.Services.Migrations
                     b.Property<bool>("Expired")
                         .HasColumnType("bit");
 
-                    b.Property<int>("NightsStay")
-                        .HasColumnType("int");
-
                     b.Property<int>("PricePerPerson")
                         .HasColumnType("int");
 
@@ -1090,7 +1108,6 @@ namespace Travelo.Services.Migrations
                             CheckIn = new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Expired = false,
-                            NightsStay = 0,
                             PricePerPerson = 99,
                             TripId = 1
                         },
@@ -1100,7 +1117,6 @@ namespace Travelo.Services.Migrations
                             CheckIn = new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Expired = false,
-                            NightsStay = 0,
                             PricePerPerson = 99,
                             TripId = 1
                         },
@@ -1110,7 +1126,6 @@ namespace Travelo.Services.Migrations
                             CheckIn = new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Expired = false,
-                            NightsStay = 0,
                             PricePerPerson = 80,
                             TripId = 1
                         },
@@ -1120,7 +1135,6 @@ namespace Travelo.Services.Migrations
                             CheckIn = new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Expired = false,
-                            NightsStay = 0,
                             PricePerPerson = 150,
                             TripId = 2
                         },
@@ -1130,7 +1144,6 @@ namespace Travelo.Services.Migrations
                             CheckIn = new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Expired = false,
-                            NightsStay = 0,
                             PricePerPerson = 150,
                             TripId = 2
                         },
@@ -1140,7 +1153,6 @@ namespace Travelo.Services.Migrations
                             CheckIn = new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Expired = false,
-                            NightsStay = 0,
                             PricePerPerson = 200,
                             TripId = 3
                         },
@@ -1150,7 +1162,6 @@ namespace Travelo.Services.Migrations
                             CheckIn = new DateTime(2023, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Expired = false,
-                            NightsStay = 0,
                             PricePerPerson = 250,
                             TripId = 4
                         },
@@ -1160,7 +1171,6 @@ namespace Travelo.Services.Migrations
                             CheckIn = new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Expired = false,
-                            NightsStay = 0,
                             PricePerPerson = 300,
                             TripId = 4
                         },
@@ -1170,7 +1180,6 @@ namespace Travelo.Services.Migrations
                             CheckIn = new DateTime(2023, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Expired = false,
-                            NightsStay = 0,
                             PricePerPerson = 100,
                             TripId = 5
                         },
@@ -1180,7 +1189,6 @@ namespace Travelo.Services.Migrations
                             CheckIn = new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Expired = false,
-                            NightsStay = 0,
                             PricePerPerson = 100,
                             TripId = 5
                         });
@@ -1363,6 +1371,25 @@ namespace Travelo.Services.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Travelo.Services.Database.Rating", b =>
+                {
+                    b.HasOne("Travelo.Services.Database.Trip", "Trip")
+                        .WithMany("Ratings")
+                        .HasForeignKey("TripId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Travelo.Services.Database.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Trip");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Travelo.Services.Database.Reservation", b =>
                 {
                     b.HasOne("Travelo.Services.Database.Agency", null)
@@ -1468,6 +1495,8 @@ namespace Travelo.Services.Migrations
 
             modelBuilder.Entity("Travelo.Services.Database.Trip", b =>
                 {
+                    b.Navigation("Ratings");
+
                     b.Navigation("TripItems");
                 });
 

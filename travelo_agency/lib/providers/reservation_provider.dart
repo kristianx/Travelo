@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:travelo_agency/models/bestAccomodations.dart';
 import 'package:travelo_agency/models/dailyStats.dart';
 
 import '../models/bestCustomers.dart';
@@ -51,6 +52,27 @@ class ReservationProvider extends BaseProvider<Reservation> {
     } else {
       print("Error here");
       return List<BestCustomers>.empty();
+    }
+  }
+
+  Future<List<BestAccomodations>> getBestAccomodations(int agencyId) async {
+    Map<String, String> headers = await createHeaders();
+
+    var response = await http?.get(
+        Uri.parse(
+            "https://127.0.0.1:7100/Reservation/GetBestAccomodations/$agencyId"),
+        headers: headers);
+
+    if (response!.body.isNotEmpty) {
+      var data = jsonDecode(response.body);
+
+      return data
+          .map((x) => BestAccomodations.fromJson(x))
+          .cast<BestAccomodations>()
+          .toList();
+    } else {
+      print("Error here");
+      return List<BestAccomodations>.empty();
     }
   }
 }

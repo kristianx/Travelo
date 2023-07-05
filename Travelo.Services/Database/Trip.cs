@@ -14,6 +14,7 @@ namespace Travelo.Services.Database
  
             this.Users = new HashSet<User>();
             this.TripItems = new HashSet<TripItem>();
+            this.Ratings = new HashSet<Rating>();
         }
         [Key]
         public int Id { get; set; }
@@ -21,16 +22,20 @@ namespace Travelo.Services.Database
         public int AgencyId { get; set; }
         public Agency Agency { get; set; }  
 
-        public virtual ICollection<TripItem> TripItems {get;set; }
+        
 
         public int AccomodationId { get; set; }
         public Accomodation Accomodation { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual ICollection<TripItem> TripItems { get; set; }
 
 
-        //Add a static
-        public string? TravelTypes { get; set; }
+        public double Rating => Ratings.Count > 0 ? (double)Ratings.Sum(x => x.RatingScore) / (double)Ratings.Count : 0.0;
+        public int RatingCount => Ratings.Count;
+
+
 
     }
 }

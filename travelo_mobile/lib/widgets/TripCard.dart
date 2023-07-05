@@ -3,8 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/main.dart';
-import 'package:travelo_mobile/pages/agency.dart';
-import 'package:travelo_mobile/pages/navpages/trips_page.dart';
 import 'package:travelo_mobile/pages/trip.dart';
 import 'package:travelo_mobile/widgets/ReviewStars.dart';
 import 'package:travelo_mobile/model/trip.dart' as trip_model;
