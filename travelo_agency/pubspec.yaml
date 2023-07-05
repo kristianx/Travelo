@@ -48,6 +48,7 @@ dependencies:
   intl: ^0.18.0
   month_year_picker: ^0.3.0+1
   flutter_localization: ^0.1.12
+  material_tag_editor: ^0.1.2
 
 dev_dependencies:
   flutter_test:

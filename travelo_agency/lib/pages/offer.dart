@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_tag_editor/tag_editor.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:travelo_agency/models/tripItem.dart';
 import 'package:travelo_agency/widgets/DatePicker.dart';
+import 'package:travelo_agency/widgets/FacilitiesEditorWidget.dart';
 import '../models/accomodation.dart';
 import '../models/city.dart';
 import '../models/trip.dart';
@@ -572,6 +574,43 @@ class _OfferPageState extends State<OfferPage> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: SizedBox(
+              width: 1000,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey.withOpacity(0.2),
+                      width: 1,
+                    ),
+                  ),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Facilities",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff747474),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+              width: 900,
+              child: FacilitiesEditorWidget(
+                accomodationId: accomodation.id as int,
+              )),
           const SizedBox(
             height: 100,
           ),

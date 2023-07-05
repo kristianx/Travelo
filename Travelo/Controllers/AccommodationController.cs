@@ -30,6 +30,22 @@ namespace Travelo.Controllers
 
 
         }
+
+        [HttpPost("~/Accomodation/UpdateFacilities")]
+        public ActionResult UpdateFacilities([FromBody] FacilitiesUpdateRequest update)
+        {
+            if (_service.UpdateFacilities(update))
+            {
+                return Ok();
+            }
+            return BadRequest();
+
+
+        }
+
+        
+
+
     }
 }
 
