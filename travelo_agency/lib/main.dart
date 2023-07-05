@@ -19,9 +19,25 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  static const _blackPrimaryValue = 0xffEAAD5F;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    MaterialColor mycolor = const MaterialColor(
+      _blackPrimaryValue,
+      <int, Color>{
+        50: Color(0xFFe0e0e0),
+        100: Color(0xFFb3b3b3),
+        200: Color(0xFF808080),
+        300: Color(0xFF4d4d4d),
+        400: Color(0xFF262626),
+        500: Color(_blackPrimaryValue),
+        600: Color(0xFF000000),
+        700: Color(0xFF000000),
+        800: Color(0xFF000000),
+        900: Color(0xFF000000),
+      },
+    );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AgencyProvider()),
@@ -39,7 +55,7 @@ class MyApp extends StatelessWidget {
         ],
         routerConfig: MyRouter.router,
         theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: mycolor,
             scaffoldBackgroundColor: const Color(0xFFffffff)),
       ),
     );

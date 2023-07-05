@@ -27,6 +27,9 @@ class _HomePageState extends State<HomePage> {
     "assets/icons/summer.svg",
     "assets/icons/surfing.svg",
     "assets/icons/backpack.svg",
+    "assets/icons/beach.svg",
+    "assets/icons/cabins.svg",
+    "assets/icons/camping.svg",
   ];
 
   List<Destination> destinations = [];

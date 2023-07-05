@@ -77,6 +77,11 @@ namespace Travelo.Services
             {
                 filteredQuery = filteredQuery.Where(x => x.Accomodation.City.Country.Name == search.Country);
             }
+
+            if (!string.IsNullOrWhiteSpace(search.AccomodationName))
+            {
+                filteredQuery = filteredQuery.Where(x => x.Accomodation.Name.Contains(search.AccomodationName));
+            }
             //if (!string.IsNullOrWhiteSpace(search.TagName))
             //{
             //    filteredQuery = filteredQuery.Where(x => x.Tags.Any(t => t.Name == search.TagName));

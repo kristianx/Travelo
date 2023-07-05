@@ -17,6 +17,14 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
 
   static List<MyCustomBottomNavBarItem> tabs = [
     MyCustomBottomNavBarItem(
+      initialLocation: "/home",
+      label: "Home",
+      icon: SvgPicture.asset("assets/icons/Home.svg",
+          color: const Color(0xffBBBBBB)),
+      activeIcon: SvgPicture.asset("assets/icons/Home.svg",
+          color: const Color(0xffEAAD5F)),
+    ),
+    MyCustomBottomNavBarItem(
       initialLocation: '/bookmarks',
       label: 'Bookmarks',
       icon: SvgPicture.asset("assets/icons/Bookmarks.svg",
@@ -30,22 +38,6 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
       icon: SvgPicture.asset("assets/icons/Trips.svg",
           color: const Color(0xffBBBBBB)),
       activeIcon: SvgPicture.asset("assets/icons/Trips.svg",
-          color: const Color(0xffEAAD5F)),
-    ),
-    MyCustomBottomNavBarItem(
-      initialLocation: "/home",
-      label: "Home",
-      icon: SvgPicture.asset("assets/icons/Home.svg",
-          color: const Color(0xffBBBBBB)),
-      activeIcon: SvgPicture.asset("assets/icons/Home.svg",
-          color: const Color(0xffEAAD5F)),
-    ),
-    MyCustomBottomNavBarItem(
-      initialLocation: "/notifications",
-      label: "Notifications",
-      icon: SvgPicture.asset("assets/icons/Notifications.svg",
-          color: const Color(0xffBBBBBB)),
-      activeIcon: SvgPicture.asset("assets/icons/Notifications.svg",
           color: const Color(0xffEAAD5F)),
     ),
     MyCustomBottomNavBarItem(
@@ -107,14 +99,12 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
           _goOtherTab(context, index);
         },
         currentIndex: widget.location == '/bookmarks'
-            ? 0
+            ? 1
             : widget.location == '/trips'
-                ? 1
-                : widget.location == '/notifications'
+                ? 2
+                : widget.location == '/profile'
                     ? 3
-                    : widget.location == '/profile'
-                        ? 4
-                        : 2,
+                    : 0,
         items: tabs,
       ),
     );
@@ -128,10 +118,9 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
     setState(() {
       _currentIndex = index;
     });
-    if (index == 2) {
-      // context.push('/');
+    if (index == 0) {
       router.go("/home");
-    } else if (index == 4) {
+    } else if (index == 3) {
       router.go("/profile");
     } else {
       router.go(location);

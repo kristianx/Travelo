@@ -20,6 +20,15 @@ bool doesAssetExist(String assetPath) {
   }
 }
 
+bool isLocalAsset(String assetPath) {
+  try {
+    rootBundle.loadString(assetPath);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
 Future<File?> pickImage() async {
   final myfile = await ImagePicker().pickImage(source: ImageSource.gallery);
   if (myfile != null) {

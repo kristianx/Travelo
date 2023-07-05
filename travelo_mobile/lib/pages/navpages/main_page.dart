@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:travelo_mobile/pages/navpages/bookmarks_page.dart';
 import 'package:travelo_mobile/pages/navpages/home_page.dart';
-import 'package:travelo_mobile/pages/navpages/notification_page.dart';
 import 'package:travelo_mobile/pages/navpages/profile_page.dart';
 import 'package:travelo_mobile/pages/navpages/trips_page.dart';
 
@@ -18,7 +17,6 @@ class _MainPageState extends State<MainPage> {
     const BookmarksPage(),
     const TripsPage(),
     const HomePage(),
-    const NotificationsPage(),
     const ProfilePage(),
   ];
   int currentIndex = 2;
@@ -64,12 +62,6 @@ class _MainPageState extends State<MainPage> {
                         ? const Color(0xffEAAD5F)
                         : const Color(0xffBBBBBB))),
             BottomNavigationBarItem(
-                label: "Notifications",
-                icon: SvgPicture.asset("assets/icons/Notifications.svg",
-                    color: currentIndex == 3
-                        ? const Color(0xffEAAD5F)
-                        : const Color(0xffBBBBBB))),
-            BottomNavigationBarItem(
               label: "Profile",
               icon: Container(
                 height: 28,
@@ -80,7 +72,7 @@ class _MainPageState extends State<MainPage> {
                       image: AssetImage("assets/images/user-image.png"),
                       fit: BoxFit.cover),
                   border: Border.all(
-                      width: currentIndex == 4 ? 3 : 1,
+                      width: currentIndex == 3 ? 3 : 1,
                       color: const Color(0xffFFD69D),
                       strokeAlign: BorderSide.strokeAlignCenter),
                 ),

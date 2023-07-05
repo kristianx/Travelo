@@ -6,14 +6,13 @@ class InputField extends StatefulWidget {
   final String? iconPath;
   final bool obscure;
   final TextEditingController controller;
-  final int height;
   final String? Function(String?)? validator;
+
   const InputField(
       {super.key,
       required this.hintText,
       this.iconPath,
       required this.controller,
-      this.height = -1,
       this.obscure = false,
       this.validator});
 
@@ -54,12 +53,11 @@ class _InputFieldState extends State<InputField> {
           ]),
           child: TextFormField(
               maxLines: 1,
+              validator: widget.validator,
               obscureText: obscure,
               textAlignVertical: TextAlignVertical.center,
-              validator: widget.validator,
               controller: controller,
               decoration: InputDecoration(
-                hoverColor: Colors.white54,
                 filled: true,
                 hintText: hintText,
                 fillColor: Colors.white,
@@ -67,13 +65,15 @@ class _InputFieldState extends State<InputField> {
                   borderRadius: BorderRadius.all(Radius.circular(20.0)),
                   borderSide: BorderSide.none,
                 ),
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
-                  child: SvgPicture.asset(
-                    iconPath ?? "",
-                    width: 20,
-                  ),
-                ),
+                prefixIcon: iconPath != null && iconPath != ""
+                    ? Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
+                        child: SvgPicture.asset(
+                          iconPath ?? "",
+                          width: 20,
+                        ),
+                      )
+                    : null,
               )),
         ),
       ),

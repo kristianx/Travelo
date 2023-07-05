@@ -673,6 +673,7 @@ class _TripState extends State<Trip> {
     if (widget.trip.facilities!.isEmpty) {
       return Center(child: Text("There are no facilities registered."));
     }
+
     return ListView(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.only(left: 20, right: 20),

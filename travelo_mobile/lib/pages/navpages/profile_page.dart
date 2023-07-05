@@ -3,11 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/main.dart';
-import 'package:travelo_mobile/pages/payment_settings.dart';
-import 'package:travelo_mobile/pages/profile/change_password.dart';
-import 'package:travelo_mobile/pages/profile/edit_profile.dart';
-import 'package:travelo_mobile/pages/profile/settings.dart';
-import 'package:travelo_mobile/pages/profile/trip_invoices.dart';
 import 'package:travelo_mobile/providers/user_provider.dart';
 import 'package:travelo_mobile/widgets/PageHeader.dart';
 
@@ -147,88 +142,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               GestureDetector(
                 onTap: () {
-                  // Navigator.of(context).push(
-                  //     MaterialPageRoute(builder: (_) => const TripInvoices()));
-                  context.go("/invoices");
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 55,
-                        width: 55,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color(0xffFFE5F5),
-                        ),
-                        child: Center(
-                            child:
-                                SvgPicture.asset("assets/icons/invoice.svg")),
-                      ),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      const Expanded(
-                          child: Text(
-                        'Trip invoices',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Color(0xff585858),
-                        ),
-                        softWrap: true,
-                      )),
-                      SvgPicture.asset("assets/icons/arrow.svg")
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: () {
-                  context.go("/payment");
-                  // Navigator.of(context).push(MaterialPageRoute(
-                  //     builder: (_) => const PaymentSettings()));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 55,
-                        width: 55,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color(0xffFFE9CC),
-                        ),
-                        child: Center(
-                            child:
-                                SvgPicture.asset("assets/icons/payments.svg")),
-                      ),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      const Expanded(
-                          child: Text(
-                        'Payment settings',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Color(0xff585858),
-                        ),
-                        softWrap: true,
-                      )),
-                      SvgPicture.asset("assets/icons/arrow.svg")
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: () {
                   context.goNamed("ChangePassword", extra: _user);
                   // Navigator.of(context).push(MaterialPageRoute(
                   //     builder: (_) => ChangePassword(user: _user)));
@@ -273,9 +186,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               GestureDetector(
                 onTap: () {
-                  context.go('/settings');
-                  // Navigator.of(context).push(
-                  //     MaterialPageRoute(builder: (_) => const Settings()));
+                  _userProvider.logOut();
+                  context.go('/welcome');
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -289,15 +201,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           color: const Color(0xffECF0F6),
                         ),
                         child: Center(
-                            child:
-                                SvgPicture.asset("assets/icons/settings.svg")),
+                            child: SvgPicture.asset("assets/icons/logout.svg")),
                       ),
                       const SizedBox(
                         width: 15,
                       ),
                       const Expanded(
                           child: Text(
-                        'Settings',
+                        'Logout',
                         style: TextStyle(
                           fontSize: 18,
                           color: Color(0xff585858),

@@ -4,17 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:travelo_mobile/pages/agency.dart';
 import 'package:travelo_mobile/pages/login.dart';
 import 'package:travelo_mobile/pages/navpages/bookmarks_page.dart';
-import 'package:travelo_mobile/pages/navpages/notification_page.dart';
 import 'package:travelo_mobile/pages/navpages/profile_page.dart';
 import 'package:travelo_mobile/pages/navpages/trips_page.dart';
-import 'package:travelo_mobile/pages/new_payment_method.dart';
-import 'package:travelo_mobile/pages/payment_settings.dart';
 import 'package:travelo_mobile/pages/profile/change_password.dart';
 import 'package:travelo_mobile/pages/profile/edit_profile.dart';
-import 'package:travelo_mobile/pages/profile/settings.dart';
+
 import 'package:travelo_mobile/pages/profile/trip_invoices.dart';
 import 'package:travelo_mobile/pages/register.dart';
-import 'package:travelo_mobile/pages/register_step2.dart';
 import 'package:travelo_mobile/pages/trip.dart';
 import 'package:travelo_mobile/pages/welcome.dart';
 import '../model/user.dart';
@@ -67,15 +63,6 @@ class MyRouter {
           ),
           GoRoute(
             parentNavigatorKey: _shellNavigatorKey,
-            path: '/notifications',
-            pageBuilder: (context, state) {
-              return const MaterialPage(
-                child: NotificationsPage(),
-              );
-            },
-          ),
-          GoRoute(
-            parentNavigatorKey: _shellNavigatorKey,
             path: '/profile',
             pageBuilder: (context, state) {
               return const MaterialPage(
@@ -103,38 +90,11 @@ class MyRouter {
           ),
           GoRoute(
             parentNavigatorKey: _shellNavigatorKey,
-            path: '/payment',
-            pageBuilder: (context, state) {
-              return const MaterialPage(
-                child: PaymentSettings(),
-              );
-            },
-          ),
-          GoRoute(
-            parentNavigatorKey: _shellNavigatorKey,
             path: '/Change-password',
             name: 'ChangePassword',
             builder: (context, state) {
               User user = state.extra as User;
               return ChangePassword(user: user);
-            },
-          ),
-          GoRoute(
-            parentNavigatorKey: _shellNavigatorKey,
-            path: '/new-payment-method',
-            pageBuilder: (context, state) {
-              return const MaterialPage(
-                child: NewPaymentMethod(),
-              );
-            },
-          ),
-          GoRoute(
-            parentNavigatorKey: _shellNavigatorKey,
-            path: '/settings',
-            pageBuilder: (context, state) {
-              return const MaterialPage(
-                child: Settings(),
-              );
             },
           ),
           GoRoute(

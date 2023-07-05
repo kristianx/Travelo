@@ -7,6 +7,7 @@ import 'package:travelo_agency/providers/trip_provider.dart';
 import '../main.dart';
 import '../models/trip.dart';
 import '../utils/util.dart';
+import '../widgets/InputField.dart';
 
 class OffersPage extends StatefulWidget {
   const OffersPage({super.key});
@@ -18,10 +19,15 @@ class OffersPage extends StatefulWidget {
 class _OffersPageState extends State<OffersPage> {
   late TripProvider _tripProvider;
   List<Trip> trips = [];
+  final TextEditingController _searchController = TextEditingController();
 
   Future loadData() async {
-    var tmpData = await _tripProvider
-        .get({'AgencyId': localStorage.getItem('agencyId'), 'hasItems': false});
+    var tmpData = await _tripProvider.get({
+      'AgencyId': localStorage.getItem('agencyId'),
+      'hasItems': false,
+      "AccomodationName":
+          (_searchController.text == "" ? null : _searchController.text)
+    });
     setState(() {
       trips = tmpData;
       print(trips.length);
@@ -105,6 +111,54 @@ class _OffersPageState extends State<OffersPage> {
                   ],
                 ),
               ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                SizedBox(
+                  width: 300,
+                  child: TextFormField(
+                      maxLines: 1,
+                      textAlignVertical: TextAlignVertical.center,
+                      controller: _searchController,
+                      decoration: const InputDecoration(
+                        filled: true,
+                        hintText: 'Search offers...',
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          borderSide: BorderSide(
+                              color: Color(0xffbbbbbb),
+                              width: 1,
+                              style: BorderStyle.solid),
+                        ),
+                      )),
+                ),
+                const SizedBox(width: 10),
+                GestureDetector(
+                    onTap: () => loadData(),
+                    child: const Text(
+                      "Seach",
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Color(0xffEAAD5F),
+                          fontWeight: FontWeight.w500),
+                    )),
+                const SizedBox(width: 10),
+                if (_searchController.text != "")
+                  GestureDetector(
+                      onTap: () {
+                        _searchController.text = "";
+                        loadData();
+                      },
+                      child: const Text(
+                        "Clear",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xffbbbbbb)),
+                      ))
+              ],
             ),
             const SizedBox(height: 20),
             GridView.builder(
