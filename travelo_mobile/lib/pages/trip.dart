@@ -54,8 +54,17 @@ class _TripState extends State<Trip> {
 
   Future loadData() async {
     var tmpData = await _tripItemProvider.get({'TripId': widget.trip.id});
-    var recTr = await _tripProvider.getRecommendation(
-        localStorage.getItem("userId"), widget.trip.id ?? -1);
+    try {
+      var recTr = await _tripProvider.getRecommendation(
+          localStorage.getItem("userId"), widget.trip.id ?? -1);
+
+      setState(() {
+        recommendedTrips = recTr;
+      });
+    } catch (e) {
+      print(e);
+    }
+
     var bookmarks =
         await _tripProvider.getBookmarks(localStorage.getItem("userId"));
     try {
@@ -71,7 +80,6 @@ class _TripState extends State<Trip> {
 
     setState(() {
       tripItems = tmpData;
-      recommendedTrips = recTr;
       bookmarkedTrips = bookmarks;
     });
     final GoogleMapController controller = await _controller.future;

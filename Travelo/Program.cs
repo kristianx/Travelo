@@ -58,7 +58,8 @@ builder.Services.AddAuthentication("BasicAuthentication").AddScheme<Authenticati
 
 var connectionString = builder.Configuration.GetConnectionString("Mac");
 builder.Services.AddDbContext<TraveloContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString,o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)).EnableSensitiveDataLogging()
+        .LogTo(Console.WriteLine, LogLevel.Information));
 
 
 

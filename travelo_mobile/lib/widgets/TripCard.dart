@@ -45,25 +45,11 @@ class _TripCardState extends State<TripCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        // context.goNamed(
-        //   'Trip',
-        //   queryParameters: {"bookmarked": widget.bookmarked ? 'true' : 'false'},
-        //   extra: widget.trip,
-        // )
         Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => Trip(
                   bookmarked: widget.bookmarked ? true : false,
                   trip: widget.trip,
                 )))
-
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //       builder: (context) => Trip(
-        //             bookmarked: widget.bookmarked ? true : false,
-        //             trip: widget.trip,
-        //           )),
-        // )
       },
       child: Padding(
         // padding: const EdgeInsets.only(left: 15),

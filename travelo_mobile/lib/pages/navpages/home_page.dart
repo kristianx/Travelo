@@ -213,14 +213,6 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(bottom: 20),
               child: GestureDetector(
                 onTap: () => {
-                  // context.goNamed('Destination', queryParameters: {
-                  //   'city': x.name ?? "City name",
-                  //   'cityImage': x.image ?? "",
-                  //   'countryName': x.countryName ?? "Country Name",
-                  //   'numberOfTrips': x.numberOfTrips.toString() == ""
-                  //       ? "0"
-                  //       : x.numberOfTrips.toString(),
-                  // })
                   Navigator.push(
                     context,
                     MaterialPageRoute(

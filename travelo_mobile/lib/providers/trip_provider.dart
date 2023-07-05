@@ -67,7 +67,7 @@ class TripProvider extends BaseProvider<Trip> {
         headers: headers);
 
     if (response!.body.isNotEmpty) {
-      var data = jsonDecode(response.body);
+      var data = jsonDecode(response.body).cast<Map<String, dynamic>>();
       return data.map((x) => fromJson(x)).cast<Trip>().toList();
     } else {
       return [];

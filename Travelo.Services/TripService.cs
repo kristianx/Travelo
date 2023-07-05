@@ -285,7 +285,6 @@ namespace Travelo.Services
                .Include(x => x.Agency)
                .Include(x => x.Accomodation.Facilities)
                .Include(x => x.Accomodation.City.Country)
-               .Include(x => x.Ratings)
                .Where(t => t.Id != tripId)
                .ToList();
 
@@ -308,8 +307,9 @@ namespace Travelo.Services
             var finalResult = predictionResult.OrderByDescending(x => x.Item2).Select(x => x.Item1).Take(3).ToList();
 
             return Mapper.Map<List<Model.Trip>>(finalResult);
-           
-        } 
+
+
+        }
 
     }
 
