@@ -51,6 +51,8 @@ builder.Services.AddTransient<IReservationService, ReservationService>();
 builder.Services.AddTransient<ITagService, TagService>();
 builder.Services.AddTransient<IPaymentMethodService, PaymentMethodService>();
 
+builder.Services.AddScoped<IMessageProducer, MessageProducer>();
+
 builder.Services.AddAutoMapper(typeof(IAgencyService));
 
 
@@ -71,6 +73,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(x => x
+   .AllowAnyMethod()
+   .AllowAnyHeader()
+   .SetIsOriginAllowed(origin => true) // allow any origin  
+   .AllowCredentials());
 
 app.UseHttpsRedirection();
 

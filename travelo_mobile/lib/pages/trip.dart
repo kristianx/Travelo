@@ -33,6 +33,8 @@ class _TripState extends State<Trip> {
   late ReservationProvider _reservationProvider;
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
+  final paymentController = PaymentController();
+
   List<TripItem> tripItems = [];
   List<trip_model.Trip> recommendedTrips = [];
   List<trip_model.Trip> bookmarkedTrips = [];
@@ -87,6 +89,64 @@ class _TripState extends State<Trip> {
         CameraPosition(target: LatLng(lat, long), zoom: 12.5)));
   }
 
+  Widget? getBottomNavigationBar() {
+    if (_price != 0) {
+      return GestureDetector(
+          onTap: () async {
+            var payment = await paymentController.makePayment(
+                amount:
+                    (_price * (numberOfAdults + numberOfChildren)).toString(),
+                currency: 'USD');
+            print("Payment Processing Done");
+            var response = "";
+            if (payment) {
+              response = await _reservationProvider.processReservation(
+                  numberOfAdults,
+                  numberOfChildren,
+                  localStorage.getItem("userId"),
+                  _price,
+                  _value,
+                  widget.trip.id ?? -1,
+                  DateTime.now());
+            }
+            if (response == "") {
+              context.go('/trips');
+              ScaffoldMessenger.of(context).showSnackBar(
+                  CustomSnackBar.showSuccessSnackBar(
+                      "You have successfuly booked a trip to Holistika Resort with Travelo Agency."));
+            } else {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(CustomSnackBar.showErrorSnackBar(response));
+            }
+          },
+          child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+              child: Container(
+                height: 70,
+                decoration: BoxDecoration(
+                    color: const Color(0xffEAAD5F),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 0,
+                          blurRadius: 5,
+                          offset: const Offset(0, 4))
+                    ]),
+                child: Center(
+                    child: Text(
+                  "Book now for \$${_price * (numberOfAdults + numberOfChildren)}",
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20),
+                )),
+              )));
+    } else {
+      return null;
+    }
+  }
+
   void selectedTrip() {
     setState(() {
       _price = tripItems.firstWhere((e) => e.id == _value).totalPrice ?? 0;
@@ -104,8 +164,6 @@ class _TripState extends State<Trip> {
 
   @override
   Widget build(BuildContext context) {
-    final paymentController = PaymentController();
-
     void openGallery() {
       List<String> imagez = [];
       imagez.add(widget.trip.accomodationImage ?? "");
@@ -116,6 +174,7 @@ class _TripState extends State<Trip> {
     }
 
     return Scaffold(
+      bottomNavigationBar: getBottomNavigationBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(children: [
@@ -496,63 +555,6 @@ class _TripState extends State<Trip> {
               child: getGoogleMap(),
             )
           ]),
-          if (_price != 0)
-            GestureDetector(
-              onTap: () async {
-                var payment = await paymentController.makePayment(
-                    amount: (_price * (numberOfAdults + numberOfChildren))
-                        .toString(),
-                    currency: 'USD');
-                print("Payment Processing Done");
-                var response = "";
-                if (payment) {
-                  response = await _reservationProvider.processReservation(
-                      numberOfAdults,
-                      numberOfChildren,
-                      localStorage.getItem("userId"),
-                      _price,
-                      _value,
-                      widget.trip.id ?? -1,
-                      DateTime.now());
-                }
-                if (response == "") {
-                  context.go('/trips');
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      CustomSnackBar.showSuccessSnackBar(
-                          "You have successfuly booked a trip to Holistika Resort with Travelo Agency."));
-                } else {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(CustomSnackBar.showErrorSnackBar(response));
-                }
-              },
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-                  child: Container(
-                    height: 70,
-                    decoration: BoxDecoration(
-                        color: const Color(0xffEAAD5F),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 0,
-                              blurRadius: 5,
-                              offset: const Offset(0, 4))
-                        ]),
-                    child: Center(
-                        child: Text(
-                      "Book now for \$${_price * (numberOfAdults + numberOfChildren)}",
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20),
-                    )),
-                  ),
-                ),
-              ),
-            ),
           const SizedBox(
             height: 40,
           ),

@@ -20,8 +20,7 @@ class UserProvider extends BaseProvider<User> {
       return false;
     }
     Map<String, String> headers = await createHeaders();
-    var response = await http?.post(
-        Uri.parse("http://127.0.0.1:7100/User/Login"),
+    var response = await http?.post(Uri.parse("${baseUrl}User/Login"),
         body:
             jsonEncode(<String, String>{"email": email, "password": password}),
         headers: headers);
@@ -40,8 +39,7 @@ class UserProvider extends BaseProvider<User> {
   Future<User> uploadImage(int userId, File file) async {
     Map<String, String> headers = await createHeaders();
 
-    var response = await http?.post(
-        Uri.parse("http://127.0.0.1:7100/uploadImage"),
+    var response = await http?.post(Uri.parse("${baseUrl}User/uploadImage"),
         body: jsonEncode(<String, dynamic>{
           "userId": userId,
           "image": base64Encode(file.readAsBytesSync())
@@ -57,18 +55,17 @@ class UserProvider extends BaseProvider<User> {
 
   Future<bool> registerUser(String firstName, String lastName, String email,
       String password, String username, int CityId) async {
-    var response =
-        await http?.post(Uri.parse("http://127.0.0.1:7100/User/Register"),
-            body: jsonEncode(<String, dynamic>{
-              "firstName": firstName,
-              "lastName": lastName,
-              "email": email,
-              "password": password,
-              "confirmPassword": password,
-              "username": username,
-              "CityId": CityId,
-            }),
-            headers: <String, String>{
+    var response = await http?.post(Uri.parse("${baseUrl}User/Register"),
+        body: jsonEncode(<String, dynamic>{
+          "firstName": firstName,
+          "lastName": lastName,
+          "email": email,
+          "password": password,
+          "confirmPassword": password,
+          "username": username,
+          "CityId": CityId,
+        }),
+        headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });
 

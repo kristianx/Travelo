@@ -1,4 +1,3 @@
-import 'package:dart_amqp/dart_amqp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +8,6 @@ import 'package:travelo_mobile/widgets/BlogCard.dart';
 import '../../model/destination.dart';
 import '../../model/tag.dart';
 import '../../providers/tag_provider.dart';
-import '../../widgets/CustomSnackBar.dart';
 import '../destination.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,7 +33,6 @@ class _HomePageState extends State<HomePage> {
   List<Destination> destinations = [];
   List<Tag> tags = [];
   int current = 0;
-  Client client = Client();
 
   @override
   void initState() {
@@ -51,18 +48,6 @@ class _HomePageState extends State<HomePage> {
       tags = tmpTags;
     });
     loadTrips();
-    checkNotifications();
-  }
-
-  Future<void> checkNotifications() async {
-    Channel channel = await client
-        .channel(); // auto-connect to localhost:5672 using guest credentials
-    Queue queue = await channel.queue("trip_added");
-    var consumer = await queue.consume();
-    consumer.listen((AmqpMessage message) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          CustomSnackBar.showSuccessSnackBar(message.payloadAsString));
-    });
   }
 
   Future loadTrips() async {

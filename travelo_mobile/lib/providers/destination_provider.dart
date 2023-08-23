@@ -2,7 +2,7 @@ import '../model/destination.dart';
 import 'base_provider.dart';
 
 class DestinationProvider extends BaseProvider<Destination> {
-  DestinationProvider() : super("GetDestinations");
+  DestinationProvider() : super("City/Destinations");
 
   @override
   Destination fromJson(data) {

@@ -11,7 +11,7 @@ class AccomodationProvider extends BaseProvider<Accomodation> {
     Map<String, String> headers = await createHeaders();
 
     var response = await http?.post(
-        Uri.parse("http://127.0.0.1:7100/Accomodation/UpdateImage"),
+        Uri.parse("${baseUrl}Accomodation/UpdateImage"),
         body: jsonEncode(<String, dynamic>{
           "accomodationId": accId,
           "image": base64Encode(file.readAsBytesSync())
@@ -29,7 +29,7 @@ class AccomodationProvider extends BaseProvider<Accomodation> {
     Map<String, String> headers = await createHeaders();
 
     var response = await http?.post(
-        Uri.parse("http://127.0.0.1:7100/Accomodation/UpdateFacilities"),
+        Uri.parse("${baseUrl}Accomodation/UpdateFacilities"),
         body: jsonEncode(<String, dynamic>{
           "accomodationId": accId,
           "facilities": facilities

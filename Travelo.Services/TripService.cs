@@ -5,6 +5,7 @@ using Microsoft.ML.Data;
 using Microsoft.ML.Trainers;
 using RabbitMQ.Client;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -20,8 +21,10 @@ namespace Travelo.Services
 {
     public class TripService : BaseCRUDService<Model.Trip, Database.Trip, TripSearchObject, TripCreateRequest, TripUpdateRequest>, ITripService
     {
-        public TripService(TraveloContext context, IMapper mapper) : base(context, mapper)
+        private readonly IMessageProducer _messageProducer;
+        public TripService(TraveloContext context, IMapper mapper, IMessageProducer messageProducer) : base(context, mapper)
         {
+            _messageProducer = messageProducer;
         }
 
         public override Model.Trip Create(TripCreateRequest create)
@@ -29,30 +32,11 @@ namespace Travelo.Services
 
             var trip = base.Create(create);
 
+            
+
             if(trip != null) {
 
-                try {
-                    var factory = new ConnectionFactory { HostName = "localhost" };
-                    using var connection = factory.CreateConnection();
-                    using var channel = connection.CreateModel();
-
-
-                    string message = "New trip:";
-
-
-                    var body = Encoding.UTF8.GetBytes(message);
-
-                    channel.BasicPublish(exchange: string.Empty,
-                                         routingKey: "trip_added",
-                                         basicProperties: null,
-                                         body: body);
-                }
-                catch (Exception ex) {
-                    Console.WriteLine($"An error occurred while sending message to RabbitMQ: {ex.Message}");
-                   
-                }
-
-               
+                _messageProducer.SendingMessage("New tris is added");
 
             }
          
@@ -164,7 +148,8 @@ namespace Travelo.Services
                .Include(x => x.Agency)
                .Include(x => x.Accomodation.Facilities)
                .Include(x => x.Accomodation.City.Country)
-                   .Include(x => x.Ratings)
+                .Include(x => x.Ratings)
+                .Where(x => x.TripItems.Count > 0)
                .FirstOrDefault(t => t.Id == id);
 
 
@@ -254,6 +239,21 @@ namespace Travelo.Services
                         Label = (float)r.RatingScore,
                     }).ToList();
 
+                    if(data == null || data.Count == 0)
+                    {
+                        //there is no data for training
+                    
+                        mlContext = null;
+
+                        return Mapper.Map<List<Model.Trip>>(Context.Trip
+                            .Include(x => x.TripItems)
+                             .Include(x => x.Agency)
+                             .Include(x => x.Accomodation.City.Country)
+                             .Include(x => x.Accomodation.Facilities)
+                             .Include(x => x.Ratings)
+                             .Take(3).ToList());
+                    }
+
 
                     var traindata = mlContext.Data.LoadFromEnumerable(data);
 
@@ -290,7 +290,7 @@ namespace Travelo.Services
 
             var predictionResult = new List<Tuple<Database.Trip, float>>();
 
-            foreach(Database.Trip t in trips)
+            foreach (Database.Trip t in trips)
             {
                 var predictionengine = mlContext.Model.CreatePredictionEngine<TripEntry, TripRatingPrediction>(model);
                 var prediction = predictionengine.Predict(

@@ -1,19 +1,43 @@
+import 'package:dart_amqp/dart_amqp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travelo_mobile/widgets/CustomSnackBar.dart';
 
 class ScaffoldWithNavBar extends StatefulWidget {
-  String location;
   ScaffoldWithNavBar({super.key, required this.child, required this.location});
 
   final Widget child;
-
+  final String location;
   @override
   State<ScaffoldWithNavBar> createState() => _ScaffoldWithNavBarState();
 }
 
 class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
-  int _currentIndex = 2;
+  Client client = Client(
+      settings: ConnectionSettings(
+          host:
+              const String.fromEnvironment("mqHost", defaultValue: "localhost"),
+          authProvider: const PlainAuthenticator(
+              String.fromEnvironment("mqUsername", defaultValue: "user"),
+              String.fromEnvironment("mqPass", defaultValue: "mypass"))));
+
+  @override
+  void initState() {
+    super.initState();
+    checkNotifications();
+  }
+
+  Future<void> checkNotifications() async {
+    Channel channel = await client
+        .channel(); // auto-connect to localhost:5672 using guest credentials
+    Queue queue = await channel.queue("trip_added");
+    var consumer = await queue.consume();
+    consumer.listen((AmqpMessage message) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackBar.showSuccessSnackBar(message.payloadAsString));
+    });
+  }
 
   static List<MyCustomBottomNavBarItem> tabs = [
     MyCustomBottomNavBarItem(
@@ -115,9 +139,7 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
     GoRouter router = GoRouter.of(context);
     String location = tabs[index].initialLocation;
 
-    setState(() {
-      _currentIndex = index;
-    });
+    setState(() {});
     if (index == 0) {
       router.go("/home");
     } else if (index == 3) {

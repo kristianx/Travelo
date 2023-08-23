@@ -26,7 +26,7 @@ namespace Travelo.Controllers
             return _service.GetBookmarks(userId);
         }
 
-        [HttpPost("~/ToggleBookmark")]
+        [HttpPost("~/Trip/ToggleBookmark")]
         public ActionResult<bool> ToggleBookmark(int tripId, int userId)
         {
             return Ok(_service.ToggleBookmark(tripId, userId));

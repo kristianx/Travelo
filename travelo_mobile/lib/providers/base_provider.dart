@@ -9,6 +9,7 @@ import '../main.dart';
 
 abstract class BaseProvider<T> with ChangeNotifier {
   static String? _baseUrl;
+  get baseUrl => _baseUrl;
   String? _endpoint;
 
   HttpClient client = HttpClient();

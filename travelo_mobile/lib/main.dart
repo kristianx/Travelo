@@ -11,15 +11,11 @@ import 'package:travelo_mobile/providers/tripitem_provider.dart';
 import 'package:travelo_mobile/providers/user_provider.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:travelo_mobile/routes/routes.dart';
-
 import 'package:travelo_mobile/.env';
-// import 'package:travelo_mobile/services/local_notification_service.dart';
 
-// const storage = FlutterSecureStorage();
 final LocalStorage localStorage = LocalStorage('localstorage.json');
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // NotificationService().initNotification();
   Stripe.publishableKey = stripePublishableKey;
   Stripe.merchantIdentifier = 'somethingawesome';
   await Stripe.instance.applySettings();

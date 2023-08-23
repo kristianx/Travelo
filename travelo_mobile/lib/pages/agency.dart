@@ -136,12 +136,15 @@ class _AgencyPageState extends State<AgencyPage> {
                     children: [
                       GestureDetector(
                         onTap: () async {
-                          // final Uri launchUri = Uri(
-                          //   scheme: 'tel',
-                          //   path: _agency?.phone ?? '',
-                          // );
-                          // await launchUrl(launchUri);
-                          launchTel(_agency!.phone ?? '');
+                          final Uri launchUri = Uri(
+                            scheme: 'tel',
+                            path: "${_agency?.phone}",
+                          );
+                          if (await canLaunchUrl(launchUri)) {
+                            await launchUrl(launchUri);
+                          } else {
+                            throw 'Could not launch phone';
+                          }
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -169,7 +172,15 @@ class _AgencyPageState extends State<AgencyPage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          final Uri launchUri = Uri(
+                              scheme: 'sms', path: _agency!.phone.toString());
+                          if (await canLaunchUrl(launchUri)) {
+                            await launchUrl(launchUri);
+                          } else {
+                            throw 'Could not launch message';
+                          }
+                        },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -196,7 +207,15 @@ class _AgencyPageState extends State<AgencyPage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          final Uri launchUri = Uri(
+                              scheme: 'http', path: _agency!.websiteUrl ?? "");
+                          if (await canLaunchUrl(launchUri)) {
+                            await launchUrl(launchUri);
+                          } else {
+                            throw 'Could not launch url';
+                          }
+                        },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -245,7 +264,7 @@ class _AgencyPageState extends State<AgencyPage> {
                           const SizedBox(
                             width: 5,
                           ),
-                          Text("${_agency?.rating ?? 0}.0",
+                          Text("${_agency?.rating ?? 0}",
                               style: const TextStyle(
                                   fontSize: 18,
                                   color: Color(0xff8C8C8C),

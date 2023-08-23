@@ -20,7 +20,7 @@ namespace Travelo.Controllers
             _service = service; 
         }
 
-        [HttpGet("~/GetDestinations")]
+        [HttpGet("~/City/Destinations")]
         public IEnumerable<Model.City> GetDestinations([FromQuery] CitySearchObject search = null)
         {
             return _service.GetDestinations(search);

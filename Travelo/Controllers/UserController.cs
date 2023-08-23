@@ -30,7 +30,7 @@ namespace Travelo.Controllers
             return BadRequest("User not found");
 
         }
-        [HttpPost("~/uploadImage")]
+        [HttpPost("~/User/uploadImage")]
         public Model.User UploadImage([FromBody] UserUploadImageRequest request)
         {
             return _userService.UploadImage(request);

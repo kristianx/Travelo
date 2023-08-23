@@ -13,9 +13,14 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7100;http://localhost:5074",
+      "applicationUrl": "http://localhost:5074;https://localhost:7100",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "RABBITMQ_HOST": "rabbitmq",
+        "RABBITMQ_PORT": "5672",
+        "RABBITMQ_USERNAME": "user",
+        "RABBITMQ_PASSWORD": "mypass",
+        "RABBITMQ_VIRTUALHOST": "/"
       }
     },
     "IIS Express": {
@@ -23,14 +28,25 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "RABBITMQ_HOST": "rabbitmq",
+        "RABBITMQ_PORT": "5672",
+        "RABBITMQ_USERNAME": "user",
+        "RABBITMQ_PASSWORD": "mypass",
+        "RABBITMQ_VIRTUALHOST": "/"
       }
     },
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
-      "environmentVariables": {}
+      "environmentVariables": {
+        "RABBITMQ_HOST": "rabbitmq",
+        "RABBITMQ_PORT": "5672",
+        "RABBITMQ_USERNAME": "user",
+        "RABBITMQ_PASSWORD": "mypass",
+        "RABBITMQ_VIRTUALHOST": "/"
+      }
     }
   }
 }

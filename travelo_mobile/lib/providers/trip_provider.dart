@@ -8,9 +8,8 @@ class TripProvider extends BaseProvider<Trip> {
   Future<List<Trip>> getBookmarks(int userId) async {
     Map<String, String> headers = await createHeaders();
 
-    var response = await http?.get(
-        Uri.parse("http://127.0.0.1:7100/Trip/Bookmarks/$userId"),
-        headers: headers);
+    var response = await http
+        ?.get(Uri.parse("${baseUrl}Trip/Bookmarks/$userId"), headers: headers);
 
     if (response!.body.isNotEmpty) {
       var data = jsonDecode(response.body);
@@ -28,7 +27,7 @@ class TripProvider extends BaseProvider<Trip> {
     Map<String, String> headers = await createHeaders();
     var response = await http?.post(
       Uri.parse(
-          "http://127.0.0.1:7100/Trip/AddRating?userId=$userId&tripId=$tripId&rating=$rating"),
+          "${baseUrl}Trip/AddRating?userId=$userId&tripId=$tripId&rating=$rating"),
       headers: headers,
     );
 
@@ -46,8 +45,7 @@ class TripProvider extends BaseProvider<Trip> {
     Map<String, String> headers = await createHeaders();
 
     var response = await http?.post(
-      Uri.parse(
-          "http://127.0.0.1:7100/ToggleBookmark?tripId=$tripId&userId=$userId"),
+      Uri.parse("${baseUrl}Trip/ToggleBookmark?tripId=$tripId&userId=$userId"),
       headers: headers,
     );
 
@@ -62,8 +60,7 @@ class TripProvider extends BaseProvider<Trip> {
     Map<String, String> headers = await createHeaders();
 
     var response = await http?.get(
-        Uri.parse(
-            "http://127.0.0.1:7100/Trip/$tripId/recommend?userId=$userId"),
+        Uri.parse("${baseUrl}Trip/$tripId/recommend?userId=$userId"),
         headers: headers);
 
     if (response!.body.isNotEmpty) {

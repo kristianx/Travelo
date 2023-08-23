@@ -20,7 +20,7 @@ class ReservationProvider extends BaseProvider<Reservation> {
 
     var response = await http?.get(
         Uri.parse(
-            "http://127.0.0.1:7100/Reservation/GetDailyReservations?Year=$year&Month=$month&AgencyId=$agencyId"),
+            "${baseUrl}Reservation/GetDailyReservations?Year=$year&Month=$month&AgencyId=$agencyId"),
         headers: headers);
 
     if (response!.body.isNotEmpty) {
@@ -38,8 +38,7 @@ class ReservationProvider extends BaseProvider<Reservation> {
     Map<String, String> headers = await createHeaders();
 
     var response = await http?.get(
-        Uri.parse(
-            "http://127.0.0.1:7100/Reservation/GetBestCustomers/$agencyId"),
+        Uri.parse("${baseUrl}Reservation/GetBestCustomers/$agencyId"),
         headers: headers);
 
     if (response!.body.isNotEmpty) {
@@ -59,8 +58,7 @@ class ReservationProvider extends BaseProvider<Reservation> {
     Map<String, String> headers = await createHeaders();
 
     var response = await http?.get(
-        Uri.parse(
-            "http://127.0.0.1:7100/Reservation/GetBestAccomodations/$agencyId"),
+        Uri.parse("${baseUrl}Reservation/GetBestAccomodations/$agencyId"),
         headers: headers);
 
     if (response!.body.isNotEmpty) {

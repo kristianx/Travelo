@@ -1,6 +1,21 @@
-﻿version: '3'
+﻿version: "3"
 services:
-#mssql docker
+  #mssql docker
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=mypass
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    expose:
+      - 5672
+    networks:
+      - travelonet2023
+
   travelo-sql:
     image: mcr.microsoft.com/mssql/server:2022-latest
     restart: unless-stopped
@@ -30,7 +45,8 @@ services:
       - travelo-sql
     depends_on:
       - travelo-sql
-      
+      - rabbitmq
+
 networks:
   travelonet2023:
-    driver: bridge      
+    driver: bridge

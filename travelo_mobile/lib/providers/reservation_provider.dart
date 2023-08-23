@@ -16,7 +16,7 @@ class ReservationProvider extends BaseProvider<Reservation> {
       DateTime timeOfReservation) async {
     Map<String, String> headers = await createHeaders();
     var response = await http?.post(
-      Uri.parse("http://127.0.0.1:7100/Reservation"),
+      Uri.parse("${baseUrl}Reservation"),
       body: jsonEncode(<String, dynamic>{
         "numberOfAdults": numberOfAdults,
         "numberOfChildren": numberOfChildren,

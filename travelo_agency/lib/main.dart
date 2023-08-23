@@ -12,7 +12,7 @@ import 'package:travelo_agency/routes/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 final LocalStorage localStorage = LocalStorage('localstorage.json');
-void main() {
+Future<void> main() async {
   runApp(const MyApp());
 }
 

@@ -61,7 +61,6 @@ class PaymentController extends GetxController {
         'currency': currency,
         'payment_method_types[]': 'card'
       };
-      print(stripPrivateKey);
       var response = await http.post(
           Uri.parse('https://api.stripe.com/v1/payment_intents'),
           body: body,
