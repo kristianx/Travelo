@@ -23,8 +23,8 @@ class PaymentController extends GetxController {
           paymentIntentClientSecret: paymentIntentData!['client_secret'],
           customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
         ));
-        await displayPaymentSheet();
-        return true;
+
+        return await displayPaymentSheet();
       }
     } catch (e, s) {
       print('exception:$e$s');
@@ -33,7 +33,7 @@ class PaymentController extends GetxController {
     return false;
   }
 
-  displayPaymentSheet() async {
+  Future<bool> displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet();
       // Get.snackbar('Payment', 'Payment Successful',
@@ -45,12 +45,16 @@ class PaymentController extends GetxController {
     } on Exception catch (e) {
       if (e is StripeException) {
         print("Error from Stripe: ${e.error.localizedMessage}");
+        return false;
       } else {
         print("Unforeseen error: $e");
+        return false;
       }
     } catch (e) {
       print("exception:$e");
+      return false;
     }
+    return true;
   }
 
   //  Future<Map<String, dynamic>>

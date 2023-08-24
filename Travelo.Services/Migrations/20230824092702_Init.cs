@@ -340,8 +340,7 @@ namespace Travelo.Services.Migrations
                     CheckIn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CheckOut = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PricePerPerson = table.Column<int>(type: "int", nullable: false),
-                    TripId = table.Column<int>(type: "int", nullable: false),
-                    Expired = table.Column<bool>(type: "bit", nullable: false)
+                    TripId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -447,7 +446,10 @@ namespace Travelo.Services.Migrations
                     { 3, "Surfing" },
                     { 4, "AC" },
                     { 5, "Wifi" },
-                    { 6, "Bathroom" }
+                    { 6, "Bathroom" },
+                    { 7, "Pets" },
+                    { 8, "Pickup" },
+                    { 9, "Pool" }
                 });
 
             migrationBuilder.InsertData(
@@ -551,30 +553,40 @@ namespace Travelo.Services.Migrations
                     { 1, 4 },
                     { 1, 5 },
                     { 1, 6 },
+                    { 1, 7 },
+                    { 1, 8 },
+                    { 1, 9 },
                     { 2, 1 },
                     { 2, 2 },
                     { 2, 3 },
                     { 2, 4 },
                     { 2, 5 },
                     { 2, 6 },
+                    { 2, 8 },
+                    { 2, 9 },
                     { 3, 1 },
                     { 3, 2 },
                     { 3, 3 },
                     { 3, 4 },
                     { 3, 5 },
                     { 3, 6 },
+                    { 3, 8 },
                     { 4, 1 },
                     { 4, 2 },
                     { 4, 3 },
                     { 4, 4 },
                     { 4, 5 },
                     { 4, 6 },
+                    { 4, 9 },
                     { 5, 1 },
                     { 5, 2 },
                     { 5, 3 },
                     { 5, 4 },
                     { 5, 5 },
-                    { 5, 6 }
+                    { 5, 6 },
+                    { 5, 7 },
+                    { 5, 8 },
+                    { 5, 9 }
                 });
 
             migrationBuilder.InsertData(
@@ -590,20 +602,31 @@ namespace Travelo.Services.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "TripItem",
-                columns: new[] { "Id", "CheckIn", "CheckOut", "Expired", "PricePerPerson", "TripId" },
+                table: "Rating",
+                columns: new[] { "Id", "RatingScore", "TimeOfRating", "TripId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 99, 1 },
-                    { 2, new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 99, 1 },
-                    { 3, new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 80, 1 },
-                    { 4, new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 150, 2 },
-                    { 5, new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 150, 2 },
-                    { 6, new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 200, 3 },
-                    { 7, new DateTime(2023, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 250, 4 },
-                    { 8, new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 300, 4 },
-                    { 9, new DateTime(2023, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 100, 5 },
-                    { 10, new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 100, 5 }
+                    { 1, 5.0, new DateTime(2023, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1 },
+                    { 2, 4.0, new DateTime(2023, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 1 },
+                    { 3, 5.0, new DateTime(2023, 6, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, 1 },
+                    { 4, 1.0, new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "TripItem",
+                columns: new[] { "Id", "CheckIn", "CheckOut", "PricePerPerson", "TripId" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 99, 1 },
+                    { 2, new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 99, 1 },
+                    { 3, new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 80, 1 },
+                    { 4, new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 150, 2 },
+                    { 5, new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 150, 2 },
+                    { 6, new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 200, 3 },
+                    { 7, new DateTime(2023, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 250, 4 },
+                    { 8, new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 300, 4 },
+                    { 9, new DateTime(2023, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 100, 5 },
+                    { 10, new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 100, 5 }
                 });
 
             migrationBuilder.InsertData(

@@ -40,7 +40,7 @@ namespace Travelo.Services
             }
             if (search.HasTrips)
             {
-                filteredQuery = filteredQuery.Where(c => Context.TripItem.Any(x => x.Trip.Accomodation.CityId == c.Id));
+                filteredQuery = filteredQuery.Where(c => Context.TripItem.Any(x => x.Trip.Accomodation.CityId == c.Id && x.CheckIn > DateTime.Now));
             }
 
             return filteredQuery;
@@ -98,7 +98,7 @@ namespace Travelo.Services
 
             foreach(var city in cities)
             {
-                IList<Database.TripItem> trips = Context.TripItem.Include(x => x.Trip).Include(x => x.Trip.Accomodation).Where(x => x.Trip.Accomodation.CityId == city.Id).ToList();
+                IList<Database.TripItem> trips = Context.TripItem.Include(x => x.Trip).Include(x => x.Trip.Accomodation).Where(x => x.Trip.Accomodation.CityId == city.Id && x.CheckIn > DateTime.Now).ToList();
                 if(trips.Count != 0)
                 {
                     city.LowestTripPrice = trips.Min(x => x.PricePerPerson);

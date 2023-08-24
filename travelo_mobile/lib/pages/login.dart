@@ -25,14 +25,15 @@ class _LoginPageState extends State<LoginPage> {
     await localStorage.ready;
     print(localStorage.getItem("email"));
     print(localStorage.getItem("password"));
-    var loginFlag = await _userProvider.loginUser(
-      localStorage.getItem("email"),
-      localStorage.getItem("password"),
-    );
-    if (loginFlag && context.mounted) {
-      context.go("/home");
-      // Navigator.of(context)
-      // .push(MaterialPageRoute(builder: (_) => const HomePage()));
+    if (localStorage.getItem("email") != null &&
+        localStorage.getItem("password") != null) {
+      var loginFlag = await _userProvider.loginUser(
+        localStorage.getItem("email"),
+        localStorage.getItem("password"),
+      );
+      if (loginFlag && context.mounted) {
+        context.go("/home");
+      }
     }
   }
 
@@ -132,8 +133,6 @@ class _LoginPageState extends State<LoginPage> {
                   var loginFlag = await _userProvider.loginUser(
                       _usernameController.text, _passwordController.text);
                   if (loginFlag) {
-                    // Navigator.of(context)
-                    //     .push(MaterialPageRoute(builder: (_) => const HomePage()));
                     context.go("/home");
                   } else {
                     showDialog(

@@ -225,13 +225,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         cityId);
 
                     if (registerFlag) {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => const HomePage()),
-                      // );
                       context.go('/home');
-                      // Navigator.of(context).push(
-                      //     MaterialPageRoute(builder: (_) => const HomePage()));
                     }
                   } catch (e) {
                     showDialog(

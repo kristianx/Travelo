@@ -21,7 +21,7 @@ namespace Travelo.Services.Database
         public Trip Trip { get; set; }
 
 
-        public bool Expired { get; set; } = false;
+        public bool Expired => CheckIn < DateTime.Now;
         public int TotalPrice => NightsStay * PricePerPerson;
         public string Dates => $"{CheckIn:dd. MMM} - {CheckOut:dd. MMM yyyy}";
         public int NightsStay => (CheckOut.Date - CheckIn.Date).Days;

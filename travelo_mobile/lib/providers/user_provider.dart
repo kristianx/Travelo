@@ -19,7 +19,15 @@ class UserProvider extends BaseProvider<User> {
       // throw Exception("Email or password is null");
       return false;
     }
-    Map<String, String> headers = await createHeaders();
+
+    String basicAuth =
+        "Basic ${base64Encode(utf8.encode('$email:$password:traveler'))}";
+
+    var headers = {
+      "Content-Type": "application/json",
+      "Authorization": basicAuth
+    };
+
     var response = await http?.post(Uri.parse("${baseUrl}User/Login"),
         body:
             jsonEncode(<String, String>{"email": email, "password": password}),
@@ -71,14 +79,10 @@ class UserProvider extends BaseProvider<User> {
 
     if (response?.statusCode == 200) {
       print("Registration success");
-      // await storage.write(key: 'jwt', value: response!.body);
-      // await storage.write(key: 'username', value: email);
-      // await storage.write(key: 'password', value: password);
-      // Authorization.email = email;
-      // Authorization.password = password;
-      await localStorage.setItem('email', email);
-      await localStorage.setItem('password', password);
-      return true;
+      // await localStorage.setItem('email', email);
+      // await localStorage.setItem('password', password);
+      // return true;
+      return loginUser(email, password);
     } else {
       print("Registration error here");
       return false;

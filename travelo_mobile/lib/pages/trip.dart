@@ -18,6 +18,7 @@ import '../widgets/CustomSnackBar.dart';
 import '../widgets/GalleryWidget.dart';
 import '../widgets/TripCard.dart';
 
+// ignore: must_be_immutable
 class Trip extends StatefulWidget {
   final trip_model.Trip trip;
   late bool bookmarked;
@@ -93,13 +94,13 @@ class _TripState extends State<Trip> {
     if (_price != 0) {
       return GestureDetector(
           onTap: () async {
-            var payment = await paymentController.makePayment(
+            bool payment = await paymentController.makePayment(
                 amount:
                     (_price * (numberOfAdults + numberOfChildren)).toString(),
                 currency: 'USD');
-            print("Payment Processing Done");
             var response = "";
             if (payment) {
+              print("Payment Processing Done");
               response = await _reservationProvider.processReservation(
                   numberOfAdults,
                   numberOfChildren,
@@ -108,15 +109,18 @@ class _TripState extends State<Trip> {
                   _value,
                   widget.trip.id ?? -1,
                   DateTime.now());
-            }
-            if (response == "") {
-              context.go('/trips');
-              ScaffoldMessenger.of(context).showSnackBar(
-                  CustomSnackBar.showSuccessSnackBar(
-                      "You have successfuly booked a trip to Holistika Resort with Travelo Agency."));
+              if (response == "") {
+                context.go('/trips');
+                ScaffoldMessenger.of(context).showSnackBar(
+                    CustomSnackBar.showSuccessSnackBar(
+                        "You have successfuly booked a trip to Holistika Resort with Travelo Agency."));
+              } else {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(CustomSnackBar.showErrorSnackBar(response));
+              }
             } else {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(CustomSnackBar.showErrorSnackBar(response));
+              ScaffoldMessenger.of(context).showSnackBar(
+                  CustomSnackBar.showErrorSnackBar("Payment was canceled."));
             }
           },
           child: Padding(

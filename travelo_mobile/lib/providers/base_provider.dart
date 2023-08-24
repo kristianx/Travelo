@@ -17,7 +17,7 @@ abstract class BaseProvider<T> with ChangeNotifier {
 
   BaseProvider(String endpoint) {
     _baseUrl = const String.fromEnvironment("baseUrl",
-        defaultValue: "http://127.0.0.1:7100/");
+        defaultValue: "https://127.0.0.1:7100/");
     print("baseurl: $_baseUrl");
 
     if (_baseUrl!.endsWith("/") == false) {
@@ -136,18 +136,10 @@ abstract class BaseProvider<T> with ChangeNotifier {
   }
 
   Future<Map<String, String>> createHeaders() async {
-    // String? jwt = await storage.read(key: "jwt");
-
-    // String? username = Authorization.email;
-    // String? password = Authorization.password;
-
-    // String? username = await storage.read(key: 'username');
-    // String? password = await storage.read(key: 'password');
-
     String? email = localStorage.getItem('email');
     String? password = localStorage.getItem('password');
-    // String? username = await storage.read(key: 'username');
-    // String? password = await storage.read(key: 'password');
+
+    if (email == null || password == null) {}
 
     String basicAuth =
         "Basic ${base64Encode(utf8.encode('$email:$password:traveler'))}";
