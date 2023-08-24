@@ -20,10 +20,11 @@ import '../widgets/CustomSnackBar.dart';
 import '../widgets/InputField.dart';
 import '../widgets/SimpleButton.dart';
 
+// ignore: must_be_immutable
 class OfferPage extends StatefulWidget {
   OfferPage({super.key, required this.trip});
 
-  Trip? trip;
+  late Trip trip = Trip();
 
   @override
   State<OfferPage> createState() => _OfferPageState();
@@ -76,19 +77,16 @@ class _OfferPageState extends State<OfferPage> {
 
   Future loadData() async {
     var tmpAccomodation =
-        await _accomodationProvider.getById(widget.trip!.accomodationId as int);
+        await _accomodationProvider.getById(widget.trip.accomodationId as int);
     var tmpCities = await _cityProvider.get({"hasTrips": false});
-    var tmpTripItems = await _tripItemProvider.get({"tripId": widget.trip!.id});
+    var tmpTripItems = await _tripItemProvider.get({"tripId": widget.trip.id});
     setState(() {
       accomodation = tmpAccomodation;
-      cities = tmpCities;
-      tripItems = tmpTripItems;
       _accomodationNameController.text = accomodation.name!;
       _accomodationDescription.text = accomodation.description!;
       _accomodationAddressController.text = accomodation.address!;
       _accomodationPostalCodeController.text = accomodation.postalCode!;
       cityId = accomodation.cityId!;
-
       if (accomodation.images.toString() != "") {
         accomodationImage =
             imageFromBase64String(accomodation.images ?? "").image;
@@ -96,6 +94,8 @@ class _OfferPageState extends State<OfferPage> {
         accomodationImage = null;
       }
     });
+    cities = tmpCities;
+    tripItems = tmpTripItems;
     _updateCitiesDropdown();
   }
 
@@ -773,142 +773,151 @@ class _OfferPageState extends State<OfferPage> {
                             builder: (context) => Dialog(
                                   insetPadding: EdgeInsets.symmetric(
                                       vertical: 50, horizontal: 30),
-                                  child: Container(
-                                    width: 1000,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.2),
-                                            spreadRadius: 0,
-                                            blurRadius: 5,
-                                            offset: const Offset(
-                                                0, 4), // changeon of shadow
-                                          )
-                                        ]),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 50, vertical: 50),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Edit Trip Item',
-                                            style: TextStyle(
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          const SizedBox(height: 60),
-                                          Form(
-                                            key: formKeyEdit,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Expanded(
-                                                    child: CustomDatePicker(
-                                                        controller:
-                                                            _datePickerController)),
-                                                const SizedBox(width: 20),
-                                                SizedBox(
-                                                  width: 250,
-                                                  child: InputField(
-                                                    controller:
-                                                        _priceController,
-                                                    hintText:
-                                                        'Price per person',
-                                                    iconPath:
-                                                        'assets/icons/dollar.svg',
-                                                    validator: (value) {
-                                                      if (value!.isEmpty) {
-                                                        return 'Please enter price per person.';
-                                                      }
-                                                      return null;
-                                                    },
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    child: Container(
+                                      width: 1000,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.2),
+                                              spreadRadius: 0,
+                                              blurRadius: 5,
+                                              offset: const Offset(
+                                                  0, 4), // changeon of shadow
+                                            )
+                                          ]),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 50, vertical: 50),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Edit Trip Item',
+                                              style: TextStyle(
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            const SizedBox(height: 60),
+                                            Form(
+                                              key: formKeyEdit,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Expanded(
+                                                      child: CustomDatePicker(
+                                                          controller:
+                                                              _datePickerController)),
+                                                  const SizedBox(width: 20),
+                                                  SizedBox(
+                                                    width: 250,
+                                                    child: InputField(
+                                                      controller:
+                                                          _priceController,
+                                                      hintText:
+                                                          'Price per person',
+                                                      iconPath:
+                                                          'assets/icons/dollar.svg',
+                                                      validator: (value) {
+                                                        if (value!.isEmpty) {
+                                                          return 'Please enter price per person.';
+                                                        }
+                                                        return null;
+                                                      },
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(height: 40),
-                                          Center(
-                                            child: SimpleButton(
-                                              onTap: () async {
-                                                if (formKeyEdit.currentState!
-                                                    .validate()) {
-                                                  try {
-                                                    TripItem? ti =
-                                                        await _tripItemProvider
-                                                            .update(
-                                                                e.id as int, {
-                                                      "checkIn":
-                                                          _datePickerController
-                                                              .selectedRange!
-                                                              .startDate
-                                                              .toString(),
-                                                      "checkOut":
-                                                          _datePickerController
-                                                              .selectedRange!
-                                                              .endDate
-                                                              .toString(),
-                                                      "pricePerPerson":
-                                                          _priceController.text,
-                                                      "tripId": widget.trip!.id,
-                                                    });
-                                                    if (ti != null) {
-                                                      loadData();
-                                                      context.pop();
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(CustomSnackBar
-                                                              .showSuccessSnackBar(
-                                                                  "You have successfuly changed trip item information."));
-                                                    } else {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(CustomSnackBar
-                                                              .showErrorSnackBar(
-                                                                  "There was an error changing your information."));
+                                            const SizedBox(height: 40),
+                                            Center(
+                                              child: SimpleButton(
+                                                onTap: () async {
+                                                  if (formKeyEdit.currentState!
+                                                      .validate()) {
+                                                    try {
+                                                      TripItem? ti =
+                                                          await _tripItemProvider
+                                                              .update(
+                                                                  e.id as int, {
+                                                        "checkIn":
+                                                            _datePickerController
+                                                                .selectedRange!
+                                                                .startDate
+                                                                .toString(),
+                                                        "checkOut":
+                                                            _datePickerController
+                                                                .selectedRange!
+                                                                .endDate
+                                                                .toString(),
+                                                        "pricePerPerson":
+                                                            _priceController
+                                                                .text,
+                                                        "tripId":
+                                                            widget.trip!.id,
+                                                      });
+                                                      if (ti != null) {
+                                                        loadData();
+                                                        context.pop();
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(CustomSnackBar
+                                                                .showSuccessSnackBar(
+                                                                    "You have successfuly changed trip item information."));
+                                                      } else {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(CustomSnackBar
+                                                                .showErrorSnackBar(
+                                                                    "There was an error changing your information."));
+                                                      }
+                                                    } catch (e) {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              AlertDialog(
+                                                                title:
+                                                                    const Text(
+                                                                        "Error"),
+                                                                content: Text(e
+                                                                    .toString()),
+                                                                actions: [
+                                                                  TextButton(
+                                                                    child:
+                                                                        const Text(
+                                                                            "Ok"),
+                                                                    onPressed: () =>
+                                                                        Navigator.pop(
+                                                                            context),
+                                                                  )
+                                                                ],
+                                                              ));
                                                     }
-                                                  } catch (e) {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder:
-                                                            (BuildContext
-                                                                    context) =>
-                                                                AlertDialog(
-                                                                  title: const Text(
-                                                                      "Error"),
-                                                                  content: Text(
-                                                                      e.toString()),
-                                                                  actions: [
-                                                                    TextButton(
-                                                                      child: const Text(
-                                                                          "Ok"),
-                                                                      onPressed:
-                                                                          () =>
-                                                                              Navigator.pop(context),
-                                                                    )
-                                                                  ],
-                                                                ));
                                                   }
-                                                }
-                                              },
-                                              bgColor: const Color(0xffEAAD5F),
-                                              textColor: Colors.white,
-                                              text: "Update",
-                                              width: 300,
-                                              height: 70,
+                                                },
+                                                bgColor:
+                                                    const Color(0xffEAAD5F),
+                                                textColor: Colors.white,
+                                                text: "Update",
+                                                width: 300,
+                                                height: 70,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),

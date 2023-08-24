@@ -14,7 +14,7 @@ class Agency {
   bool? status;
   String? location;
   int? numberOfTrips;
-  int? rating;
+  double? rating;
   String? address;
   int? cityId;
   String? cityName;

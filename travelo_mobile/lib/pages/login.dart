@@ -46,38 +46,41 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        Container(
-          padding: const EdgeInsets.fromLTRB(0, 120, 0, 80),
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/Background.png"),
-                fit: BoxFit.cover),
+        body: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Stack(
+        children: [
+          Container(
+            padding: const EdgeInsets.fromLTRB(0, 120, 0, 80),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/Background.png"),
+                  fit: BoxFit.cover),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, top: 100),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: GestureDetector(
-              onTap: () {
-                context.go("/welcome");
-              },
-              child: const Icon(
-                Icons.arrow_back_ios_rounded,
+          Padding(
+            padding: const EdgeInsets.only(left: 20, top: 100),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: GestureDetector(
+                onTap: () {
+                  context.go("/welcome");
+                },
+                child: const Icon(
+                  Icons.arrow_back_ios_rounded,
+                ),
               ),
             ),
           ),
-        ),
-        SafeArea(
-          child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: _buildLoginPage()),
-        )
-      ],
+          SafeArea(
+            child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: _buildLoginPage()),
+          )
+        ],
+      ),
     ));
   }
 

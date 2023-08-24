@@ -113,53 +113,56 @@ class _OffersPageState extends State<OffersPage> {
               ),
             ),
             const SizedBox(height: 20),
-            Row(
-              children: [
-                SizedBox(
-                  width: 300,
-                  child: TextFormField(
-                      maxLines: 1,
-                      textAlignVertical: TextAlignVertical.center,
-                      controller: _searchController,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        hintText: 'Search offers...',
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          borderSide: BorderSide(
-                              color: Color(0xffbbbbbb),
-                              width: 1,
-                              style: BorderStyle.solid),
-                        ),
-                      )),
-                ),
-                const SizedBox(width: 10),
-                GestureDetector(
-                    onTap: () => loadData(),
-                    child: const Text(
-                      "Seach",
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Color(0xffEAAD5F),
-                          fontWeight: FontWeight.w500),
-                    )),
-                const SizedBox(width: 10),
-                if (_searchController.text != "")
+            if (trips.isEmpty) Center(child: Text("There are no offers.")),
+            if (trips.isNotEmpty)
+              Row(
+                children: [
+                  SizedBox(
+                    width: 300,
+                    child: TextFormField(
+                        maxLines: 1,
+                        textAlignVertical: TextAlignVertical.center,
+                        controller: _searchController,
+                        decoration: const InputDecoration(
+                          filled: true,
+                          hintText: 'Search offers...',
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
+                            borderSide: BorderSide(
+                                color: Color(0xffbbbbbb),
+                                width: 1,
+                                style: BorderStyle.solid),
+                          ),
+                        )),
+                  ),
+                  const SizedBox(width: 10),
                   GestureDetector(
-                      onTap: () {
-                        _searchController.text = "";
-                        loadData();
-                      },
+                      onTap: () => loadData(),
                       child: const Text(
-                        "Clear",
+                        "Seach",
                         style: TextStyle(
                             fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xffbbbbbb)),
-                      ))
-              ],
-            ),
+                            color: Color(0xffEAAD5F),
+                            fontWeight: FontWeight.w500),
+                      )),
+                  const SizedBox(width: 10),
+                  if (_searchController.text != "")
+                    GestureDetector(
+                        onTap: () {
+                          _searchController.text = "";
+                          loadData();
+                        },
+                        child: const Text(
+                          "Clear",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xffbbbbbb)),
+                        ))
+                ],
+              ),
             const SizedBox(height: 20),
             GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

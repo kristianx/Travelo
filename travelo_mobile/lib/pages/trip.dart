@@ -666,7 +666,7 @@ class _TripState extends State<Trip> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
-                  "${DateFormat('dd. MMM yyyy').format(trip.checkIn!)} - ${DateFormat('dd. MMM yyyy').format(trip.checkOut!)}",
+                  "${DateFormat('dd. MMM').format(trip.checkIn!)} - ${DateFormat('dd. MMM yyyy').format(trip.checkOut!)}",
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontWeight: FontWeight.w400,

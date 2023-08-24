@@ -129,6 +129,8 @@ class _TripsPageState extends State<TripsPage> {
   }
 
   List<Widget> _buildTripsCardList() {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     List<Widget> list = [];
     Iterable<Reservation> tmp = [];
     if (current == 0) {
@@ -148,6 +150,7 @@ class _TripsPageState extends State<TripsPage> {
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
                 child: Container(
                   height: current == 0 ? 170 : 200,
+                  width: screenWidth - 30,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: Colors.white,
@@ -159,7 +162,7 @@ class _TripsPageState extends State<TripsPage> {
                           offset: const Offset(0, 4),
                         ),
                       ]),
-                  child: Row(children: [
+                  child: Row(mainAxisSize: MainAxisSize.max, children: [
                     Container(
                       width: 130,
                       alignment: Alignment.centerLeft,
@@ -177,17 +180,17 @@ class _TripsPageState extends State<TripsPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(15.0),
-                      child: SizedBox(
-                        width: 240,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 150,
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(r.accomodationName ?? "",
@@ -202,198 +205,192 @@ class _TripsPageState extends State<TripsPage> {
                                         style: const TextStyle(
                                             fontSize: 13,
                                             color: Color(0xffA9A9A9)),
-                                        softWrap: false,
-                                        maxLines: 1,
+                                        softWrap: true,
+                                        maxLines: 2,
                                         overflow: TextOverflow.ellipsis),
                                   ],
                                 ),
-                                Text("${r.rating.toString()}",
-                                    style: const TextStyle(
-                                        fontSize: 17, color: Color(0xff616161)))
-                              ],
-                            ),
-                            Text(r.date ?? "",
-                                style: const TextStyle(
-                                    fontSize: 13, color: Color(0xff828282)),
-                                softWrap: false,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("\$${r.price.toString()}",
-                                    style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Color(0xff747474),
-                                        fontWeight: FontWeight.w500),
-                                    softWrap: false,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis),
-                                if (current == 0)
-                                  Row(
-                                    children: [
-                                      Text(r.agencyName ?? "",
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Color(0xff828282)),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis),
-                                    ],
-                                  )
-                              ],
-                            ),
-                            if (current == 1 &&
-                                r.reviewLeaved != null &&
-                                r.reviewLeaved == -1.0)
-                              GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) => Dialog(
-                                          insetPadding: EdgeInsets.symmetric(
-                                              vertical: 50, horizontal: 30),
-                                          child: StatefulBuilder(builder:
-                                              (BuildContext context,
-                                                  StateSetter setState) {
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 30,
-                                                      vertical: 60),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Text(
-                                                    "Leave a review",
-                                                    style: const TextStyle(
-                                                        color:
-                                                            Color(0xff000000),
-                                                        fontSize: 25,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  const SizedBox(height: 30),
-                                                  Text(
-                                                    ratingVar.toString(),
-                                                    style: const TextStyle(
-                                                        color:
-                                                            Color(0xff000000),
-                                                        fontSize: 35,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                  const SizedBox(height: 30),
-                                                  RatingBar.builder(
-                                                    initialRating: 3,
-                                                    minRating: 1,
-                                                    direction: Axis.horizontal,
-                                                    allowHalfRating: true,
-                                                    itemCount: 5,
-                                                    unratedColor:
-                                                        Colors.grey.shade200,
-                                                    itemSize: 50.0,
-                                                    itemPadding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 1.0),
-                                                    itemBuilder: (context, _) =>
-                                                        Icon(
-                                                      Icons.star,
-                                                      color: Color(0xffEAAD5F),
-                                                    ),
-                                                    onRatingUpdate: (rating) {
-                                                      setState(() {
-                                                        ratingVar = rating;
-                                                      });
-                                                    },
-                                                  ),
-                                                  const SizedBox(height: 60),
-                                                  SimpleButton(
-                                                    onTap: () async {
-                                                      try {
-                                                        var flag =
-                                                            await _tripProvider
-                                                                .AddRating(
-                                                                    localStorage
-                                                                        .getItem(
-                                                                            "userId"),
-                                                                    r.tripId!,
-                                                                    ratingVar);
-                                                        if (flag) {
-                                                          context.pop();
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  CustomSnackBar
-                                                                      .showSuccessSnackBar(
-                                                                          "You have successfuly leaved a review."));
-                                                          loadData();
-                                                        } else {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  CustomSnackBar
-                                                                      .showErrorSnackBar(
-                                                                          "There was an issue with leaving a review."));
-                                                        }
-                                                      } catch (e) {
-                                                        showDialog(
-                                                            context: context,
-                                                            builder: (BuildContext
-                                                                    context) =>
-                                                                AlertDialog(
-                                                                  title: const Text(
-                                                                      "Error"),
-                                                                  content: Text(
-                                                                      e.toString()),
-                                                                  actions: [
-                                                                    TextButton(
-                                                                      child: const Text(
-                                                                          "Ok"),
-                                                                      onPressed:
-                                                                          () =>
-                                                                              Navigator.pop(context),
-                                                                    )
-                                                                  ],
-                                                                ));
-                                                      }
-                                                    },
-                                                    bgColor:
-                                                        const Color(0xffEAAD5F),
-                                                    textColor: Colors.white,
-                                                    text: "Leave a review",
-                                                    width: 300,
-                                                    height: 70,
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          })));
-                                },
-                                child: Center(
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15, horizontal: 25),
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xffEAAD5F),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: const Text("Leave a review",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xffffffff),
-                                            fontWeight: FontWeight.w500),
+                              ),
+                              Text("${r.rating.toString()}",
+                                  style: const TextStyle(
+                                      fontSize: 17, color: Color(0xff616161)))
+                            ],
+                          ),
+                          Text(r.date ?? "",
+                              style: const TextStyle(
+                                  fontSize: 13, color: Color(0xff828282)),
+                              softWrap: false,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text("\$${r.price.toString()}",
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Color(0xff747474),
+                                      fontWeight: FontWeight.w500),
+                                  softWrap: false,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis),
+                              if (current == 0)
+                                Row(
+                                  children: [
+                                    Text(r.agencyName ?? "",
+                                        style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xff828282)),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis),
-                                  ),
+                                  ],
+                                )
+                            ],
+                          ),
+                          if (current == 1 &&
+                              r.reviewLeaved != null &&
+                              r.reviewLeaved == -1.0)
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => Dialog(
+                                        insetPadding: EdgeInsets.symmetric(
+                                            vertical: 50, horizontal: 30),
+                                        child: StatefulBuilder(builder:
+                                            (BuildContext context,
+                                                StateSetter setState) {
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 30, vertical: 60),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  "Leave a review",
+                                                  style: const TextStyle(
+                                                      color: Color(0xff000000),
+                                                      fontSize: 25,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                const SizedBox(height: 30),
+                                                Text(
+                                                  ratingVar.toString(),
+                                                  style: const TextStyle(
+                                                      color: Color(0xff000000),
+                                                      fontSize: 35,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                                const SizedBox(height: 30),
+                                                RatingBar.builder(
+                                                  initialRating: 3,
+                                                  minRating: 1,
+                                                  direction: Axis.horizontal,
+                                                  allowHalfRating: true,
+                                                  itemCount: 5,
+                                                  unratedColor:
+                                                      Colors.grey.shade200,
+                                                  itemSize: 40.0,
+                                                  itemPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 0.5),
+                                                  itemBuilder: (context, _) =>
+                                                      Icon(
+                                                    Icons.star,
+                                                    color: Color(0xffEAAD5F),
+                                                  ),
+                                                  onRatingUpdate: (rating) {
+                                                    setState(() {
+                                                      ratingVar = rating;
+                                                    });
+                                                  },
+                                                ),
+                                                const SizedBox(height: 60),
+                                                SimpleButton(
+                                                  onTap: () async {
+                                                    try {
+                                                      var flag = await _tripProvider
+                                                          .AddRating(
+                                                              localStorage
+                                                                  .getItem(
+                                                                      "userId"),
+                                                              r.tripId!,
+                                                              ratingVar);
+                                                      if (flag) {
+                                                        context.pop();
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(CustomSnackBar
+                                                                .showSuccessSnackBar(
+                                                                    "You have successfuly leaved a review."));
+                                                        loadData();
+                                                      } else {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(CustomSnackBar
+                                                                .showErrorSnackBar(
+                                                                    "There was an issue with leaving a review."));
+                                                      }
+                                                    } catch (e) {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              AlertDialog(
+                                                                title:
+                                                                    const Text(
+                                                                        "Error"),
+                                                                content: Text(e
+                                                                    .toString()),
+                                                                actions: [
+                                                                  TextButton(
+                                                                    child:
+                                                                        const Text(
+                                                                            "Ok"),
+                                                                    onPressed: () =>
+                                                                        Navigator.pop(
+                                                                            context),
+                                                                  )
+                                                                ],
+                                                              ));
+                                                    }
+                                                  },
+                                                  bgColor:
+                                                      const Color(0xffEAAD5F),
+                                                  textColor: Colors.white,
+                                                  text: "Leave a review",
+                                                  width: 300,
+                                                  height: 70,
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        })));
+                              },
+                              child: Center(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 25),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xffEAAD5F),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: const Text("Leave a review",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Color(0xffffffff),
+                                          fontWeight: FontWeight.w500),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis),
                                 ),
                               ),
-                            if (current == 1 && r.reviewLeaved != -1.0)
-                              Text(
-                                  "${r.reviewLeaved.toString()} review leaved.")
-                          ],
-                        ),
+                            ),
+                          if (current == 1 && r.reviewLeaved != -1.0)
+                            Text("${r.reviewLeaved.toString()} review leaved.")
+                        ],
                       ),
                     )
                   ]),
