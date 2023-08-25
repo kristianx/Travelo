@@ -2,7 +2,6 @@
 services:
   #mssql docker
 
-
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
@@ -17,7 +16,6 @@ services:
       - 5672
     networks:
       - travelonet2023
-
 
   travelo-sql:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -34,6 +32,7 @@ services:
       - travelonet2023
 
   mailing-service:
+    restart: on-failure
     build:
       context: .
       dockerfile: Dockerfile.mailservice
@@ -48,7 +47,8 @@ services:
       - travelo-api
     networks:
       - travelonet2023
-
+    ports:
+      - 7101:80
 
   travelo-api:
     restart: unless-stopped
@@ -71,8 +71,6 @@ services:
     depends_on:
       - travelo-sql
       - rabbitmq
-
-
 
 networks:
   travelonet2023:

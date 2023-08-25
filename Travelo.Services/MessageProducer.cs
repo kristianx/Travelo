@@ -11,9 +11,6 @@ namespace Travelo.Services
         private readonly string _username = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME") ?? "user";
         private readonly string _password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD") ?? "mypass";
         private readonly string _virtualhost = Environment.GetEnvironmentVariable("RABBITMQ_VIRTUALHOST") ?? "/";
-        public MessageProducer()
-        {
-        }
 
         public void SendingMessage(string message)
         {

@@ -106,5 +106,6 @@ class UserProvider extends BaseProvider<User> {
   void logOut() async {
     await localStorage.setItem('email', null);
     await localStorage.setItem('password', null);
+    await localStorage.setItem('userId', null);
   }
 }

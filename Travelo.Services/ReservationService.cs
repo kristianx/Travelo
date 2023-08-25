@@ -26,14 +26,22 @@ namespace Travelo.Services
             entity.TripItem = Context.TripItem.First(x => x.Id == create.TripItemId);
             entity.User = Context.User.First(x => x.Id == create.UserId);
             entity.Price = entity.Price * (entity.NumberOfAdults + entity.NumberOfChildren);
-            
         }
         public override Model.Reservation Create(ReservationCreateRequest create)
         {
             Model.Reservation res =  base.Create(create);
-            if(res != null)
+            string accomodationName = Context.Trip.Include(x => x.Accomodation).First(x => x.Id == res.TripId).Accomodation.Name;
+            var user = Context.User.FirstOrDefault(x => x.Id == res.UserId);
+            var account = Context.Account.FirstOrDefault(x => x.Id == user.AccountId);
+            if(res != null && account != null)
             {
-                _messageProducer.SendingObject(res);
+                Model.ReservationNotifier reservation = new ReservationNotifier
+                {
+                    Id = res.Id,
+                    AccomodationName = accomodationName,
+                    Email = account.Email
+                };
+                _messageProducer.SendingObject(reservation);
             }
             return res;
         }

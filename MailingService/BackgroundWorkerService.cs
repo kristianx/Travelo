@@ -1,7 +1,9 @@
 ﻿using System.Text;
+using EasyNetQ;
 using MailingService;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using Travelo.Model;
 
 public class ConsumeRabbitMQHostedService : BackgroundService
 {
@@ -17,7 +19,7 @@ public class ConsumeRabbitMQHostedService : BackgroundService
 
     public ConsumeRabbitMQHostedService(ILoggerFactory loggerFactory, IEmailSender emailSender)
     {
-        this._logger = loggerFactory.CreateLogger<ConsumeRabbitMQHostedService>();
+        _logger = loggerFactory.CreateLogger<ConsumeRabbitMQHostedService>();
         _emailSender = emailSender;
         InitRabbitMQ();
     }
@@ -45,37 +47,40 @@ public class ConsumeRabbitMQHostedService : BackgroundService
         _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
     }
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        stoppingToken.ThrowIfCancellationRequested();
-
-        var consumer = new EventingBasicConsumer(_channel);
-        consumer.Received += (ch, ea) =>
+     
+        while (!stoppingToken.IsCancellationRequested)
         {
-            // received message  
-       
-            var body = ea.Body.ToArray();
-            // handle the received message
-            var message = Encoding.UTF8.GetString(body);
-            HandleMessageAsync(message);
-            _channel.BasicAck(ea.DeliveryTag, false);
-        };
+            try
+            {
+                using (var bus = RabbitHutch.CreateBus($"host={_host};virtualHost={_virtualhost};username={_username};password={_password}"))
+                {
+                    bus.PubSub.Subscribe<ReservationNotifier>("New_Reservations", HandleMessage);
+                    Console.WriteLine("Listening for reservations.");
+                    await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
+                }
 
-        consumer.Shutdown += OnConsumerShutdown;
-        consumer.Registered += OnConsumerRegistered;
-        consumer.Unregistered += OnConsumerUnregistered;
-        consumer.ConsumerCancelled += OnConsumerConsumerCancelled;
-
-        _channel.BasicConsume("Reservation_added", false, consumer);
-        _logger.LogInformation("Working!");
-        return Task.CompletedTask;
+           
+            }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+            {
+                // Gracefully handle cancellation
+                break;
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                Console.WriteLine($"Error in RabbitMQ listener: {ex.Message}");
+            }
+        }
     }
 
-    private async Task HandleMessageAsync(string content)
+    private async Task HandleMessage(ReservationNotifier reservation)
     {
         // we just print this message   
-        _logger.LogInformation($"consumer received {content}");
-        await _emailSender.SendEmailAsync("cestdev@gmail.com", "Testiram malo", "Heyyy");
+        _logger.LogInformation($"Reservation received: {reservation.Email}, {reservation.AccomodationName}");
+        await _emailSender.SendEmailAsync(reservation.Email, "New reservation on Travelo!", $"You have made a new reservation for {reservation.AccomodationName}.");
 
     }
 
@@ -92,69 +97,3 @@ public class ConsumeRabbitMQHostedService : BackgroundService
         base.Dispose();
     }
 }
-
-
-
-//using System;
-//using EasyNetQ;
-//using System.Xml.Linq;
-//using RabbitMQ.Client;
-//using RabbitMQ.Client.Events;
-
-//namespace MailingService
-//{
-//    public class Worker : BackgroundService
-//    {
-//        private readonly ILogger<Worker> _logger;
-//        private readonly IEmailSender _emailSender;
-
-//        public Worker(ILogger<Worker> logger, IEmailSender emailSender)
-//        {
-//            _logger = logger;
-//            _emailSender = emailSender;
-//        }
-
-//        //public Task StartAsync(CancellationToken cancellationToken)
-//        //{
-//        //    _logger.LogInformation("Service started.");
-
-//        //    var receiver = new ReservationSubscriber(_emailSender);
-
-//        //    receiver.ReceiveReservation();
-
-//        //    return Task.CompletedTask;
-//        //}
-
-//        //public Task StopAsync(CancellationToken cancellationToken)
-//        //{
-//        //    throw new NotImplementedException();
-//        //}
-
-//        protected override async Task<Task> ExecuteAsync(CancellationToken stoppingToken)
-//        {
-
-//            _logger.LogInformation("Hosted service starting");
-
-//            while (true)
-//            {
-//                var receiver = new ReservationSubscriber(_emailSender);
-
-//                receiver.ReceiveReservation();
-
-//                await Task.Delay(999999999, stoppingToken);
-//            }
-
-
-//            //stoppingToken.ThrowIfCancellationRequested();
-
-//            //_logger.LogInformation("Service started.");
-
-//            //var receiver = new ReservationSubscriber(_emailSender);
-
-//            //receiver.ReceiveReservation();
-
-//            //return Task.CompletedTask;
-//        }
-//    }
-//}
-

@@ -19,7 +19,7 @@ namespace Travelo.Controllers
             _messageProducer = messageProducer;
         }
         public override IEnumerable<Tag> Get([FromQuery] TagSearchObject search = null)
-        { 
+        {
             return base.Get(search);
         }
     }
