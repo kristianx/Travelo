@@ -39,11 +39,15 @@ Mobile version:
 
 Test card number:
 
-    4242 4242 4242 4242, date of issuing the card and CVC number are provisional, and ZIP code is also provisional, but you need to enter 5         digits.
+    4242 4242 4242 4242, date of issuing the card and CVC number are provisional, and ZIP code is also provisional, but you need to enter 5 digits.
+    
+Flutter environment variables for RabbitMQ:
 
+    -mqHost -mqUsername -mqPass
+    
 Using android emulator:
 
-    Through android emulator '10.0.2.2' is used to access the API. If you are using Android emulator you should use 10.0.2.2 instead of 127.0.01.
+    Through android emulator '10.0.2.2' is used to access the API. If you are using Android emulator you should use 10.0.2.2 instead of 127.0.0.1.
     [Android emulator ](https://developer.android.com/studio/run/emulator-networking)
     
     
