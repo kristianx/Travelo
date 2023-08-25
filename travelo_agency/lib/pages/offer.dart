@@ -79,7 +79,8 @@ class _OfferPageState extends State<OfferPage> {
     var tmpAccomodation =
         await _accomodationProvider.getById(widget.trip.accomodationId as int);
     var tmpCities = await _cityProvider.get({"hasTrips": false});
-    var tmpTripItems = await _tripItemProvider.get({"tripId": widget.trip.id});
+    var tmpTripItems = await _tripItemProvider
+        .get({"tripId": widget.trip.id, "expired": true});
     setState(() {
       accomodation = tmpAccomodation;
       _accomodationNameController.text = accomodation.name!;
