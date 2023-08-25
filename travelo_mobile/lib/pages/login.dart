@@ -23,9 +23,6 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> tryLogin() async {
     await localStorage.ready;
-    print(localStorage.getItem("email"));
-    print(localStorage.getItem("password"));
-    print(localStorage.getItem("userId"));
     if (localStorage.getItem("email") != null &&
         localStorage.getItem("password") != null) {
       var loginFlag = await _userProvider.loginUser(
