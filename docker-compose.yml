@@ -1,6 +1,8 @@
 ﻿version: "3"
 services:
   #mssql docker
+
+
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
@@ -16,6 +18,7 @@ services:
     networks:
       - travelonet2023
 
+
   travelo-sql:
     image: mcr.microsoft.com/mssql/server:2022-latest
     restart: unless-stopped
@@ -30,6 +33,23 @@ services:
     networks:
       - travelonet2023
 
+  mailing-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.mailservice
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USERNAME=user
+      - RABBITMQ_PASSWORD=mypass
+      - RABBITMQ_VIRTUALHOST=/
+    depends_on:
+      - rabbitmq
+      - travelo-sql
+      - travelo-api
+    networks:
+      - travelonet2023
+
+
   travelo-api:
     restart: unless-stopped
     build:
@@ -37,6 +57,11 @@ services:
     environment:
       - ConnectionStrings:Mac=Server=travelo-sql,1433;Database=210333;User Id=sa;Password=myPassword1];Encrypt=false;
       - ASPNETCORE_ENVIRONMENT=Development
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=user
+      - RABBITMQ_PASSWORD=mypass
+      - RABBITMQ_VIRTUALHOST=/
     ports:
       - 7100:7100
     networks:
@@ -46,6 +71,8 @@ services:
     depends_on:
       - travelo-sql
       - rabbitmq
+
+
 
 networks:
   travelonet2023:

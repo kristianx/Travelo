@@ -66,10 +66,7 @@ namespace Travelo.Services
             {
                 filteredQuery = filteredQuery.Where(x => x.Accomodation.Name.Contains(search.AccomodationName));
             }
-            //if (!string.IsNullOrWhiteSpace(search.TagName))
-            //{
-            //    filteredQuery = filteredQuery.Where(x => x.Tags.Any(t => t.Name == search.TagName));
-            //}
+
             if (search.hasItems)
             {
                 filteredQuery = filteredQuery.Where(x => x.TripItems.Count > 0);

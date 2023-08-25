@@ -15,8 +15,10 @@ namespace Travelo.Services
 {
     public class ReservationService : BaseCRUDService<Model.Reservation, Database.Reservation, ReservationSearchObject, ReservationCreateRequest, object>, IReservationService
     {
-        public ReservationService(TraveloContext context, IMapper mapper) : base(context, mapper)
+        private readonly IMessageProducer _messageProducer;
+        public ReservationService(TraveloContext context, IMapper mapper, IMessageProducer messageProducer) : base(context, mapper)
         {
+            _messageProducer = messageProducer;
         }
         public override void BeforeCreate(ReservationCreateRequest create, Database.Reservation entity)
         {
@@ -25,6 +27,15 @@ namespace Travelo.Services
             entity.User = Context.User.First(x => x.Id == create.UserId);
             entity.Price = entity.Price * (entity.NumberOfAdults + entity.NumberOfChildren);
             
+        }
+        public override Model.Reservation Create(ReservationCreateRequest create)
+        {
+            Model.Reservation res =  base.Create(create);
+            if(res != null)
+            {
+                _messageProducer.SendingObject(res);
+            }
+            return res;
         }
         public override IQueryable<Database.Reservation> AddFilter(IQueryable<Database.Reservation> query, ReservationSearchObject search = null)
         {

@@ -25,9 +25,18 @@ namespace Travelo.Services
             var filteredQuery = base.AddFilter(query, search);
             if (search.TripId != null)
             {
-                filteredQuery = filteredQuery.Where(x => x.TripId == search.TripId && x.CheckIn > DateTime.Now);
+                if (search.Expired == true)
+                {
+                    filteredQuery = filteredQuery.Where(x => x.TripId == search.TripId);
+                }
+                else
+                {
+                    filteredQuery = filteredQuery.Where(x => x.TripId == search.TripId && x.CheckIn > DateTime.Now);
+                }
+                
             }
-        
+
+          
             return filteredQuery;
         }
     }

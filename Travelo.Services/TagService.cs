@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using EasyNetQ;
 using Microsoft.EntityFrameworkCore;
 using Travelo.Model.Requests;
 using Travelo.Model.SearchObjects;
@@ -9,9 +10,13 @@ namespace Travelo.Services
 {
     public class TagService : BaseCRUDService<Model.Tag, Database.Tag, TagSearchObject, TagCreateUpdateRequest, TagCreateUpdateRequest>, ITagService
     {
-        public TagService(TraveloContext context, IMapper mapper) : base(context, mapper)
+        private readonly IMessageProducer _messageProducer;
+        public TagService(TraveloContext context, IMapper mapper, IMessageProducer messageProducer) : base(context, mapper)
+
         {
+            _messageProducer = messageProducer;
         }
+
 
         public override IQueryable<Tag> AddInclude(IQueryable<Tag> query, TagSearchObject search = null)
         {
@@ -31,6 +36,18 @@ namespace Travelo.Services
             }
 
             return filteredQuery;
+        }
+
+        public override IEnumerable<Model.Tag> Get(TagSearchObject search = null)
+        {
+
+    
+
+            IEnumerable<Model.Tag> tags = base.Get(search);
+
+            _messageProducer.SendingObject(tags);
+
+            return tags;
         }
     }
    
