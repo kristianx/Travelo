@@ -30,6 +30,7 @@ namespace Travelo.Services.Database
         public virtual DbSet<Account> Account { get; set; } = null!;
         public virtual DbSet<PaymentMethod> PaymentMethod { get; set; } = null!;
         public virtual DbSet<Rating> Rating { get; set; } = null!;
+        public virtual DbSet<FITPasos> FITPasos { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

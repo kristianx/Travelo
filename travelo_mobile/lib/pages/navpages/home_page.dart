@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:travelo_mobile/pages/SearchBarPageTemplate.dart';
+import 'package:travelo_mobile/pages/frmPasosi.dart';
 import 'package:travelo_mobile/providers/destination_provider.dart';
 import 'package:travelo_mobile/utils/util.dart';
 import 'package:travelo_mobile/widgets/BlogCard.dart';
+import 'package:travelo_mobile/widgets/SimpleButton.dart';
 import '../../model/destination.dart';
 import '../../model/tag.dart';
 import '../../providers/tag_provider.dart';
@@ -66,6 +68,17 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 const SizedBox(height: 70),
+                SimpleButton(
+                  onTap: () async {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => frmPasosi()));
+                  },
+                  bgColor: const Color(0xffEAAD5F),
+                  textColor: Colors.white,
+                  text: "Pasosi",
+                  width: 300,
+                  height: 70,
+                ),
                 SizedBox(
                   height: 170,
                   width: double.infinity,

@@ -50,6 +50,7 @@ builder.Services.AddTransient<ITripItemService, TripItemService>();
 builder.Services.AddTransient<IReservationService, ReservationService>();
 builder.Services.AddTransient<ITagService, TagService>();
 builder.Services.AddTransient<IPaymentMethodService, PaymentMethodService>();
+builder.Services.AddTransient<IPasosService, PasosService>();
 
 builder.Services.AddScoped<IMessageProducer, MessageProducer>();
 

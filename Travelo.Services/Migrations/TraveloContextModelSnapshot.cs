@@ -760,6 +760,30 @@ namespace Travelo.Services.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Travelo.Services.Database.FITPasos", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateIssued")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Valid")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FITPasos");
+                });
+
             modelBuilder.Entity("Travelo.Services.Database.Facility", b =>
                 {
                     b.Property<int>("Id")
@@ -1201,64 +1225,64 @@ namespace Travelo.Services.Migrations
                         new
                         {
                             Id = 1,
-                            CheckIn = new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckOut = new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckIn = new DateTime(2023, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PricePerPerson = 99,
                             TripId = 1
                         },
                         new
                         {
                             Id = 2,
-                            CheckIn = new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckOut = new DateTime(2023, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckIn = new DateTime(2023, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 9, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PricePerPerson = 99,
                             TripId = 1
                         },
                         new
                         {
                             Id = 3,
-                            CheckIn = new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckOut = new DateTime(2023, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckIn = new DateTime(2023, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PricePerPerson = 80,
                             TripId = 1
                         },
                         new
                         {
                             Id = 4,
-                            CheckIn = new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckOut = new DateTime(2023, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckIn = new DateTime(2023, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PricePerPerson = 150,
                             TripId = 2
                         },
                         new
                         {
                             Id = 5,
-                            CheckIn = new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckOut = new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckIn = new DateTime(2023, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PricePerPerson = 150,
                             TripId = 2
                         },
                         new
                         {
                             Id = 6,
-                            CheckIn = new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckOut = new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckIn = new DateTime(2023, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PricePerPerson = 200,
                             TripId = 3
                         },
                         new
                         {
                             Id = 7,
-                            CheckIn = new DateTime(2023, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckOut = new DateTime(2023, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckIn = new DateTime(2023, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PricePerPerson = 250,
                             TripId = 4
                         },
                         new
                         {
                             Id = 8,
-                            CheckIn = new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckOut = new DateTime(2023, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckIn = new DateTime(2023, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PricePerPerson = 300,
                             TripId = 4
                         },
@@ -1273,8 +1297,8 @@ namespace Travelo.Services.Migrations
                         new
                         {
                             Id = 10,
-                            CheckIn = new DateTime(2023, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckOut = new DateTime(2023, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckIn = new DateTime(2023, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PricePerPerson = 100,
                             TripId = 5
                         });
@@ -1444,6 +1468,17 @@ namespace Travelo.Services.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("Travelo.Services.Database.FITPasos", b =>
+                {
+                    b.HasOne("Travelo.Services.Database.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Travelo.Services.Database.PaymentMethod", b =>

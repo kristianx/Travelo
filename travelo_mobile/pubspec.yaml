@@ -55,6 +55,7 @@ dependencies:
   flutter_local_notifications: ^15.0.0
   flutter_rating_bar: ^4.0.1
   google_maps_flutter: ^2.4.0
+  syncfusion_flutter_datepicker: ^22.2.12
 
 dev_dependencies:
   flutter_test:
