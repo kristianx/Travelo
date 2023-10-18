@@ -23,19 +23,19 @@ Desktop version:
 
     Email: travelo@gmail.com
   
-    Lozinka: Testing-123
+    Password: Testing-123
 
 
 
     Email: nova@gmail.com
   
-    Lozinka: Testing-123
+    Password: Testing-123
   
 Mobile version:
 
     Email: test@gmail.com
   
-    Lozinka: Testing-123
+    Password: Testing-123
 
 Test card number:
 
