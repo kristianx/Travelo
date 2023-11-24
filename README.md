@@ -1,5 +1,7 @@
 # Travelo
 
+More about Travelo:
+https://www.krisn.co/travelo
 
 Starting the project:
 
